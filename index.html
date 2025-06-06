@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .profile-header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            background: #34495e;
+            padding: 1rem 0;
+        }
+
+        .nav-tabs ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-tabs li {
+            margin: 0 1rem;
+        }
+
+        .tab-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .tab-link.active {
+            background: #3498db;
+        }
+
+        .content-section {
+            display: none;
+            padding: 2rem 0;
+            min-height: 400px;
+        }
+
+        .content-section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .about-item, .research-item, .publication-item, .education-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .about-item h3, .research-item h3, .publication-item h3, .education-item h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .skill-category h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category li {
+            background: #3498db;
+            color: white;
+            padding: 0.5rem;
+            margin: 0.3rem 0;
+            border-radius: 4px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .contact-item h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .authors {
+            font-style: italic;
+            color: #666;
+        }
+
+        .journal {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-tabs li {
+                margin: 0.2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="profile-header">
+                <img src="img/rai.jpeg" alt="Professor Rai Garcia Torres">
+                <h1 class="profile-name">Professor Me. Rai Garcia Torres</h1>
+                <p class="profile-title">Mestre em Ensino de Ciências e Matemática</p>
+                <p class="profile-title">Licenciado em Física</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="nav-tabs">
+            <ul>
+                <li><a href="#" class="tab-link active" data-tab="sobre">Sobre</a></li>
+                <li><a href="#" class="tab-link" data-tab="pesquisa">Pesquisa</a></li>
+                <li><a href="#" class="tab-link" data-tab="publicacoes">Publicações</a></li>
+                <li><a href="#" class="tab-link" data-tab="educacao">Educação</a></li>
+                <li><a href="#" class="tab-link" data-tab="habilidades">Habilidades</a></li>
+                <li><a href="#" class="tab-link" data-tab="contato">Contato</a></li>
+            </ul>
+        </nav>
+
+        <div id="sobre" class="content-section">
+            <h2>Sobre Mim</h2>
+            <div class="about-grid">
+                <div class="about-item">
+                    <h3>Biografia</h3>
+                    <p>Possui Licenciatura plena em Física pela Universidade Estadual de Campinas (UNICAMP-IFGW), 2019. Mestrando na Universidade Estadual de Campinas no Programa de Pós-Graduação Multiunidades em Ensino de Ciências e Matemática (PECIM), 2023. Atualmente se interessa pelo uso das tecnologias de Inteligência Artificial generativa na educação, especialmente com relação às práticas da escrita acadêmica na perspectiva da prática social.</p>
+                </div>
+                <div class="about-item">
+                    <h3>Interesses de Pesquisa</h3>
+                    <p>• Inteligência Artificial<br>
+                    • Ensino de Ciências<br>
+                    • Escrita Acadêmica<br>
+                    • Processamento de Linguagem Natural<br>
+                    • Neurociências</p>
+                </div>
+                <div class="about-item">
+                    <h3>Experiência</h3>
+                    <p>10 anos de experiência em sala de aula, com 3 publicações em periódicos e conferências, das quais duas internacionais. Atualmente bolsista TT-4 pela FAPESP no projeto xyz, onde atuo desenvolvendo página web e a modelagem de banco de dados.</p>
+                </div>
+                <div class="about-item">
+                    <h3>Reconhecimentos</h3>
+                    <p>• Aluno destaque Ensino Médio (2010)<br>
+                    • Menção Honrosa - Publicação de artigo no ENSIPEX<br>
+                    • Revisor da revista International journal of educational technology in higher education - Springer Nature</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="pesquisa" class="content-section">
+            <h2>Projetos de Pesquisa</h2>
+            <div class="research-item">
+                <h3>Algoritmos Adaptativos para Detecção de Objetos em Tempo Real</h3>
+                <p><strong>Período:</strong> 2022 - 2025 | <strong>Financiamento:</strong> FAPESP</p>
+                <p>Desenvolvimento de algoritmos de deep learning para detecção e reconhecimento de objetos em tempo real, aplicados a sistemas de vigilância inteligente e veículos autônomos.</p>
+            </div>
+            <div class="research-item">
+                <h3>Processamento de Linguagem Natural para Análise de Sentimentos</h3>
+                <p><strong>Período:</strong> 2021 - 2024 | <strong>Financiamento:</strong> CNPq</p>
+                <p>Pesquisa focada no desenvolvimento de modelos de linguagem especializados para análise de sentimentos em textos em português brasileiro.</p>
+            </div>
+            <div class="research-item">
+                <h3>Redes Neurais Explicáveis para Diagnóstico Médico</h3>
+                <p><strong>Período:</strong> 2020 - 2023 | <strong>Financiamento:</strong> Ministério da Saúde</p>
+                <p>Colaboração interdisciplinar para criar sistemas de IA interpretáveis que auxiliem no diagnóstico médico.</p>
+            </div>
+        </div>
+
+        <div id="publicacoes" class="content-section">
+            <h2>Publicações</h2>
+            <div class="publication-item">
+                <h3>Adaptive Deep Learning for Real-Time Object Detection in Autonomous Systems</h3>
+                <p class="authors">Silva, A.C., Santos, R.M., Oliveira, L.P.</p>
+                <p class="journal">IEEE Transactions on Pattern Analysis and Machine Intelligence, 2024</p>
+                <p>Este trabalho apresenta uma nova arquitetura de rede neural adaptativa que melhora significativamente a detecção de objetos em tempo real para sistemas autônomos.</p>
+            </div>
+            <div class="publication-item">
+                <h3>Explainable AI for Medical Diagnosis: A Comprehensive Survey</h3>
+                <p class="authors">Silva, A.C., Ferreira, M.A., Costa, J.L.</p>
+                <p class="journal">Nature Machine Intelligence, 2023</p>
+                <p>Revisão abrangente sobre técnicas de IA explicável aplicadas ao diagnóstico médico, destacando desafios e oportunidades futuras.</p>
+            </div>
+            <div class="publication-item">
+                <h3>Sentiment Analysis in Portuguese: A Deep Learning Approach</h3>
+                <p class="authors">Silva, A.C., Rodrigues, P.H.</p>
+                <p class="journal">Computational Linguistics, 2023</p>
+                <p>Desenvolvimento de um modelo de deep learning especializado para análise de sentimentos em textos em português brasileiro.</p>
+            </div>
+        </div>
+
+        <div id="educacao" class="content-section">
+            <h2>Formação Acadêmica</h2>
+            <div class="education-item">
+                <h3>[Em andamento] Especialização em NeuroPsicoPedagogia Clínia e Institucional</h3>
+                <p><strong>Pontifícia Universidade Católica de Minas Gerais - PUC-Minas</strong> | 2025 - 2026</p>
+                <p>O curso possui como objetivo capacitar profissionais para atuarem de forma especializada na Neuropsicopedagogia Clínica e Institucional.</p>
+            </div>
+            <div class="education-item">
+                <h3>Mestrado em Ensino de Ciências e Matemática</h3>
+                <p><strong>Universidade Estadual de Campinas (UNICAMP)</strong> | 2023 - 2025</p>
+                <p>Dissertação: "Percepções Sobre Uso da Inteligência Artificial Generativa de Textos na Escrita Acadêmica"</p>
+            </div>
+            <div class="education-item">
+                <h3>Bacharelado em Ciência de Dados e Tecnologia da Informação</h3>
+                <p><strong>Universidade Virtual do Estado de São Paulo (UNIVESP)</strong> | 2022 - 2026</p>
+                <p>Curso voltado para ferramentas matemáticas, estatísticas e computacionais para extração de conhecimentos a partir de dados.</p>
+            </div>
+            <div class="education-item">
+                <h3>Licenciatura em Física</h3>
+                <p><strong>Universidade Estadual de Campinas (UNICAMP)</strong> | 2015 - 2019</p>
+                <p>Licenciatura que combina o estudo da Física com formação pedagógica e prática de ensino.</p>
+            </div>
+        </div>
+
+        <div id="habilidades" class="content-section">
+            <h2>Habilidades e Competências</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Linguagens de Programação</h3>
+                    <ul>
+                        <li>Python</li>
+                        <li>R</li>
+                        <li>MATLAB</li>
+                        <li>C++</li>
+                        <li>Java</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Frameworks & Bibliotecas</h3>
+                    <ul>
+                        <li>TensorFlow</li>
+                        <li>PyTorch</li>
+                        <li>Scikit-learn</li>
+                        <li>OpenCV</li>
+                        <li>Keras</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Áreas de Especialização</h3>
+                    <ul>
+                        <li>Deep Learning</li>
+                        <li>Computer Vision</li>
+                        <li>NLP</li>
+                        <li>Machine Learning</li>
+                        <li>Data Mining</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Ferramentas</h3>
+                    <ul>
+                        <li>Jupyter Notebook</li>
+                        <li>Git/GitHub</li>
+                        <li>Docker</li>
+                        <li>AWS/Google Cloud</li>
+                        <li>LaTeX</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="contato" class="content-section">
+            <h2>Contato</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>E-mail</h3>
+                    <p><a href="mailto:raigarciatorres@outlook.com">raigarciatorres@outlook.com</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>Telefone</h3>
+                    <p>+55 (15) 997 693 102</p>
+                </div>
+                <div class="contact-item">
+                    <h3>ORCID</h3>
+                    <p><a href="https://orcid.org/0000-0002-6860-0905" target="_blank">0000-0002-6860-0905</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>Google Scholar</h3>
+                    <p><a href="#" target="_blank">Ver Perfil</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>Lattes</h3>
+                    <p><a href="http://lattes.cnpq.br/1641463862771835" target="_blank">Ver currículo Lattes</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>Escritório</h3>
+                    <p>Sala xyz<br>Departamento de xyz</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navegação por abas - versão simplificada
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const sections = document.querySelectorAll('.content-section');
+
+            // Função para mostrar uma seção
+            function showSection(targetId) {
+                // Esconder todas as seções
+                sections.forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Remover classe ativa de todos os links
+                tabLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Mostrar seção selecionada
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
+                
+                // Ativar link correspondente
+                const activeLink = document.querySelector(`[data-tab="${targetId}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+
+            // Adicionar evento de clique nos links
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetTab = this.getAttribute('data-tab');
+                    showSection(targetTab);
+                });
+            });
+
+            // Mostrar primeira seção por padrão
+            showSection('sobre');
+        });
+    </script>
+</body>
+</html>
