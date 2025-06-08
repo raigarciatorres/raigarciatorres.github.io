@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcrição Médica com IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .upload-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px dashed #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #4facfe;
+            transform: translateY(-2px);
+        }
+
+        .upload-area {
+            text-align: center;
+            padding: 40px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: rgba(79, 172, 254, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #4facfe;
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .api-key-section {
+            margin-top: 20px;
+        }
+
+        .api-key-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .api-key-input:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .audio-controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .process-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .process-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3);
+        }
+
+        .process-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .results-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .report {
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .report h2 {
+            color: #4facfe;
+            margin: 25px 0 15px 0;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 5px;
+        }
+
+        .report h3 {
+            color: #666;
+            margin: 20px 0 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .report p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .report ul {
+            margin: 10px 0 15px 20px;
+        }
+
+        .report li {
+            margin-bottom: 8px;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #d32f2f;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .file-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(255, 107, 107, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Transcrição Médica com IA</h1>
+            <p>Converta áudios médicos em relatórios completos usando Google Gemini</p>
+        </div>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" onclick="document.getElementById('audioFile').click()">
+                    <div class="upload-icon">🎤</div>
+                    <h3>Selecione ou arraste seu arquivo de áudio</h3>
+                    <p style="color: #666; margin: 15px 0;">Formatos suportados: MP3, WAV, M4A, OGG</p>
+                    <button class="upload-btn" type="button">Escolher Arquivo</button>
+                </div>
+                
+                <input type="file" id="audioFile" class="file-input" accept="audio/*">
+                
+                <div id="fileInfo" class="file-info" style="display: none;">
+                    <strong>Arquivo selecionado:</strong>
+                    <div id="fileName"></div>
+                    <div id="fileSize"></div>
+                </div>
+
+                <div class="audio-controls" id="audioControls" style="display: none;">
+                    <audio id="audioPlayer" class="audio-player" controls></audio>
+                </div>
+
+                <div class="api-key-section">
+                    <label for="apiKey" style="display: block; margin-bottom: 10px; font-weight: 600; color: #333;">
+                        🔑 Chave da API do Gemini:
+                    </label>
+                    <input type="password" id="apiKey" class="api-key-input" 
+                           placeholder="Cole sua chave da API do Google Gemini aqui"
+                           title="Obtenha sua chave em: https://makersuite.google.com/app/apikey">
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        Obtenha gratuitamente em: <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
+                    </small>
+                </div>
+
+                <button class="process-btn" id="processBtn" onclick="processAudio()" disabled>
+                    🚀 Gerar Relatório Médico
+                </button>
+            </div>
+
+            <div class="results-section">
+                <div id="results">
+                    <div style="text-align: center; color: #666; padding: 40px;">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📋</div>
+                        <h3>Relatório será gerado aqui</h3>
+                        <p>Faça upload de um áudio médico e adicione sua chave da API para começar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFile = null;
+        let processedReport = null;
+
+        // Configuração dos elementos
+        document.getElementById('audioFile').addEventListener('change', handleFileSelect);
+        document.getElementById('apiKey').addEventListener('input', validateForm);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                selectedFile = file;
+                displayFileInfo(file);
+                validateForm();
+            }
+        }
+
+        function displayFileInfo(file) {
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const audioControls = document.getElementById('audioControls');
+            const audioPlayer = document.getElementById('audioPlayer');
+
+            fileName.textContent = file.name;
+            fileSize.textContent = `Tamanho: ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+            
+            // Criar URL para o player de áudio
+            const audioURL = URL.createObjectURL(file);
+            audioPlayer.src = audioURL;
+            
+            fileInfo.style.display = 'block';
+            audioControls.style.display = 'block';
+        }
+
+        function validateForm() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const processBtn = document.getElementById('processBtn');
+            
+            processBtn.disabled = !(selectedFile && apiKey);
+        }
+
+        async function processAudio() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const resultsDiv = document.getElementById('results');
+            
+            if (!selectedFile || !apiKey) {
+                showError('Por favor, selecione um arquivo de áudio e insira a chave da API.');
+                return;
+            }
+
+            // Mostrar loading
+            showLoading();
+            
+            try {
+                // Converter áudio para base64
+                const audioBase64 = await fileToBase64(selectedFile);
+                
+                // Fazer requisição para a API do Gemini
+                const report = await generateMedicalReport(audioBase64, apiKey);
+                
+                // Exibir resultado
+                showReport(report);
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                showError('Erro ao processar o áudio: ' + error.message);
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('results').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <h3>Processando áudio...</h3>
+                    <p>Transcrevendo e gerando relatório médico com IA</p>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            document.getElementById('results').innerHTML = `
+                <div class="error">
+                    <strong>❌ Erro:</strong> ${message}
+                </div>
+            `;
+        }
+
+        function showReport(report) {
+            processedReport = report;
+            document.getElementById('results').innerHTML = `
+                <div class="success">
+                    ✅ Relatório médico gerado com sucesso!
+                </div>
+                <div class="report">
+                    ${formatReport(report)}
+                </div>
+                <button class="download-btn" onclick="downloadReport()">
+                    📄 Baixar Relatório (PDF)
+                </button>
+            `;
+        }
+
+        async function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        async function generateMedicalReport(audioBase64, apiKey) {
+            const prompt = `
+            Você é um especialista em transcrição e análise médica. Analise este áudio médico e gere um relatório médico completo e estruturado.
+
+            Por favor, forneça:
+
+            1. **TRANSCRIÇÃO COMPLETA**: Transcreva todo o conteúdo do áudio de forma precisa
+            
+            2. **RELATÓRIO MÉDICO ESTRUTURADO** contendo:
+               - Identificação do paciente (se mencionada)
+               - Queixa principal
+               - História da doença atual
+               - Exame físico realizado
+               - Hipóteses diagnósticas
+               - Plano terapêutico
+               - Observações adicionais
+
+            3. **ANÁLISE CLÍNICA**: Interpretação profissional do caso
+
+            4. **RECOMENDAÇÕES**: Próximos passos sugeridos
+
+            Mantenha terminologia médica apropriada e organize o conteúdo de forma clara e profissional.
+            `;
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [
+                            {
+                                text: prompt
+                            },
+                            {
+                                inline_data: {
+                                    mime_type: selectedFile.type,
+                                    data: audioBase64
+                                }
+                            }
+                        ]
+                    }],
+                    generationConfig: {
+                        temperature: 0.3,
+                        topK: 40,
+                        topP: 0.95,
+                        maxOutputTokens: 4096,
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || 'Erro na API do Gemini');
+            }
+
+            const data = await response.json();
+            
+            if (!data.candidates || data.candidates.length === 0) {
+                throw new Error('Nenhuma resposta gerada pela IA');
+            }
+
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        function formatReport(report) {
+            // Converter markdown básico para HTML
+            let formattedReport = report
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+
+            // Adicionar tags de parágrafo
+            formattedReport = '<p>' + formattedReport + '</p>';
+
+            // Formatizar títulos
+            formattedReport = formattedReport.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
+            formattedReport = formattedReport.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
+
+            return formattedReport;
+        }
+
+        function downloadReport() {
+            if (!processedReport) return;
+
+            const reportContent = `
+RELATÓRIO MÉDICO - TRANSCRIÇÃO DE ÁUDIO
+=======================================
+
+Arquivo: ${selectedFile.name}
+Data: ${new Date().toLocaleDateString('pt-BR')}
+Hora: ${new Date().toLocaleTimeString('pt-BR')}
+
+${processedReport.replace(/<[^>]*>/g, '')}
+
+=======================================
+Gerado automaticamente via IA (Google Gemini)
+            `;
+
+            const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `relatorio_medico_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Drag and drop functionality
+        const uploadArea = document.querySelector('.upload-area');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            uploadArea.style.background = 'rgba(79, 172, 254, 0.1)';
+        }
+
+        function unhighlight() {
+            uploadArea.style.background = '';
+        }
+
+        uploadArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('audio/')) {
+                    selectedFile = file;
+                    displayFileInfo(file);
+                    validateForm();
+                } else {
+                    showError('Por favor, selecione apenas arquivos de áudio.');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
