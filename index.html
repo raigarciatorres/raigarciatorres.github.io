@@ -7,6 +7,7 @@
 
     <link href="img/favicon.png" rel="icon">
     <link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
+    <script type="text/javascript" src="script.js" ></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -252,22 +253,22 @@ Preparar os profissionais para enfrentarem os desafios da educação inclusiva, 
 
          <div id="contato" class="content-section">
             <div class="contact-grid">
-                <div class="article-card" onclick="window.location.href='mailto:raigarciatorres@outlook.com'">
+                <div class="article-card" onclick="window.open('mailto:raigarciatorres@outlook.com', '_blank')">
                     <h3>E-mail</h3>
                 </div>
-                <div class="article-card" onclick="window.location.href='https://wa.me/5515997693102'">
+                <div class="article-card" onclick="window.open('https://wa.me/5515997693102', '_blank')">
                     <h3>WhatsApp</h3>
                 </div>
-                <div class="article-card" onclick="window.location.href='https://orcid.org/0000-0002-6860-0905'">
+                <div class="article-card" onclick="window.open('https://orcid.org/0000-0002-6860-0905', '_blank')">
                     <h3>ORCID</h3>
                 </div>
-                <div class="article-card" onclick="window.location.href='https://scholar.google.com.br/citations?user=lA-smlwAAAAJ'">
+                <div class="article-card" onclick="window.open('https://scholar.google.com.br/citations?user=lA-smlwAAAAJ', '_blank')">
                     <h3>Google Scholar</h3>
                 </div>
-                <div class="article-card" onclick="window.location.href='http://lattes.cnpq.br/1641463862771835'">
+                <div class="article-card" onclick="window.open('http://lattes.cnpq.br/1641463862771835', '_blank')">
                     <h3>Lattes</h3>
                 </div>
-                <div class="article-card" onclick="window.location.href='https://maps.app.goo.gl/GS1V3Mdn1LkDLNE79'">
+                <div class="article-card" onclick="window.open('https://maps.app.goo.gl/GS1V3Mdn1LkDLNE79', '_blank')">
                     <h3>Escritório - Rua xyz</h3>
                     <p>Sala xyz<br>Departamento de xyz</p>
                 </div>
@@ -280,58 +281,5 @@ Preparar os profissionais para enfrentarem os desafios da educação inclusiva, 
             <p>&copy; 2025 - Todos os direitos reservados.</p>
         </div>
     </footer>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const tabLinks = document.querySelectorAll('.tab-link');
-        const sections = document.querySelectorAll('.content-section');
-
-        // Função para mostrar uma seção principal
-        function showSection(targetId) {
-            sections.forEach(section => {
-                section.style.display = 'none';
-            });
-            
-            tabLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                targetSection.style.display = 'block';
-            }
-            
-            const activeLink = document.querySelector(`[data-tab="${targetId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-        }
-
-        // Event listeners para navegação principal
-        tabLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetTab = this.getAttribute('data-tab');
-                showSection(targetTab);
-            });
-        });
-
-        // Verificar se há um hash na URL e mostrar a seção correspondente
-        function showSectionFromHash() {
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                showSection(hash);
-            } else {
-                showSection('sobre');
-            }
-        }
-
-        // Mostrar seção baseada no hash ao carregar
-        showSectionFromHash();
-
-        // Escutar mudanças no hash
-        window.addEventListener('hashchange', showSectionFromHash);
-    });
-</script>
 </body>
 </html>
