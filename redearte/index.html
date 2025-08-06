@@ -464,6 +464,13 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        img{
+            width: 70%;
+            height: auto;
+            border-radius: 20px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -484,8 +491,7 @@
         <div class="carousel">
             <div class="carousel-slide">
                 <div class="slide-content">
-                    <h2>Imagem 1</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus provident, repudiandae commodi earum, amet voluptatum cupiditate molestiae fuga porro incidunt mollitia, quam ad. Dolor debitis recusandae sequi mollitia tempore ut.</p>
+                    <img src="img01.jpg" alt="">
                 </div>
             </div>
             <div class="carousel-slide">
@@ -518,38 +524,37 @@
         <div class="gallery-grid">
             <div class="gallery-item" onclick="openModal(this)">
                 <div class="gallery-placeholder">
-                    <div class="icon">🖼️</div>
-                    <p>Projeto 1</p>
+                    <img src="img01.jpg" alt="">
                 </div>
             </div>
             <div class="gallery-item" onclick="openModal(this)">
                 <div class="gallery-placeholder">
                     <div class="icon">🎨</div>
-                    <p>Projeto 2</p>
+                    <p>Imagem 2</p>
                 </div>
             </div>
             <div class="gallery-item" onclick="openModal(this)">
                 <div class="gallery-placeholder">
                     <div class="icon">📱</div>
-                    <p>Projeto 3</p>
+                    <p>Imagem 3</p>
                 </div>
             </div>
             <div class="gallery-item" onclick="openModal(this)">
                 <div class="gallery-placeholder">
                     <div class="icon">💻</div>
-                    <p>Projeto 4</p>
+                    <p>Imagem 4</p>
                 </div>
             </div>
             <div class="gallery-item" onclick="openModal(this)">
                 <div class="gallery-placeholder">
                     <div class="icon">🌐</div>
-                    <p>Projeto 5</p>
+                    <p>Imagem 5</p>
                 </div>
             </div>
             <div class="gallery-item" onclick="openModal(this)">
                 <div class="gallery-placeholder">
                     <div class="icon">⚡</div>
-                    <p>Projeto 6</p>
+                    <p>Imagem 6</p>
                 </div>
             </div>
         </div>
