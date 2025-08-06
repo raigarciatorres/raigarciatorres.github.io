@@ -277,6 +277,129 @@
             right: 30px;
         }
 
+        /* Image Showcase Section */
+        .image-showcase {
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #fafafa, #ffffff);
+        }
+
+        .showcase-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #000000, #666666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .showcase-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #f8f8f8;
+            aspect-ratio: 16/10;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .showcase-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .showcase-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(1) contrast(1);
+        }
+
+        .showcase-item:hover img {
+            filter: blur(3px) brightness(0.8) contrast(1.1);
+            transform: scale(1.05);
+        }
+
+        .showcase-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .showcase-item:hover::before {
+            opacity: 1;
+        }
+
+        .showcase-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            text-align: center;
+            z-index: 2;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .showcase-item:hover .showcase-overlay {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .showcase-overlay .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .showcase-overlay .title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .showcase-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #888888;
+            background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
+        }
+
+        .showcase-placeholder .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.4;
+        }
+
+        .showcase-placeholder .title {
+            font-size: 1.1rem;
+            opacity: 0.6;
+        }
+
         /* Gallery Section */
         .gallery {
             padding: 80px 5%;
@@ -696,6 +819,20 @@
                 padding: 0 1rem;
             }
 
+            .showcase-title {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .showcase-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .showcase-item {
+                aspect-ratio: 16/9;
+            }
+
             .gallery {
                 padding: 60px 4%;
             }
@@ -790,6 +927,26 @@
             
             .slide-content p {
                 font-size: 0.9rem;
+            }
+            
+            .showcase-title {
+                font-size: 2rem;
+            }
+            
+            .showcase-grid {
+                gap: 1rem;
+            }
+            
+            .showcase-item {
+                aspect-ratio: 4/3;
+            }
+            
+            .showcase-overlay .icon {
+                font-size: 2.5rem;
+            }
+            
+            .showcase-overlay .title {
+                font-size: 1rem;
             }
             
             .gallery {
@@ -887,7 +1044,7 @@
             <ul class="nav-links">
                 <li><a onclick="showPage('home')">Início</a></li>
                 <li><a onclick="scrollToSection('gallery')">Galeria</a></li>
-                <li><a onclick="scrollToSection('features')">Recursos</a></li>
+                <li><a onclick="scrollToSection('features')">Artistas</a></li>
                 <li><a onclick="showPage('contact')">Contato</a></li>
             </ul>
         </nav>
@@ -909,14 +1066,12 @@
                 </div>
                 <div class="carousel-slide">
                     <div class="slide-content">
-                        <h2>Qualidade Premium</h2>
-                        <p>Cada projeto é desenvolvido com atenção aos mínimos detalhes</p>
+                        <img src="img02.jpg" alt="">
                     </div>
                 </div>
                 <div class="carousel-slide">
                     <div class="slide-content">
-                        <h2>Resultados Excepcionais</h2>
-                        <p>Transformamos ideias em soluções que geram impacto real</p>
+                        <img src="img03.jpg" alt="">
                     </div>
                 </div>
             </div>
@@ -931,9 +1086,70 @@
             </div>
         </section>
 
+        <!-- Image Showcase Section -->
+        <section class="image-showcase" id="showcase">
+            <h2 class="showcase-title">Imagens da Galeria</h2>
+            <div class="showcase-grid">
+                <div class="showcase-item" onclick="openFullscreenModal(this)">
+                    <img src="img01.jpg" alt="Projeto de Design Gráfico" />
+                    <div class="showcase-overlay">
+                        <div class="title">imagem 01</div>
+                    </div>
+                </div>
+                <div class="showcase-item" onclick="openFullscreenModal(this)">
+                    <div class="showcase-placeholder">
+                        <img src="img02.jpg" alt="">
+                    </div>
+                    <div class="showcase-overlay">
+                        <div class="icon">📱</div>
+                        <div class="title">imagem 02</div>
+                    </div>
+                </div>
+                <div class="showcase-item" onclick="openFullscreenModal(this)">
+                    <div class="showcase-placeholder">
+                        <img src="img03.jpg" alt="">
+                    </div>
+                    <div class="showcase-overlay">
+                        <div class="icon">💻</div>
+                        <div class="title">imagem 03</div>
+                    </div>
+                </div>
+                <div class="showcase-item" onclick="openFullscreenModal(this)">
+                    <div class="showcase-placeholder">
+                        <div class="icon">🎬</div>
+                        <div class="title">imagem 04</div>
+                    </div>
+                    <div class="showcase-overlay">
+                        <div class="icon">🎬</div>
+                        <div class="title">imagem 04</div>
+                    </div>
+                </div>
+                <div class="showcase-item" onclick="openFullscreenModal(this)">
+                    <div class="showcase-placeholder">
+                        <div class="icon">🌐</div>
+                        <div class="title">imagem 05</div>
+                    </div>
+                    <div class="showcase-overlay">
+                        <div class="icon">🌐</div>
+                        <div class="title">imagem 05</div>
+                    </div>
+                </div>
+                <div class="showcase-item" onclick="openFullscreenModal(this)">
+                    <div class="showcase-placeholder">
+                        <div class="icon">⚡</div>
+                        <div class="title">imagem 06</div>
+                    </div>
+                    <div class="showcase-overlay">
+                        <div class="icon">⚡</div>
+                        <div class="title">imagem 06</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Gallery Section -->
         <section class="gallery" id="gallery">
-            <h2 class="gallery-title">Nossa Galeria</h2>
+            <h2 class="gallery-title">Nossos Artistas</h2>
             <div class="gallery-grid">
                 <div class="gallery-item" onclick="showArtistPage('leonardo')">
                     <div class="gallery-placeholder">
@@ -976,22 +1192,22 @@
 
         <!-- Features Section -->
         <section class="features" id="features">
-            <h2 class="features-title">Nossos Diferenciais</h2>
+            <h2 class="features-title">Realização</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🚀</div>
-                    <h3>Performance</h3>
-                    <p>Otimização avançada para máxima velocidade e eficiência</p>
+                    <h3>texto texto ...</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae dolore perspiciatis quidem non aliquid illum eos tempore aut autem obcaecati vel aspernatur nobis quia, quisquam veniam quae officiis dignissimos provident.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">✨</div>
-                    <h3>Criatividade</h3>
-                    <p>Soluções inovadoras que destacam sua marca no mercado</p>
+                    <h3>texto texto ...</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae dolore perspiciatis quidem non aliquid illum eos tempore aut autem obcaecati vel aspernatur nobis quia, quisquam veniam quae officiis dignissimos provident.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
-                    <h3>Precisão</h3>
-                    <p>Cada detalhe é cuidadosamente planejado e executado</p>
+                    <h3>texto texto ...</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae dolore perspiciatis quidem non aliquid illum eos tempore aut autem obcaecati vel aspernatur nobis quia, quisquam veniam quae officiis dignissimos provident.</p>
                 </div>
             </div>
         </section>
@@ -1515,6 +1731,52 @@
             document.addEventListener('touchmove', preventScroll, { passive: false });
         }
 
+        // Fullscreen Modal for Showcase Images
+        function openFullscreenModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            
+            // Check if element has an image or placeholder
+            const img = element.querySelector('img');
+            const overlayTitle = element.querySelector('.showcase-overlay .title');
+            const overlayIcon = element.querySelector('.showcase-overlay .icon');
+            const placeholderTitle = element.querySelector('.showcase-placeholder .title');
+            const placeholderIcon = element.querySelector('.showcase-placeholder .icon');
+            
+            if (img) {
+                // If there's an image, show it fullscreen
+                const imageSrc = img.src;
+                const imageAlt = img.alt || 'Imagem ampliada';
+                const title = overlayTitle ? overlayTitle.textContent : imageAlt;
+                
+                modalImage.innerHTML = `
+                    <img src="${imageSrc}" alt="${imageAlt}" style="width: 100vw; height: 100vh; object-fit: contain;" />
+                    <div class="modal-title">${title}</div>
+                `;
+            } else {
+                // If there's no image, show placeholder content fullscreen
+                const icon = placeholderIcon ? placeholderIcon.textContent : overlayIcon.textContent;
+                const title = placeholderTitle ? placeholderTitle.textContent : overlayTitle.textContent;
+                
+                modalImage.innerHTML = `
+                    <div class="modal-icon" style="color: #ffffff; font-size: 8rem; margin-bottom: 2rem;">${icon}</div>
+                    <div class="modal-title" style="font-size: 2rem; padding: 1rem 2rem;">${title}</div>
+                `;
+            }
+            
+            // Show modal with animation
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+                modal.classList.add('show');
+            });
+            
+            // Prevent background scrolling on mobile
+            document.addEventListener('touchmove', preventScroll, { passive: false });
+        }
+
         function closeModal() {
             const modal = document.getElementById('imageModal');
             
@@ -1606,6 +1868,15 @@
                 item.style.opacity = '0';
                 item.style.transform = 'translateY(30px)';
                 item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(item);
+            });
+
+            // Observe showcase items
+            const showcaseItems = document.querySelectorAll('.showcase-item');
+            showcaseItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`;
                 observer.observe(item);
             });
         });
