@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RedeArte</title>
+    <title>Studio Moderno - Gallery</title>
     <style>
         * {
             margin: 0;
@@ -16,6 +16,35 @@
             background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
             color: #000000;
             overflow-x: hidden;
+        }
+
+        /* Page Transitions */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .page-transition {
+            animation: pageSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes pageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         /* Header */
@@ -44,6 +73,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            cursor: pointer;
         }
 
         .nav-links {
@@ -58,6 +88,7 @@
             transition: all 0.3s ease;
             position: relative;
             font-weight: 500;
+            cursor: pointer;
         }
 
         .nav-links a:hover {
@@ -78,6 +109,35 @@
 
         .nav-links a:hover::after {
             width: 100%;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            left: 5%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e0e0e0;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #000000;
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn.show {
+            display: flex;
         }
 
         /* Carousel Header */
@@ -295,6 +355,146 @@
             opacity: 0.7;
         }
 
+        /* Artist Page Styles */
+        .artist-page {
+            padding: 120px 5% 80px;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+
+        .artist-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .artist-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e8e8e8, #d0d0d0);
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .artist-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .artist-name {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #000000, #666666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .artist-specialty {
+            font-size: 1.2rem;
+            color: #666666;
+            margin-bottom: 2rem;
+        }
+
+        .artist-bio {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444444;
+            margin-bottom: 4rem;
+        }
+
+        .artist-works {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #000000;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .work-item {
+            background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .work-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .work-item .icon {
+            font-size: 2.5rem;
+            opacity: 0.6;
+        }
+
+        .work-item .title {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .artist-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f8f8, #ffffff);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666666;
+            font-size: 1rem;
+        }
+
         /* Modal for Zoom */
         .modal {
             display: none;
@@ -476,6 +676,12 @@
                 display: none;
             }
 
+            .back-btn {
+                left: 4%;
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+
             .carousel-container {
                 height: 50vh;
                 margin-top: 70px;
@@ -508,6 +714,24 @@
                 height: 250px;
             }
 
+            .artist-page {
+                padding: 100px 4% 60px;
+            }
+
+            .artist-name {
+                font-size: 2rem;
+            }
+
+            .artist-avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+
+            .works-grid {
+                grid-template-columns: 1fr;
+            }
+
             .carousel-arrow {
                 width: 40px;
                 height: 40px;
@@ -537,30 +761,6 @@
             .feature-card {
                 padding: 1.5rem;
             }
-            
-            /* Mobile Modal Optimizations */
-            .modal-content {
-                width: 100vw;
-                height: 100vh;
-                border-radius: 0;
-            }
-            
-            .modal-close {
-                top: 30px;
-                right: 30px;
-                width: 45px;
-                height: 45px;
-                font-size: 1.8rem;
-                background: rgba(0, 0, 0, 0.8);
-            }
-            
-            .modal-title {
-                font-size: 1rem;
-                bottom: 30px;
-                padding: 0.8rem 1.2rem;
-                max-width: 80%;
-                text-align: center;
-            }
         }
 
         @media (max-width: 480px) {
@@ -570,6 +770,13 @@
             
             .logo {
                 font-size: 1.3rem;
+            }
+
+            .back-btn {
+                left: 3%;
+                top: 90px;
+                padding: 8px 12px;
+                font-size: 0.8rem;
             }
             
             .carousel-container {
@@ -595,6 +802,18 @@
             
             .gallery-item {
                 height: 200px;
+            }
+
+            .artist-page {
+                padding: 80px 3% 40px;
+            }
+
+            .artist-name {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
             }
             
             .features {
@@ -655,6 +874,7 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
         img {
             width: 80%;
         }
@@ -663,87 +883,471 @@
 <body>
     <header class="header">
         <nav class="nav">
-            <div class="logo">RedeArte [Logo]</div>
+            <div class="logo" onclick="showPage('home')">STUDIO</div>
             <ul class="nav-links">
-                <li><a href="#home">Início</a></li>
-                <li><a href="#gallery">Galeria</a></li>
-                <li><a href="#features">Artistas</a></li>
-                <li><a href="#contact">Contato</a></li>
+                <li><a onclick="showPage('home')">Início</a></li>
+                <li><a onclick="scrollToSection('gallery')">Galeria</a></li>
+                <li><a onclick="scrollToSection('features')">Recursos</a></li>
+                <li><a onclick="showPage('contact')">Contato</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Carousel Header -->
-    <section class="carousel-container" id="home">
-        <div class="carousel">
-            <div class="carousel-slide">
-                <div class="slide-content">
-                    <img src="img01.jpg" alt="">
-                </div>
-            </div>
-            <div class="carousel-slide">
-                <div class="slide-content">
-                    <h2>imagem 2</h2>
-                </div>
-            </div>
-            <div class="carousel-slide">
-                <div class="slide-content">
-                    <h2>imagem 3</h2>
-                </div>
-            </div>
-        </div>
-        
-        <button class="carousel-arrow prev" onclick="changeSlide(-1)">‹</button>
-        <button class="carousel-arrow next" onclick="changeSlide(1)">›</button>
-        
-        <div class="carousel-nav">
-            <div class="nav-dot active" onclick="currentSlide(1)"></div>
-            <div class="nav-dot" onclick="currentSlide(2)"></div>
-            <div class="nav-dot" onclick="currentSlide(3)"></div>
-        </div>
-    </section>
+    <button class="back-btn" id="backBtn" onclick="showPage('home')">
+        ← Voltar ao Início
+    </button>
 
-    <!-- Gallery Section -->
-    <section class="gallery" id="gallery">
-        <h2 class="gallery-title">Nossa Galeria</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item" onclick="openModal(this)">
-                <div class="gallery-placeholder">
-                    <img src="img01.jpg" alt="">
+    <!-- Home Page -->
+    <div class="page active" id="home">
+        <!-- Carousel Header -->
+        <section class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <img src="img01.jpg" alt="">
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <h2>Qualidade Premium</h2>
+                        <p>Cada projeto é desenvolvido com atenção aos mínimos detalhes</p>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <h2>Resultados Excepcionais</h2>
+                        <p>Transformamos ideias em soluções que geram impacto real</p>
+                    </div>
                 </div>
             </div>
-            <div class="gallery-item" onclick="openModal(this)">
-                <div class="gallery-placeholder">
-                    <div class="icon">🎨</div>
-                    <p>imagem 2</p>
+            
+            <button class="carousel-arrow prev" onclick="changeSlide(-1)">‹</button>
+            <button class="carousel-arrow next" onclick="changeSlide(1)">›</button>
+            
+            <div class="carousel-nav">
+                <div class="nav-dot active" onclick="currentSlide(1)"></div>
+                <div class="nav-dot" onclick="currentSlide(2)"></div>
+                <div class="nav-dot" onclick="currentSlide(3)"></div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery" id="gallery">
+            <h2 class="gallery-title">Nossa Galeria</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="showArtistPage('leonardo')">
+                    <div class="gallery-placeholder">
+                        <div class="icon">🎨</div>
+                        <p>Leonardo Silva</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="showArtistPage('marina')">
+                    <div class="gallery-placeholder">
+                        <div class="icon">📱</div>
+                        <p>Marina Costa</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="showArtistPage('carlos')">
+                    <div class="gallery-placeholder">
+                        <div class="icon">💻</div>
+                        <p>Carlos Mendes</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="showArtistPage('ana')">
+                    <div class="gallery-placeholder">
+                        <div class="icon">🌐</div>
+                        <p>Ana Rodrigues</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="showArtistPage('bruno')">
+                    <div class="gallery-placeholder">
+                        <div class="icon">⚡</div>
+                        <p>Bruno Oliveira</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="showArtistPage('sofia')">
+                    <div class="gallery-placeholder">
+                        <div class="icon">✨</div>
+                        <p>Sofia Almeida</p>
+                    </div>
                 </div>
             </div>
-            <div class="gallery-item" onclick="openModal(this)">
-                <div class="gallery-placeholder">
-                    <div class="icon">📱</div>
-                    <p>imagem 3</p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <h2 class="features-title">Nossos Diferenciais</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Performance</h3>
+                    <p>Otimização avançada para máxima velocidade e eficiência</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Criatividade</h3>
+                    <p>Soluções inovadoras que destacam sua marca no mercado</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Precisão</h3>
+                    <p>Cada detalhe é cuidadosamente planejado e executado</p>
                 </div>
             </div>
-            <div class="gallery-item" onclick="openModal(this)">
-                <div class="gallery-placeholder">
-                    <div class="icon">💻</div>
-                    <p>imagem 4</p>
+        </section>
+    </div>
+
+    <!-- Artist Pages -->
+    <div class="page" id="artist-leonardo">
+        <div class="artist-page">
+            <div class="artist-hero">
+                <div class="artist-avatar">🎨</div>
+                <h1 class="artist-name">Leonardo Silva</h1>
+                <p class="artist-specialty">Designer Gráfico & Ilustrador</p>
+                <div class="artist-bio">
+                    <p>Leonardo é um designer gráfico apaixonado por criar identidades visuais marcantes e ilustrações que contam histórias. Com mais de 8 anos de experiência, ele combina técnicas tradicionais com ferramentas digitais modernas para entregar projetos únicos e impactantes.</p>
                 </div>
             </div>
-            <div class="gallery-item" onclick="openModal(this)">
-                <div class="gallery-placeholder">
-                    <div class="icon">🌐</div>
-                    <p>imagem 5</p>
+
+            <div class="artist-works">
+                <h2 class="section-title">Principais Trabalhos</h2>
+                <div class="works-grid">
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🖼️</div>
+                        <div class="title">Branding Corporativo</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">📚</div>
+                        <div class="title">Ilustrações Editoriais</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🏷️</div>
+                        <div class="title">Design de Embalagens</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🎭</div>
+                        <div class="title">Arte Conceitual</div>
+                    </div>
                 </div>
             </div>
-            <div class="gallery-item" onclick="openModal(this)">
-                <div class="gallery-placeholder">
-                    <div class="icon">⚡</div>
-                    <p>imagem 6</p>
+
+            <div class="artist-stats">
+                <div class="stat-card">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Projetos Concluídos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfação do Cliente</div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <div class="page" id="artist-marina">
+        <div class="artist-page">
+            <div class="artist-hero">
+                <div class="artist-avatar">📱</div>
+                <h1 class="artist-name">Marina Costa</h1>
+                <p class="artist-specialty">UX/UI Designer & Product Designer</p>
+                <div class="artist-bio">
+                    <p>Marina é especialista em experiência do usuário e design de interfaces. Com foco em criar produtos digitais intuitivos e funcionais, ela combina pesquisa de usuário, psicologia cognitiva e design visual para entregar soluções que realmente fazem a diferença na vida das pessoas.</p>
+                </div>
+            </div>
+
+            <div class="artist-works">
+                <h2 class="section-title">Principais Trabalhos</h2>
+                <div class="works-grid">
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">📱</div>
+                        <div class="title">Apps Mobile</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">💻</div>
+                        <div class="title">Plataformas Web</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🔍</div>
+                        <div class="title">Pesquisa UX</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🎨</div>
+                        <div class="title">Design Systems</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-stats">
+                <div class="stat-card">
+                    <div class="stat-number">85+</div>
+                    <div class="stat-label">Produtos Lançados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Taxa de Conversão</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="artist-carlos">
+        <div class="artist-page">
+            <div class="artist-hero">
+                <div class="artist-avatar">💻</div>
+                <h1 class="artist-name">Carlos Mendes</h1>
+                <p class="artist-specialty">Desenvolvedor Full-Stack & Arquiteto de Software</p>
+                <div class="artist-bio">
+                    <p>Carlos é um desenvolvedor experiente com expertise em tecnologias front-end e back-end. Especializado em criar soluções escaláveis e performáticas, ele domina diversas linguagens de programação e frameworks modernos, sempre focando na qualidade do código e na experiência do usuário final.</p>
+                </div>
+            </div>
+
+            <div class="artist-works">
+                <h2 class="section-title">Principais Trabalhos</h2>
+                <div class="works-grid">
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🌐</div>
+                        <div class="title">Aplicações Web</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🔧</div>
+                        <div class="title">APIs & Backend</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">☁️</div>
+                        <div class="title">Cloud Solutions</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">📊</div>
+                        <div class="title">Data Analytics</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-stats">
+                <div class="stat-card">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Aplicações Desenvolvidas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime Garantido</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="artist-ana">
+        <div class="artist-page">
+            <div class="artist-hero">
+                <div class="artist-avatar">🌐</div>
+                <h1 class="artist-name">Ana Rodrigues</h1>
+                <p class="artist-specialty">Estrategista Digital & Marketing Creative</p>
+                <div class="artist-bio">
+                    <p>Ana é especialista em estratégias digitais e marketing criativo. Com uma visão holística do mercado digital, ela desenvolve campanhas inovadoras que conectam marcas ao seu público-alvo de forma autêntica e eficaz, utilizando as mais recentes tendências e tecnologias do marketing digital.</p>
+                </div>
+            </div>
+
+            <div class="artist-works">
+                <h2 class="section-title">Principais Trabalhos</h2>
+                <div class="works-grid">
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">📈</div>
+                        <div class="title">Campanhas Digitais</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🎯</div>
+                        <div class="title">Estratégia de Marca</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">📱</div>
+                        <div class="title">Social Media</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">📊</div>
+                        <div class="title">Analytics & Insights</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-stats">
+                <div class="stat-card">
+                    <div class="stat-number">300+</div>
+                    <div class="stat-label">Campanhas Criadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">250%</div>
+                    <div class="stat-label">ROI Médio</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="artist-bruno">
+        <div class="artist-page">
+            <div class="artist-hero">
+                <div class="artist-avatar">⚡</div>
+                <h1 class="artist-name">Bruno Oliveira</h1>
+                <p class="artist-specialty">Motion Designer & Animator 3D</p>
+                <div class="artist-bio">
+                    <p>Bruno é um especialista em motion graphics e animação 3D. Com uma paixão por dar vida a ideias através do movimento, ele cria animações cinematográficas, motion graphics para publicidade e experiências visuais imersivas que cativam audiências e transmitem mensagens de forma impactante.</p>
+                </div>
+            </div>
+
+            <div class="artist-works">
+                <h2 class="section-title">Principais Trabalhos</h2>
+                <div class="works-grid">
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🎬</div>
+                        <div class="title">Motion Graphics</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🎮</div>
+                        <div class="title">Animação 3D</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">📺</div>
+                        <div class="title">Vídeos Publicitários</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🌟</div>
+                        <div class="title">VFX & Compositing</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-stats">
+                <div class="stat-card">
+                    <div class="stat-number">120+</div>
+                    <div class="stat-label">Animações Criadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50M+</div>
+                    <div class="stat-label">Views Geradas</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="artist-sofia">
+        <div class="artist-page">
+            <div class="artist-hero">
+                <div class="artist-avatar">✨</div>
+                <h1 class="artist-name">Sofia Almeida</h1>
+                <p class="artist-specialty">Creative Director & Brand Strategist</p>
+                <div class="artist-bio">
+                    <p>Sofia é uma diretora criativa com visão estratégica para construção de marcas. Especialista em traduzir a essência das empresas em identidades visuais memoráveis, ela lidera equipes multidisciplinares para criar experiências de marca coesas e impactantes em todos os pontos de contato com o cliente.</p>
+                </div>
+            </div>
+
+            <div class="artist-works">
+                <h2 class="section-title">Principais Trabalhos</h2>
+                <div class="works-grid">
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🏆</div>
+                        <div class="title">Identidade Visual</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">📖</div>
+                        <div class="title">Brand Guidelines</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">🎨</div>
+                        <div class="title">Direção de Arte</div>
+                    </div>
+                    <div class="work-item" onclick="openModal(this)">
+                        <div class="icon">✨</div>
+                        <div class="title">Rebranding</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-stats">
+                <div class="stat-card">
+                    <div class="stat-number">80+</div>
+                    <div class="stat-label">Marcas Desenvolvidas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Prêmios Recebidos</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div class="page" id="contact">
+        <div class="artist-page">
+            <div class="artist-hero">
+                <div class="artist-avatar">📧</div>
+                <h1 class="artist-name">Entre em Contato</h1>
+                <p class="artist-specialty">Vamos criar algo incrível juntos</p>
+                <div class="artist-bio">
+                    <p>Estamos sempre prontos para novos desafios e projetos inovadores. Entre em contato conosco e vamos transformar sua visão em realidade com criatividade, tecnologia e muito profissionalismo.</p>
+                </div>
+            </div>
+
+            <div class="artist-works">
+                <h2 class="section-title">Formas de Contato</h2>
+                <div class="works-grid">
+                    <div class="work-item">
+                        <div class="icon">📧</div>
+                        <div class="title">Email</div>
+                    </div>
+                    <div class="work-item">
+                        <div class="icon">📱</div>
+                        <div class="title">WhatsApp</div>
+                    </div>
+                    <div class="work-item">
+                        <div class="icon">💼</div>
+                        <div class="title">LinkedIn</div>
+                    </div>
+                    <div class="work-item">
+                        <div class="icon">📍</div>
+                        <div class="title">Escritório</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artist-stats">
+                <div class="stat-card">
+                    <div class="stat-number">24h</div>
+                    <div class="stat-label">Tempo de Resposta</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Projetos Entregues</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Clientes Satisfeitos</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal for Image Zoom -->
     <div class="modal" id="imageModal" onclick="closeModal()">
@@ -756,56 +1360,76 @@
         </div>
     </div>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <h2 class="features-title">Nossos Artistas</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3>Artista 1</h3>
-                <p>texto texto texto ...</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">✨</div>
-                <h3>Artista 2</h3>
-                <p>texto texto texto ...</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Artista 3</h3>
-                <p>texto texto texto ...</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3>Artista 4</h3>
-                <p>texto texto texto ...</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">✨</div>
-                <h3>Artista 5</h3>
-                <p>texto texto texto ...</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Artista 6</h3>
-                <p>texto texto texto ...</p>
-            </div>
-        </div>
-    </section>
-
     <script>
         let currentSlideIndex = 0;
         const slides = document.querySelectorAll('.carousel-slide');
         const dots = document.querySelectorAll('.nav-dot');
 
+        // Page Navigation Functions
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                targetPage.classList.add('page-transition');
+                
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    targetPage.classList.remove('page-transition');
+                }, 500);
+            }
+            
+            // Show/hide back button
+            const backBtn = document.getElementById('backBtn');
+            if (pageId === 'home') {
+                backBtn.classList.remove('show');
+            } else {
+                backBtn.classList.add('show');
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showArtistPage(artistId) {
+            showPage(`artist-${artistId}`);
+        }
+
+        function scrollToSection(sectionId) {
+            // First ensure we're on the home page
+            showPage('home');
+            
+            // Wait a bit for the page transition, then scroll
+            setTimeout(() => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }, 100);
+        }
+
+        // Carousel Functions
         function showSlide(index) {
             const carousel = document.querySelector('.carousel');
-            carousel.style.transform = `translateX(-${index * 100}%)`;
-            
-            dots.forEach(dot => dot.classList.remove('active'));
-            dots[index].classList.add('active');
-            
-            currentSlideIndex = index;
+            if (carousel) {
+                carousel.style.transform = `translateX(-${index * 100}%)`;
+                
+                dots.forEach(dot => dot.classList.remove('active'));
+                if (dots[index]) {
+                    dots[index].classList.add('active');
+                }
+                
+                currentSlideIndex = index;
+            }
         }
 
         function changeSlide(direction) {
@@ -824,9 +1448,12 @@
             showSlide(index - 1);
         }
 
-        // Auto-play carousel
+        // Auto-play carousel (only when on home page)
         setInterval(() => {
-            changeSlide(1);
+            const homePage = document.getElementById('home');
+            if (homePage && homePage.classList.contains('active')) {
+                changeSlide(1);
+            }
         }, 5000);
 
         // Gallery Modal Functions
@@ -837,6 +1464,8 @@
             // Check if element has an image or placeholder
             const img = element.querySelector('img');
             const placeholder = element.querySelector('.gallery-placeholder');
+            const workTitle = element.querySelector('.title');
+            const workIcon = element.querySelector('.icon');
             
             if (img) {
                 // If there's an image, show it in the modal
@@ -846,6 +1475,15 @@
                 modalImage.innerHTML = `
                     <img src="${imageSrc}" alt="${imageAlt}" />
                     <div class="modal-title">${imageAlt}</div>
+                `;
+            } else if (workTitle && workIcon) {
+                // If it's a work item, show work details
+                const icon = workIcon.textContent;
+                const title = workTitle.textContent;
+                
+                modalImage.innerHTML = `
+                    <div class="modal-icon" style="color: #ffffff; font-size: 4rem; margin-bottom: 1rem;">${icon}</div>
+                    <div class="modal-title">${title}</div>
                 `;
             } else if (placeholder) {
                 // If there's a placeholder, show placeholder content
@@ -860,7 +1498,7 @@
                 // Fallback content
                 modalImage.innerHTML = `
                     <div class="modal-icon" style="color: #ffffff; font-size: 4rem; margin-bottom: 1rem;">🖼️</div>
-                    <div class="modal-title">Imagem não encontrada</div>
+                    <div class="modal-title">Conteúdo não encontrado</div>
                 `;
             }
             
@@ -916,11 +1554,8 @@
             const diff = touchStartY - touchEndY;
             
             if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    // Swipe up - close modal
-                    closeModal();
-                } else {
-                    // Swipe down - close modal
+                if (diff > 0 || diff < 0) {
+                    // Swipe up or down - close modal
                     closeModal();
                 }
             }
@@ -937,20 +1572,6 @@
             }
         });
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
         // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.querySelector('.header');
@@ -963,7 +1584,7 @@
             }
         });
 
-        // Intersection Observer for gallery items
+        // Intersection Observer for gallery items (only on home page)
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -978,12 +1599,20 @@
             });
         }, observerOptions);
 
-        // Observe gallery items
-        document.querySelectorAll('.gallery-item').forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(30px)';
-            item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-            observer.observe(item);
+        // Observe gallery items on home page
+        document.addEventListener('DOMContentLoaded', () => {
+            const homeGalleryItems = document.querySelectorAll('#home .gallery-item');
+            homeGalleryItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(item);
+            });
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
         });
     </script>
 </body>
