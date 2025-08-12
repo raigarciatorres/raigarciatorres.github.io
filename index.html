@@ -3,282 +3,635 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rai</title>
+    <title>EduPro - Transformando Futuros</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <link href="img/favicon.png" rel="icon">
-    <link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
-    <script type="text/javascript" src="script.js" ></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-gray: #ecf0f1;
+            --medium-gray: #bdc3c7;
+            --dark-gray: #7f8c8d;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-color);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--light-gray) 0%, rgba(52, 152, 219, 0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(52, 152, 219, 0.05) 0%, transparent 50%);
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: rotate(0deg) translate(-50%, -50%); }
+            100% { transform: rotate(360deg) translate(-50%, -50%); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--dark-gray);
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--accent-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            height: 400px;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            position: relative;
+        }
+
+        .carousel-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(44, 62, 80, 0.05));
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .carousel-nav:hover {
+            background: var(--white);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev {
+            left: 20px;
+        }
+
+        .carousel-next {
+            right: 20px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--medium-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent-color);
+            transform: scale(1.3);
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            color: var(--dark-gray);
+            line-height: 1.8;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(236, 240, 241, 0.3);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Smooth scrolling animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="profile-header">
-                <img src="img/rai.jpeg" alt="Professor Rai Garcia Torres">
-                <h1 class="profile-name">Rai Garcia Torres</h1>
-                <p class="profile-title">Mestre em Ensino de Ciências e Matemática (UNICAMP)</p>
-                <p class="profile-title">Licenciado em Física (UNICAMP)</p>
-            </div>
-        </div>
-    </header>
-
-    <div class="container">
-        <nav class="nav-tabs">
-            <ul>
-                <li><a href="index.html#sobre" class="tab-link active" data-tab="sobre">Sobre</a></li>
-                <li><a href="index.html#educacao" class="tab-link" data-tab="educacao">Educação</a></li>
-                <li><a href="index.html#pesquisa" class="tab-link" data-tab="pesquisa">Pesquisa</a></li>
-                <li><a href="index.html#exp-prof" class="tab-link" data-tab="exp-prof">Experiências</a></li>
-                <li><a href="index.html#proj-pessoais" class="tab-link" data-tab="proj-pessoais">Projetos</a></li>
-                <li><a href="index.html#publicacoes" class="tab-link" data-tab="publicacoes">Publicações</a></li>
-                <li><a href="index.html#habilidades" class="tab-link" data-tab="habilidades">Habilidades</a></li>
-                <li><a href="index.html#artigos" class="tab-link" data-tab="artigos">Artigos</a></li>
-                <li><a href="index.html#contato" class="tab-link" data-tab="contato">Contato</a></li>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">EduPro</a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Início</a></li>
+                <li><a href="#about" class="nav-link">Sobre</a></li>
+                <li><a href="#gallery" class="nav-link">Galeria</a></li>
+                <li><a href="#services" class="nav-link">Serviços</a></li>
+                <li><a href="#contact" class="nav-link">Contato</a></li>
             </ul>
-        </nav>
+        </div>
+    </nav>
 
-        <div id="sobre" class="content-section">
-            <h2>Sobre Mim</h2>
-            <div class="about-grid">
-                <div class="about-item">
-                    <h3>Biografia</h3>
-                    <p>Possui Licenciatura plena em Física pela Universidade Estadual de Campinas (UNICAMP-IFGW), 2019. Mestre pela Universidade Estadual de Campinas no Programa de Pós-Graduação Multiunidades em Ensino de Ciências e Matemática (PECIM), 2023. Atualmente se interessa pelo uso das tecnologias de Inteligência Artificial generativa na educação.</p>
-                </div>
-                <div class="about-item">
-                    <h3>Interesses de Pesquisa</h3>
-                    <p>• Inteligência Artificial<br>
-                    • Ensino de Ciências<br>
-                    • Aprendizagem Significativa<br>
-                    • Escrita Acadêmica<br>
-                    • Processamento de Linguagem Natural<br>
-                    • Neurociências</p>
-                </div>
-                <div class="about-item">
-                    <h3>Experiência</h3>
-                    <p>10+ anos de experiência em sala de aula, lecionando principalmente Física, e com experiência em Matemática, Química e Tecnologia da Informação. Conta com 3 publicações em periódicos/conferências, das quais duas internacionais. Atualmente bolsista TT-4 pela FAPESP no projeto <i>TRAJETÓRIAS SEM FRONTEIRAS: Memória e trauma de refugiados do mundo contemporâneo</i>, atuando no desenvolvimento de página web e da modelagem de banco de dados.</p>
-                </div>
-                <div class="about-item">
-                    <h3>Reconhecimentos</h3>
-                    <p>• Aluno destaque Ensino Médio (2010)<br>
-                    • Menção Honrosa - Publicação de artigo no ENSIPEX<br>
-                    • Revisor da revista International journal of educational technology in higher education - Springer Nature</p>
-                </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Transformando Futuros</h1>
+            <p>Educação de qualidade que prepara você para os desafios do amanhã. Metodologias inovadoras e professores qualificados.</p>
+            <a href="#services" class="cta-button">Conheça Nossos Cursos</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2 class="section-title fade-in">Sobre Nós</h2>
+        <div class="cards-grid">
+            <div class="card fade-in">
+                <h3>Missão</h3>
+                <p>Democratizar o acesso à educação de qualidade, oferecendo cursos inovadores que preparam nossos alunos para os desafios do mercado atual e futuro.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Visão</h3>
+                <p>Ser referência em educação transformadora, criando um ambiente de aprendizado dinâmico e inclusivo que inspira o crescimento pessoal e profissional.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Valores</h3>
+                <p>Excelência acadêmica, inovação pedagógica, inclusão social, ética profissional e compromisso com o desenvolvimento sustentável da sociedade.</p>
             </div>
         </div>
+    </section>
 
-        <div id="educacao" class="content-section">
-            <h2>Formação Acadêmica</h2>
-            <div class="education-item">
-                <h3>Mestrado em Ensino de Ciências e Matemática</h3>
-                <p><strong>Universidade Estadual de Campinas (UNICAMP)</strong> | 2023 - 2025</p>
-                <p align="justify">Dissertação: "Percepções Sobre Uso da Inteligência Artificial Generativa de Textos na Escrita Acadêmica: Uma análise sobre diretrizes e autoria no contexto da pós-graduação em Ensino de Ciências e Matemática da UNICAMP."</p>
+    <!-- Gallery Section with Carousel -->
+    <section id="gallery" class="section">
+        <h2 class="section-title fade-in">Nossa Galeria</h2>
+        <div class="carousel-container fade-in">
+            <div class="carousel" id="carousel">
+                <div class="carousel-item">
+                    <div>📚 Biblioteca Moderna - Espaço de estudos com mais de 50.000 volumes</div>
+                </div>
+                <div class="carousel-item">
+                    <div>💻 Laboratórios de Informática - Equipamentos de última geração</div>
+                </div>
+                <div class="carousel-item">
+                    <div>🎯 Salas Interativas - Tecnologia aplicada ao ensino</div>
+                </div>
+                <div class="carousel-item">
+                    <div>🏢 Campus Principal - Infraestrutura completa para aprendizado</div>
+                </div>
+                <div class="carousel-item">
+                    <div>👥 Área de Convivência - Espaços para networking e colaboração</div>
+                </div>
             </div>
-            <div class="education-item">
-                <h3>Bacharelado em Ciência de Dados e Tecnologia da Informação</h3>
-                <p><strong>Universidade Virtual do Estado de São Paulo (UNIVESP)</strong> | 2022 - 2026</p>
-                <p align="justify">Curso voltado para ferramentas matemáticas, estatísticas e computacionais para extração de conhecimentos a partir de dados.</p>
+            <button class="carousel-nav carousel-prev" onclick="previousSlide()">‹</button>
+            <button class="carousel-nav carousel-next" onclick="nextSlide()">›</button>
+        </div>
+        <div class="carousel-dots" id="dots"></div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section">
+        <h2 class="section-title fade-in">Nossos Serviços</h2>
+        <div class="cards-grid">
+            <div class="card fade-in">
+                <h3>Cursos Técnicos</h3>
+                <p>Formação técnica especializada em diversas áreas, com foco na prática e inserção no mercado de trabalho. Parcerias com empresas líderes do mercado.</p>
             </div>
-            <div class="education-item">
-                <h3>Licenciatura em Física</h3>
-                <p><strong>Universidade Estadual de Campinas (UNICAMP)</strong> | 2015 - 2019</p>
-                <p align="justify">A Licenciatura em Física oferece uma formação completa e abrangente, que combina o estudo da Física com a formação pedagógica e prática de ensino. Os(As) alunos(as) têm a oportunidade de se envolver em pesquisa de ponta, desenvolver habilidades pedagógicas e ganhar experiência prática em sala de aula. Com essa base sólida, os(as) graduados(as) estão preparados(as) para se tornarem professores(as) de física altamente capacitados(as) e contribuir para a educação científica de qualidade.</p>
+            <div class="card fade-in">
+                <h3>Cursos Superiores</h3>
+                <p>Graduação e pós-graduação com metodologias inovadoras, corpo docente qualificado e infraestrutura moderna para uma formação completa.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Educação Continuada</h3>
+                <p>Workshops, seminários e cursos de extensão para atualização profissional constante. Mantenha-se sempre atualizado com as tendências do mercado.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Consultoria Educacional</h3>
+                <p>Orientação personalizada para planejamento de carreira, desenvolvimento de competências e estratégias de aprendizagem eficazes.</p>
             </div>
         </div>
+    </section>
 
-        <div id="pesquisa" class="content-section">
-            <h2>Projetos de Pesquisa</h2>
-            <div class="research-item">
-                <h3>TRAJETÓRIAS SEM FRONTEIRAS: Memória e trauma de refugiados do mundo contemporâneo</h3>
-                <p><strong>Período:</strong> 2025 - 2026 | <strong>Financiamento:</strong> FAPESP (Bolsa TT-4)</p>
-                <p align="justify">O presente projeto de pesquisa pretende investigar os deslocamentos forçados contemporâneos e um de seus principais efeitos, o "refúgio", a partir do debate conceitual interdisciplinar sobre memória, testemunho e trajetórias de vida. Trata-se de uma proposta colaborativa realizada em parceria entre a Cátedra Sérgio Vieira de Mello/ UNICAMP/ ACNUR e o Institut Convergences Migrations/ Paris (ICM) e que abordará narrativas - notadamente testemunhos em primeira pessoa - com o objetivo de captar, produzir, discutir e disponibilizar dimensões de vivências traumáticas que pairam em grande parte invisibilizadas e inacessíveis a um público mais amplo. Nessa perspectiva, o estudo visa contribuir com o transbordamento das fronteiras de diferentes campos de conhecimento na produção de perspectivas teóricas que instrumentalizem reflexões sobre os agenciamentos das pessoas que vivenciam os deslocamentos forçados. Proposto por uma equipe de pesquisadores do Brasil e da França, atuantes em áreas complementares ligadas ao tema do refúgio, a pesquisa compreende a publicação de artigos, livro, a promoção de eventos acadêmicos nacionais e internacionais, um curso de formação voltado à estudantes, funcionários de ONGs e do poder público e privado desenvolvido pelo INALCO PARIS que será ser realizado na Universidade Estadual de Campinas (UNICAMP), a criação e disponibilização de um Repositório de Dados sobre refúgio além da captação de entrevistas com refugiados radicados no Brasil e na França, conferindo o protagonismo da fala a esse espectro populacional em grande parte invisibilizado. Sendo assim, Trajetórias Sem Fronteiras possibilitará um qualificado debate pautado nas linhas de pesquisa, teóricas e de campo, empreendidas pelos pesquisadores envolvidos e com o fecundo engajamento de ambas instituições, UNICAMP e Institut Convergences Migrations (ICM), nos estudos migratórios.</p>
-            </div>
-            <div class="research-item">
-                <h3>Percepções Sobre Uso da Inteligência Artificial Generativa de Textos na Escrita Acadêmica: Uma análise sobre diretrizes e autoria no contexto da pós-graduação em Ensino de Ciências e Matemática da UNICAMP.</h3>
-                <p><strong>Período:</strong> 2023 - 2025 | <strong>Financiamento:</strong> CAPES</p>
-                <p align="justify"></p>
-            </div>
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <h2 class="section-title fade-in">Entre em Contato</h2>
+        <div class="contact-form fade-in">
+            <form>
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Assunto</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensagem</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="cta-button">Enviar Mensagem</button>
+            </form>
         </div>
+    </section>
 
-        <div id="exp-prof" class="content-section">
-            <h2>Experiências Profissionais</h2>
-            <div class="education-item">
-                <h3>AI Expert</h3>
-                <p><strong>Flaterz - Manchester, UK</strong> | Fev. 2025 - Presente</p>
-                <p>Implementação de soluções de IA, usando técnicas de WebScrping</p>
-            </div>
-            <div class="education-item">
-                <h3>Professor</h3>
-                <p><strong>SENAC - Sorocaba, SP</strong> | Jan. 2020 - Dez. 2022</p>
-                <p>Aulas de Física para o Ensino Médio</p>
-            </div>
-            <div class="education-item">
-                <h3>Professor</h3>
-                <p><strong>Escola Estadual Luiz Gonzaga de Camargo Fleury - Sorocaba, SP</strong> | Out. 2019 - Nov. 2019</p>
-                <p>Aulas de Física para o Ensino Médio</p>
-            </div>
-            <div class="education-item">
-                <h3>Monitoria</h3>
-                <p><strong>Colégio Ápice - Campinas, SP</strong> | Ago. 2017 - Dez. 2017</p>
-                <p>Física, Química e Matemática para o Ensino Médio</p>
-            </div>
-            <div class="education-item">
-                <h3>Professor</h3>
-                <p><strong>Cescon - Campinas, SP</strong> | Ago. 2016 - Dez. 2016</p>
-                <p>Física e Matemática para o Ensino Fundamnetal II</p>
-            </div>
-            <div class="education-item">
-                <h3>Professor</h3>
-                <p><strong>PROCEU Conhecimento - Campinas, SP</strong> | Ago. 2016 - Dez. 2016</p>
-                <p>Física e Matemática para o Cursinho</p>
-            </div>
-            <div class="education-item">
-                <h3>Currículo completo</h3>
-                <a href="CV_teacher_pt_br.pdf" download target="_blank">Clique aqui para baixar o PDF do currículo</a>
-            </div>
-        </div>
-
-        <div id="proj-pessoais" class="content-section">
-            <h2>Projetos Pessoais</h2>
-            <div class="education-item">
-                <h3><a href="transcription-medicine.html" target="_blank" >Transcrição Médica com IA</a></h3>
-                <details>
-                <p><strong>Produzido via Claude.ai e usa-se a API do Gemini</strong> | 2025</p>
-                <p>A IA foi treinada para reconhecer terminologia específica da neuropsicopedagogia e gerar relatórios seguindo os padrões profissionais da área, incluindo todas as seções necessárias para uma avaliação completa!</p>
-                </details>
-            </div>
-            <div class="education-item">
-                <h3><a href="https://adapt-test-gemini-maker.lovable.app/" target="_blank">AdaptaLearn</a></h3>
-                <details>
-                <p><strong>Produzido via Lovable.dev e usa-se a API do Gemini</strong> | 2025</p>
-                <p>Interface estruturada para seleção de transtornos baseada no DSM-5, incluindo transtornos específicos de aprendizagem (Dislexia, Disortografia, Discalculia) e transtornos do neurodesenvolvimento (Deficiência Intelectual, TDAH, TEA, Transtornos Motores, Transtornos da Comunicação) com níveis de severidade apropriados, permitindo geração de provas mais precisamente adaptadas às necessidades educacionais especiais.</p>
-                </details>
-            </div>
-            <div class="education-item">
-                <h3><a href="https://discalcul-ia.lovable.app/" target="_blank">DISCALCULia</a></h3>
-                <details>
-                <p><strong>Produzido via Lovable.dev e usa-se a API do Gemini</strong> | 2025</p>
-                <p>Foco em suporte ao professor para atividades diversas para alunos com Discalculia.</p>
-                </details>
-            </div>
-        </div>
-
-        <div id="publicacoes" class="content-section">
-            <h2>Publicações</h2>
-            <div class="publication-item">
-                <h3>Percepções de Indivíduos da Pós-graduação da Unicamp Sobre o Uso da Inteligência Artificial nas Práticas de Escrita Acadêmica</h3>
-                <p class="authors">TORRES, Rai G.; LINHALIS, Flavia</p>
-                <p class="journal">IV Congresso Brasileiro On-line de Ensino, Pesquisa e Extensão - ENSIPEX, 2025</p>
-                <p align="justify">Pesquisas do estado da arte revelam que preocupações sobre Inteligência Artificial (IA) em geral abordam aspectos relativos a sistemas de tutores inteligentes, de avaliação e do gerenciamento do aprendizado. No entanto, como resultado do surgimento de chatbots que geram textos via prompt, esse cenário pode se modificar dada a ausência de consenso sobre seus usos de ordem ética, especialmente nas práticas na escrita acadêmica. Por isso, pretende- se responder com esta pesquisa à seguinte questão: quais são as percepções de sujeitos acadêmicos sobre as práticas na escrita de teses e dissertações diante da inteligência artificial generativa de textos? Porque, embora existam diretrizes para integridade de autores em revistas científicas que, em geral, abordam a ética e os modos de uso íntegro da inteligência artificial na escrita científica, o surgimento de tecnologias de inteligência artificial que geram textos tem instigado novas reflexões carregadas de incertezas entre os indivíduos no contexto acadêmico. Portanto, objetiva-se com este estudo descrever as percepções de alunos de mestrado e doutorado, orientadores e coordenadores de programas de pós-graduação stricto sensu da Universidade Estadual de Campinas (Unicamp) sobre as práticas da escrita acadêmica diante da inteligência artificial generativa de textos. Coletaram-se dados de 68 sujeitos das quatro grandes áreas de pós-graduação via questionário semiaberto, composto por questões de perfil acadêmico, por questões fechadas em escala Likert sobre as temáticas encontradas na literatura e por questões abertas para justificar as questões fechadas. Obtiveram-se 11 correlações entre as questões em escala Likert a partir do teste de Spearman e analisaram-se dez das possíveis comparações entre grupos independentes. Conclui-se que atingir um consenso será um desafio e que será necessário reavaliar o letramento tecnológico dentro desse contexto.
-</p>
-                <a href="https://ime.events/iv-ensipex/pdf/48037">DOI: 10.51189/iv-ensipex/48037</a>
-            </div>
-            <div class="publication-item">
-                <h3>Perceptions of Faculty Members and Graduate Students on Guidelines in the Face of Use of Text Generative Artificial Intelligence</h3>
-                <p class="authors">TORRES, Rai G.; LINHALIS, Flavia</p>
-                <p class="journal">CONFERÊNCIA LATINO-AMERICANA DE ÉTICA EM INTELIGÊNCIA ARTIFICIAL, 2024</p>
-                <p align="justify">Major scientific institutions worldwide have integrated ethics into their policies to promote sound scientific writing practices and to guide authors in the AI era. This article summarizes initial discussions on academic writing and presents a comparison of perspectives on the development of guidelines for scholars across four distinct academic disciplines in higher education. Additionally, we underscore the importance of understanding the perceptions of these academic participants, as this insight can support decision-making by academic leaders. Furthermore, this understanding is essential for reassessing technology literacy within the academic community, with the goal of preserving academic integrity.</p>
-                <a href="https://doi.org/10.5753/laai-ethics.2024.32450">DOI: laai-ethics.2024.32450</a>
-            </div>
-        </div>
-
-        <div id="habilidades" class="content-section">
-            <h2>Habilidades e Competências</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Linguagens de Programação</h3>
-                    <ul>
-                        <li>Python</li>
-                        <li>HTML</li>
-                        <li>CSS</li>
-                        <li>TypeScript</li>
-                        <li>MySQL</li>
-                        <li>Sqlite3</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Frameworks & Bibliotecas</h3>
-                    <ul>
-                        <li>Angular</li>
-                        <li>Pandas</li>
-                        <li>Streamlit</li>
-                        <li>Scikit-Learn</li>
-                        <li>SpaCy</li>
-                        <li>BeautifulSoup</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Áreas de Interesse de Pesquisa</h3>
-                    <ul>
-                        <li>Ensino</li>
-                        <li>Aprendizagem Significativa</li>
-                        <li>Aprendizagem Baseada em Projetos</li>
-                        <li>Ensino por Experimentação e Investigação</li>
-                        <li>Alfabetização Científica e Midiática</li>
-                        <li>Neurociência</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Ferramentas</h3>
-                    <ul>
-                        <li>Jupyter Notebook</li>
-                        <li>Git/GitHub</li>
-                        <li>LaTeX</li>
-                        <li>Excel</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div id="artigos" class="content-section">
-            <h2>Artigos</h2>
-            
-            <!-- Navegação dos Artigos -->
-            <div class="articles-nav" id="articles-nav">
-                <h3>Selecione um Artigo</h3>
-                <div class="articles-list">
-                    <div class="article-card" onclick="window.location.href='artigo1.html'">
-                        <h4>Um pouco do que li sobre "Neurociência Aplicada à Aprendizagem"</h4>
-                        <p>de Telma Pantano e Jaime Luiz Zorzi</p>
-                    </div>
-                    <div class="article-card" onclick="window.location.href='artigo2.html'">
-                        <h4>texto</h4>
-                        <p>texto</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-         <div id="contato" class="content-section">
-            <div class="contact-grid">
-                <div class="article-card" onclick="window.open('mailto:raigarciatorres@outlook.com', '_blank')">
-                    <h3>E-mail</h3>
-                </div>
-                <div class="article-card" onclick="window.open('https://wa.me/5515997693102', '_blank')">
-                    <h3>WhatsApp</h3>
-                </div>
-                <div class="article-card" onclick="window.open('https://orcid.org/0000-0002-6860-0905', '_blank')">
-                    <h3>ORCID</h3>
-                </div>
-                <div class="article-card" onclick="window.open('https://scholar.google.com.br/citations?user=lA-smlwAAAAJ', '_blank')">
-                    <h3>Google Scholar</h3>
-                </div>
-                <div class="article-card" onclick="window.open('http://lattes.cnpq.br/1641463862771835', '_blank')">
-                    <h3>Lattes</h3>
-                </div>
-                <div class="article-card" onclick="window.open('https://maps.app.goo.gl/GS1V3Mdn1LkDLNE79', '_blank')">
-                    <h3>Escritório - Rua xyz</h3>
-                    <p>Sala xyz<br>Departamento de xyz</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 - Todos os direitos reservados.</p>
-        </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 EduPro - Transformando Futuros. Todos os direitos reservados.</p>
     </footer>
+
+    <script>
+        // Carousel functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+        const totalSlides = slides.length;
+        
+        function createDots() {
+            const dotsContainer = document.getElementById('dots');
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateCarousel() {
+            const carousel = document.getElementById('carousel');
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update dots
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function previousSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Auto-play carousel
+        setInterval(nextSlide, 5000);
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Form submission
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+        });
+
+        // Initialize carousel dots
+        createDots();
+    </script>
 </body>
 </html>
