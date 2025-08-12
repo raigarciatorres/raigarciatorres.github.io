@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdaptaLearn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
+ 
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-2xl">🎓</span>
+                    </div>
+                    <h1 class="text-2xl font-bold">AdaptaLearn</h1>
+                </div>
+                <p class="text-purple-100">Atividades Personalizadas</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-8">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Sidebar - Perfil do Estudante -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="mr-2">👤</span>
+                        Perfil do Estudante
+                    </h2>
+                    
+                    <!-- Informações Básicas -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nome do Estudante</label>
+                        <input type="text" id="studentName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Digite o nome">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Idade</label>
+                            <input type="number" id="studentAge" min="3" max="18" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="Anos">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Série</label>
+                            <select id="studentGrade" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                                <option value="">Selecione</option>
+                                <option value="infantil">Educação Infantil</option>
+                                <option value="1ano">1º Ano</option>
+                                <option value="2ano">2º Ano</option>
+                                <option value="3ano">3º Ano</option>
+                                <option value="4ano">4º Ano</option>
+                                <option value="5ano">5º Ano</option>
+                                <option value="6ano">6º Ano</option>
+                                <option value="7ano">7º Ano</option>
+                                <option value="8ano">8º Ano</option>
+                                <option value="9ano">9º Ano</option>
+                                <option value="ensino_medio">Ensino Médio</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Tabs para diferentes aspectos -->
+                    <div class="mb-4">
+                        <div class="flex space-x-1 bg-gray-100 rounded-lg p-1">
+                            <button onclick="switchTab('cognitive')" id="tab-cognitive" class="tab-active flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all">Cognitivo</button>
+                            <button onclick="switchTab('motor')" id="tab-motor" class="flex-1 py-2 px-3 rounded-md text-sm font-medium text-gray-600 hover:text-gray-800 transition-all">Motor</button>
+                            <button onclick="switchTab('social')" id="tab-social" class="flex-1 py-2 px-3 rounded-md text-sm font-medium text-gray-600 hover:text-gray-800 transition-all">Social</button>
+                        </div>
+                    </div>
+
+                    <!-- Aspectos Cognitivos -->
+                    <div id="cognitive-tab" class="tab-content">
+                        <h3 class="font-semibold text-gray-800 mb-3">🧠 Aspectos Cognitivos</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Dificuldades Específicas</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center"><input type="checkbox" class="cognitive-difficulty mr-2" value="dislexia"> Dislexia</label>
+                                    <label class="flex items-center"><input type="checkbox" class="cognitive-difficulty mr-2" value="discalculia"> Discalculia</label>
+                                    <label class="flex items-center"><input type="checkbox" class="cognitive-difficulty mr-2" value="disgrafia"> Disgrafia</label>
+                                    <label class="flex items-center"><input type="checkbox" class="cognitive-difficulty mr-2" value="tdah"> TDAH</label>
+                                    <label class="flex items-center"><input type="checkbox" class="cognitive-difficulty mr-2" value="autismo"> TEA (Autismo)</label>
+                                    <label class="flex items-center"><input type="checkbox" class="cognitive-difficulty mr-2" value="deficiencia_intelectual"> Deficiência Intelectual</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Nível de Atenção</label>
+                                <select id="attentionLevel" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="baixo">Baixo</option>
+                                    <option value="medio">Médio</option>
+                                    <option value="alto">Alto</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Estilo de Aprendizagem</label>
+                                <select id="learningStyle" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="visual">Visual</option>
+                                    <option value="auditivo">Auditivo</option>
+                                    <option value="kinestesico">Cinestésico</option>
+                                    <option value="multimodal">Multimodal</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aspectos Motores -->
+                    <div id="motor-tab" class="tab-content hidden">
+                        <h3 class="font-semibold text-gray-800 mb-3">🤲 Aspectos Motores</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Coordenação Motora Fina</label>
+                                <select id="fineMotor" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="dificuldade">Com dificuldade</option>
+                                    <option value="desenvolvimento">Em desenvolvimento</option>
+                                    <option value="adequada">Adequada</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Coordenação Motora Grossa</label>
+                                <select id="grossMotor" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="dificuldade">Com dificuldade</option>
+                                    <option value="desenvolvimento">Em desenvolvimento</option>
+                                    <option value="adequada">Adequada</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Mobilidade</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center"><input type="checkbox" class="mobility mr-2" value="cadeirante"> Usuário de cadeira de rodas</label>
+                                    <label class="flex items-center"><input type="checkbox" class="mobility mr-2" value="andador"> Usuário de andador</label>
+                                    <label class="flex items-center"><input type="checkbox" class="mobility mr-2" value="limitacoes"> Outras limitações motoras</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aspectos Sociais -->
+                    <div id="social-tab" class="tab-content hidden">
+                        <h3 class="font-semibold text-gray-800 mb-3">👥 Aspectos Sociais e Emocionais</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Interação Social</label>
+                                <select id="socialInteraction" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="dificuldade">Dificuldade significativa</option>
+                                    <option value="timido">Tímido/Reservado</option>
+                                    <option value="adequado">Adequado</option>
+                                    <option value="extrovertido">Muito sociável</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Trabalho em Grupo</label>
+                                <select id="groupWork" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="evita">Evita</option>
+                                    <option value="hesita">Hesita</option>
+                                    <option value="participa">Participa bem</option>
+                                    <option value="lidera">Gosta de liderar</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Regulação Emocional</label>
+                                <select id="emotionalRegulation" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="dificuldade">Dificuldade</option>
+                                    <option value="desenvolvimento">Em desenvolvimento</option>
+                                    <option value="adequada">Adequada</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Motivação para Aprender</label>
+                                <select id="motivation" class="w-full p-2 border border-gray-300 rounded">
+                                    <option value="baixa">Baixa</option>
+                                    <option value="media">Média</option>
+                                    <option value="alta">Alta</option>
+                                    <option value="variavel">Variável</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informações Adicionais -->
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Interesses e Preferências</label>
+                        <textarea id="interests" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" rows="3" placeholder="Ex: gosta de animais, jogos, música, esportes..."></textarea>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Observações Especiais</label>
+                        <textarea id="observations" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" rows="3" placeholder="Outras informações relevantes..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:col-span-2">
+                <!-- Configuração da API -->
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="mr-2">🔑</span>
+                        Configuração da API
+                    </h2>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Chave da API do Gemini</label>
+                        <input type="password" id="apiKey" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="Digite sua chave da API do Google Gemini">
+                        <div class="text-xs text-gray-500 mt-2 space-y-1">
+                            <p>📝 <strong>Como obter:</strong> Acesse <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-purple-600 hover:underline font-medium">Google AI Studio</a></p>
+                            <p>🔒 Sua chave não será armazenada e é usada apenas para esta sessão</p>
+                            <p>⚡ Use uma chave válida do Gemini 1.5 Flash (gratuita)</p>
+                        </div>
+                        <button onclick="testApiKey()" class="mt-2 text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded transition-colors">
+                            🧪 Testar Chave da API
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Gerador de Atividades -->
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="mr-2">🎯</span>
+                        Gerador de Atividades
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Matéria/Disciplina</label>
+                            <select id="subject" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                                <option value="">Selecione a matéria</option>
+                                <option value="matematica">Matemática</option>
+                                <option value="portugues">Português</option>
+                                <option value="ciencias">Ciências</option>
+                                <option value="historia">História</option>
+                                <option value="geografia">Geografia</option>
+                                <option value="artes">Artes</option>
+                                <option value="educacao_fisica">Educação Física</option>
+                                <option value="ingles">Inglês</option>
+                                <option value="habilidades_sociais">Habilidades Sociais</option>
+                                <option value="vida_diaria">Atividades de Vida Diária</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Atividade</label>
+                            <select id="activityType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                                <option value="">Selecione o tipo</option>
+                                <option value="exercicio">Exercício Prático</option>
+                                <option value="jogo">Jogo Educativo</option>
+                                <option value="projeto">Projeto</option>
+                                <option value="experimento">Experimento</option>
+                                <option value="historia">História/Narrativa</option>
+                                <option value="arte">Atividade Artística</option>
+                                <option value="movimento">Atividade com Movimento</option>
+                                <option value="colaborativa">Atividade Colaborativa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Objetivo Específico (Opcional)</label>
+                        <textarea id="objective" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" rows="2" placeholder="Ex: Trabalhar reconhecimento de números, desenvolver coordenação motora fina..."></textarea>
+                    </div>
+
+                    <button onclick="generateActivity()" id="generateBtn" class="w-full bg-gradient-to-r from-blue-600 to-green-400 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                        <span id="generateBtnText">🚀 Gerar Atividade Adaptada</span>
+                    </button>
+                </div>
+
+                <!-- Resultado -->
+                <div id="resultSection" class="bg-white rounded-xl shadow-lg p-6 hidden fade-in">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="mr-2">📝</span>
+                        Atividade Gerada
+                    </h2>
+                    <div id="activityResult" class="prose max-w-none">
+                        <!-- Conteúdo será inserido aqui -->
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-3 mt-6 pt-4 border-t">
+                        <button onclick="saveActivity()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                            💾 Salvar Atividade
+                        </button>
+                        <button onclick="printActivity()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            🖨️ Imprimir
+                        </button>
+                        <button onclick="generateVariation()" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                            🔄 Gerar Variação
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Atividades Salvas -->
+                <div id="savedActivities" class="bg-white rounded-xl shadow-lg p-6 mt-6 hidden">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="mr-2">📚</span>
+                        Atividades Salvas
+                    </h2>
+                    <div id="savedList" class="space-y-3">
+                        <!-- Atividades salvas aparecerão aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src=”js/script.js”></script>
+
+    </body>
+</html>
