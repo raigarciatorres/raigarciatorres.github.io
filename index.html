@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduPro - Transformando Futuros</title>
+    <title>ExponencialMente - Apoio em Transtornos de Aprendizagem</title>
     <style>
+        /* Variáveis CSS */
         * {
             margin: 0;
             padding: 0;
@@ -12,11 +13,11 @@
         }
 
         :root {
-            --primary-color: #124E73;
-            --secondary-color: #F2509C;
-            --accent-color: #30CFF2;
-            --accent-2: #D3D930;
-            --accent-3: #F2811D;
+            --primary-color: #124E73; /* Azul escuro */
+            --secondary-color: #F2509C; /* Rosa vibrante */
+            --accent-color: #30CFF2; /* Azul claro */
+            --accent-2: #D3D930; /* Amarelo esverdeado */
+            --accent-3: #F2811D; /* Laranja */
             --light-gray: #ecf0f1;
             --medium-gray: #bdc3c7;
             --dark-gray: #7f8c8d;
@@ -59,6 +60,8 @@
             color: var(--accent-color);
             text-decoration: none;
             transition: transform 0.3s ease;
+            padding: 0;
+            margin: 0;
         }
 
         .logo:hover {
@@ -217,6 +220,9 @@
             font-size: 1.2rem;
             color: var(--dark-gray);
             position: relative;
+            padding: 2rem; /* Adicionado padding para o conteúdo */
+            text-align: center; /* Centraliza o texto */
+            flex-direction: column; /* Organiza conteúdo em coluna */
         }
 
         .carousel-item::before {
@@ -497,17 +503,33 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        img {
+            width: 10%;
+            padding: 0;
+            margin: 0;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#home" class="logo">ExponencialMente</a>
+            <div class="logo-container">
+                <!-- Por favor, certifique-se de que a imagem 'exponencialmente-logo.png' está no mesmo diretório ou atualize o caminho. -->
+                <img src="exponencialmente-logo.png" alt="Logo" class="logo-img">
+                <a href="#home" class="logo">ExponencialMente</a>
+            </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Início</a></li>
                 <li><a href="#about" class="nav-link">Sobre</a></li>
-                <li><a href="#gallery" class="nav-link">Galeria</a></li>
+                <li><a href="#transtornos" class="nav-link">Transtornos</a></li>
+                <li><a href="#metodos" class="nav-link">Métodos</a></li>
                 <li><a href="#services" class="nav-link">Serviços</a></li>
                 <li><a href="#contact" class="nav-link">Contatos</a></li>
             </ul>
@@ -517,9 +539,9 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>Transformando Futuros</h1>
-            <p>Educação de qualidade que prepara você para os desafios do amanhã. Metodologias inovadoras e professores qualificados.</p>
-            <a href="#services" class="cta-button">Conheça Nossos Cursos</a>
+            <h1>Desbloqueando o Potencial: Apoio em Transtornos de Aprendizagem</h1>
+            <p>Nossa missão é oferecer suporte especializado para crianças, adolescentes e adultos com dislexia, TDAH, discalculia e outros transtornos.</p>
+            <a href="#services" class="cta-button">Conheça Nossos Serviços</a>
         </div>
     </section>
 
@@ -529,38 +551,146 @@
         <div class="cards-grid">
             <div class="card fade-in">
                 <h3>Missão</h3>
-                <p>Democratizar o acesso à educação de qualidade, oferecendo cursos inovadores que preparam nossos alunos para os desafios do mercado atual e futuro.</p>
+                <p>Promover a inclusão e o desenvolvimento integral de indivíduos com transtornos de aprendizagem, oferecendo intervenções personalizadas e baseadas em evidências para que alcancem seu máximo potencial.</p>
             </div>
             <div class="card fade-in">
                 <h3>Visão</h3>
-                <p>Ser referência em educação transformadora, criando um ambiente de aprendizado dinâmico e inclusivo que inspira o crescimento pessoal e profissional.</p>
+                <p>Ser a principal referência em apoio a transtornos de aprendizagem, reconhecida pela excelência em nossos métodos, pela inovação e pelo impacto positivo na vida de nossos atendidos e suas famílias.</p>
             </div>
             <div class="card fade-in">
                 <h3>Valores</h3>
-                <p>Excelência acadêmica, inovação pedagógica, inclusão social, ética profissional e compromisso com o desenvolvimento sustentável da sociedade.</p>
+                <p>Empatia, Respeito, Inovação, Colaboração, Excelência e Compromisso com a autonomia e o bem-estar de cada indivíduo.</p>
             </div>
         </div>
     </section>
 
-    <!-- Gallery Section with Carousel -->
+    <!-- Tipos de Transtornos de Aprendizagem Section -->
+    <section id="transtornos" class="section">
+        <h2 class="section-title fade-in">Tipos Comuns de Transtornos de Aprendizagem</h2>
+        <div class="cards-grid">
+            <div class="card fade-in">
+                <h3>Dislexia</h3>
+                <p>Transtorno específico de aprendizagem com dificuldades na leitura, escrita e soletração, apesar de inteligência normal e escolaridade adequada. Intervenções fonológicas e multissensoriais são cruciais.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Discalculia</h3>
+                <p>Dificuldade persistente na compreensão e manipulação de conceitos numéricos e habilidades matemáticas básicas. Afeta a percepção de quantidades, cálculos e resolução de problemas matemáticos.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>TDAH (Transtorno de Déficit de Atenção e Hiperatividade)</h3>
+                <p>Caracterizado por padrões persistentes de desatenção, hiperatividade e/ou impulsividade. Afeta a organização, planejamento e regulação emocional, impactando o desempenho acadêmico e social.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Disgrafia</h3>
+                <p>Dificuldade na escrita que se manifesta por caligrafia ilegível, erros ortográficos frequentes, espaçamento irregular e organização deficiente do texto. Não está ligada à inteligência.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Transtorno do Processamento Auditivo Central (TPAC)</h3>
+                <p>Dificuldade na forma como o cérebro processa o som. Pode afetar a compreensão da fala, distinção de sons, atenção auditiva e memória auditiva, impactando a aprendizagem e comunicação.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Transtorno do Espectro Autista (TEA) com Comorbidades na Aprendizagem</h3>
+                <p>Embora não seja primariamente um transtorno de aprendizagem, muitos indivíduos com TEA apresentam desafios significativos na aprendizagem que requerem abordagens pedagógicas e terapêuticas adaptadas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nossos Métodos e Abordagens Section -->
+    <section id="metodos" class="section">
+        <h2 class="section-title fade-in">Nossos Métodos e Abordagens</h2>
+        <div class="cards-grid">
+            <div class="card fade-in">
+                <h3>Avaliação Multidisciplinar</h3>
+                <p>Diagnóstico preciso através de uma equipe de especialistas (psicopedagogos, fonoaudiólogos, psicólogos) para identificar as necessidades individuais e elaborar planos de intervenção personalizados.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Intervenção Personalizada</h3>
+                <p>Sessões de terapia e reforço escolar individualizadas, focadas nas dificuldades específicas de cada aluno, utilizando metodologias adaptadas e recursos didáticos inovadores.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Abordagem Multissensorial</h3>
+                <p>Utilizamos técnicas que estimulam múltiplos sentidos (visão, audição, tato) para facilitar a absorção e o processamento de informações, promovendo uma aprendizagem mais eficaz e duradoura.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Treinamento de Habilidades Cognitivas</h3>
+                <p>Programas específicos para o desenvolvimento de funções executivas como atenção, memória de trabalho, organização e planejamento, essenciais para o sucesso acadêmico e pessoal.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Apoio Psicoemocional</h3>
+                <p>Oferecemos suporte psicológico para lidar com a frustração, baixa autoestima e ansiedade que podem acompanhar os transtornos de aprendizagem, promovendo o bem-estar e a resiliência.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Orientação Familiar e Escolar</h3>
+                <p>Trabalhamos em parceria com pais e educadores, fornecendo estratégias, recursos e acompanhamento contínuo para criar um ambiente de apoio e compreensão em casa e na escola.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section (Updated to reflect learning disorders focus) -->
+    <section id="services" class="section">
+        <h2 class="section-title fade-in">Nossos Serviços Especializados</h2>
+        <div class="cards-grid">
+            <div class="card fade-in">
+                <h3>Psicopedagogia Clínica</h3>
+                <p>Atendimento individualizado para dificuldades de aprendizagem, desenvolvendo estratégias personalizadas e estimulando o raciocínio lógico, leitura e escrita.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Fonoaudiologia Educacional</h3>
+                <p>Intervenção para dificuldades de linguagem, fala, leitura e escrita, essenciais para o desenvolvimento comunicativo e acadêmico.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Apoio Psicológico</h3>
+                <p>Suporte emocional para crianças e adolescentes, ajudando a lidar com a ansiedade, frustração e a desenvolver a autoestima diante dos desafios de aprendizagem.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Workshops para Pais e Educadores</h3>
+                <p>Treinamentos e palestras para pais e professores, oferecendo ferramentas e estratégias eficazes para apoiar o desenvolvimento de alunos com transtornos de aprendizagem.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Consultoria Escolar</h3>
+                <p>Parceria com escolas para implementar práticas inclusivas, adaptar currículos e oferecer suporte pedagógico especializado aos educadores.</p>
+            </div>
+            <div class="card fade-in">
+                <h3>Reabilitação Cognitiva</h3>
+                <p>Programas de exercícios e atividades para estimular funções cognitivas como atenção, memória, percepção e funções executivas, fundamentais para a aprendizagem.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section with Carousel (Updated items) -->
     <section id="gallery" class="section">
-        <h2 class="section-title fade-in">Nossa Galeria</h2>
+        <h2 class="section-title fade-in">Nossa Galeria e Recursos</h2>
         <div class="carousel-container fade-in">
             <div class="carousel" id="carousel">
                 <div class="carousel-item">
-                    <div>📚 Biblioteca Moderna - Espaço de estudos com mais de 50.000 volumes</div>
+                    <div>
+                        <span style="font-size: 3em;">💡</span>
+                        <p>Salas de Atendimento Personalizado - Espaços acolhedores para terapias individuais.</p>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <div>💻 Laboratórios de Informática - Equipamentos de última geração</div>
+                    <div>
+                        <span style="font-size: 3em;">🧠</span>
+                        <p>Recursos Pedagógicos Inovadores - Ferramentas e jogos para estimular a aprendizagem.</p>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <div>🎯 Salas Interativas - Tecnologia aplicada ao ensino</div>
+                    <div>
+                        <span style="font-size: 3em;">👨‍👩‍👧‍👦</span>
+                        <p>Sessões de Orientação Familiar - Apoio e informação para pais e cuidadores.</p>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <div>🏢 Campus Principal - Infraestrutura completa para aprendizado</div>
+                    <div>
+                        <span style="font-size: 3em;">✍️</span>
+                        <p>Atividades Lúdicas e Multissensoriais - Aprendizagem através da experiência e da diversão.</p>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <div>👥 Área de Convivência - Espaços para networking e colaboração</div>
+                    <div>
+                        <span style="font-size: 3em;">🌟</span>
+                        <p>Ambiente Inclusivo e Estimulante - Onde cada progresso é celebrado.</p>
+                    </div>
                 </div>
             </div>
             <button class="carousel-nav carousel-prev" onclick="previousSlide()">‹</button>
@@ -569,63 +699,40 @@
         <div class="carousel-dots" id="dots"></div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="section">
-        <h2 class="section-title fade-in">Nossos Serviços</h2>
-        <div class="cards-grid">
-            <div class="card fade-in">
-                <h3>Cursos Técnicos</h3>
-                <p>Formação técnica especializada em diversas áreas, com foco na prática e inserção no mercado de trabalho. Parcerias com empresas líderes do mercado.</p>
-            </div>
-            <div class="card fade-in">
-                <h3>Cursos Superiores</h3>
-                <p>Graduação e pós-graduação com metodologias inovadoras, corpo docente qualificado e infraestrutura moderna para uma formação completa.</p>
-            </div>
-            <div class="card fade-in">
-                <h3>Educação Continuada</h3>
-                <p>Workshops, seminários e cursos de extensão para atualização profissional constante. Mantenha-se sempre atualizado com as tendências do mercado.</p>
-            </div>
-            <div class="card fade-in">
-                <h3>Consultoria Educacional</h3>
-                <p>Orientação personalizada para planejamento de carreira, desenvolvimento de competências e estratégias de aprendizagem eficazes.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Contact Section -->
     <section id="contact" class="section">
-        <h2 class="section-title fade-in">Nossos Contatos</h2>
+        <h2 class="section-title fade-in">Fale Conosco</h2>
         <div class="contact-links fade-in">
             <div class="contact-item">
                 <div class="contact-icon">📱</div>
                 <h3>WhatsApp</h3>
-                <p>Converse conosco diretamente pelo WhatsApp. Resposta rápida e atendimento personalizado.</p>
-                <a href="https://wa.me/5515999999999?text=Olá! Gostaria de saber mais sobre os cursos da ExponencialMente." class="contact-link" target="_blank">Abrir WhatsApp</a>
+                <p>Converse conosco diretamente para agendar uma avaliação ou tirar suas dúvidas.</p>
+                <a href="https://wa.me/5515997693102?text=Olá! Gostaria de saber mais sobre o apoio em transtornos de aprendizagem da ExponencialMente." class="contact-link" target="_blank">Abrir WhatsApp</a>
             </div>
             <div class="contact-item">
                 <div class="contact-icon">💼</div>
                 <h3>LinkedIn</h3>
-                <p>Conecte-se conosco no LinkedIn e acompanhe novidades, dicas e conteúdos educacionais.</p>
+                <p>Conecte-se conosco no LinkedIn para acompanhar nossos artigos e novidades.</p>
                 <a href="https://linkedin.com/company/exponencialmente" class="contact-link" target="_blank">Seguir no LinkedIn</a>
             </div>
             <div class="contact-item">
                 <div class="contact-icon">✉️</div>
                 <h3>E-mail</h3>
-                <p>Envie suas dúvidas, sugestões ou solicite informações detalhadas sobre nossos cursos.</p>
-                <a href="mailto:contato@exponencialmente.com.br?subject=Interesse nos cursos&body=Olá! Gostaria de mais informações sobre:" class="contact-link">Enviar E-mail</a>
+                <p>Envie suas dúvidas, sugestões ou solicite informações detalhadas sobre nossos serviços.</p>
+                <a href="mailto:mail-here?subject=Interesse em apoio para transtornos de aprendizagem&body=Olá! Gostaria de mais informações sobre:" class="contact-link">Enviar E-mail</a>
             </div>
             <div class="contact-item">
                 <div class="contact-icon">🌐</div>
                 <h3>Instagram</h3>
-                <p>Siga nosso Instagram para conteúdos visuais, stories educativos e bastidores da nossa comunidade.</p>
-                <a href="https://instagram.com/exponencialmente.edu" class="contact-link" target="_blank">Seguir Instagram</a>
+                <p>Siga nosso Instagram para dicas diárias, conteúdos visuais e bastidores de nosso trabalho.</p>
+                <a href="" class="contact-link" target="_blank">Seguir Instagram</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 ExponencialMente - Transformando Futuros. Todos os direitos reservados.</p>
+        <p>&copy; 2025 ExponencialMente - Desbloqueando Potenciais. Todos os direitos reservados.</p>
     </footer>
 
     <script>
@@ -717,9 +824,6 @@
                 navbar.style.boxShadow = 'none';
             }
         });
-
-        // Form submission
-        // Removed form functionality as it was replaced with contact links
 
         // Initialize carousel dots
         createDots();
