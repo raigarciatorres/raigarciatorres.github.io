@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda de Humor e Ansiedade</title>
+    <title>Agenda de Humor e Ansiedade - Sistema Robusto</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
     <style>
         * {
@@ -11,256 +11,318 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             min-height: 100vh;
             padding: 20px;
+            color: #333;
         }
-
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
+            background: white;
+            border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
         }
-
+        
+        /* Status de Salvamento */
+        .save-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .save-status.saving {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .save-status.saved {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .save-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .save-status.hidden {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
+        
         /* Tab Styles */
         .tabs {
             display: flex;
             margin-bottom: 30px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 4px;
+            border: 1px solid #e9ecef;
         }
-
         .tab {
             flex: 1;
-            padding: 15px 25px;
-            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            padding: 12px 20px;
+            background: transparent;
             border: none;
             cursor: pointer;
-            font-weight: bold;
-            color: #666;
-            transition: all 0.3s ease;
-            border-right: 1px solid rgba(255,255,255,0.2);
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            font-size: 14px;
         }
-
-        .tab:last-child {
-            border-right: none;
-        }
-
         .tab.active {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            transform: translateY(-2px);
+            background: white;
+            color: #212529;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
         .tab:hover:not(.active) {
-            background: linear-gradient(45deg, #e9ecef, #dee2e6);
+            background: rgba(255,255,255,0.5);
+            color: #495057;
         }
-
-        /* Tab Content */
         .tab-content {
             display: none;
         }
-
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.3s ease;
         }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .table-container {
-            overflow-x: auto;
-            margin-top: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
         h1 {
             text-align: center;
-            color: #333;
+            color: #212529;
             margin-bottom: 30px;
-            font-size: 2.5rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 2.2rem;
+            font-weight: 700;
         }
-
+        
+        /* Day Selector */
+        .day-selector {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #e9ecef;
+        }
+        .day-selector-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .day-buttons {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        .day-button {
+            padding: 12px 8px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-size: 13px;
+        }
+        .day-button.active {
+            border-color: #495057;
+            background: #495057;
+            color: white;
+        }
+        .day-button:hover:not(.active) {
+            border-color: #adb5bd;
+            background: #f8f9fa;
+        }
+        
+        /* Controls */
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
             gap: 15px;
         }
-
         .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
+            padding: 10px 20px;
+            border: 2px solid #495057;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
+            transition: all 0.2s ease;
+            background: white;
+            color: #495057;
+            font-size: 13px;
         }
-
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: #495057;
+            color: white;
         }
-
         .btn-secondary {
-            background: linear-gradient(45deg, #36d1dc, #5b86e5);
+            border-color: #6c757d;
+            color: #6c757d;
         }
-
+        .btn-secondary:hover {
+            background: #6c757d;
+            color: white;
+        }
         .btn-danger {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            border-color: #dc3545;
+            color: #dc3545;
         }
-
+        .btn-danger:hover {
+            background: #dc3545;
+            color: white;
+        }
+        
+        /* Current Day Display */
+        .current-day-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        .current-day-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 5px;
+        }
+        .current-day-date {
+            font-size: 1rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        /* Schedule Table */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            overflow: hidden;
+        }
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            table-layout: fixed;
         }
-
-        .schedule-table th,
-        .schedule-table td {
-            border: 1px solid #e0e0e0;
-            text-align: center;
-            vertical-align: top;
-        }
-
         .schedule-table th {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            font-weight: bold;
-            padding: 15px 5px;
-            font-size: 1rem;
-            width: calc(100% / 8);
+            background: #f8f9fa;
+            color: #495057;
+            font-weight: 700;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+            font-size: 14px;
         }
-
-        .schedule-table th:first-child {
-            width: 80px;
-        }
-
         .time-column {
-            background: linear-gradient(45deg, #36d1dc, #5b86e5);
-            color: white;
-            font-weight: bold;
-            padding: 12px 5px;
-            width: 80px;
-            font-size: 0.85rem;
-            min-width: 80px;
+            background: #f8f9fa;
+            color: #495057;
+            font-weight: 700;
+            padding: 15px;
+            text-align: center;
+            border-right: 1px solid #e9ecef;
+            font-size: 13px;
+            width: 100px;
         }
-
         .schedule-cell {
-            padding: 6px;
-            position: relative;
-            background: white;
-            transition: all 0.3s ease;
-            height: 110px;
-            min-height: 110px;
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+            min-height: 120px;
         }
-
         .schedule-cell:hover {
-            background: #f8f9ff;
+            background: #f8f9fa;
         }
-
         .cell-content {
             display: flex;
             flex-direction: column;
-            height: 95px;
-            gap: 4px;
+            height: 90px;
+            gap: 10px;
         }
-
         .text-input {
             flex: 1;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            padding: 4px;
-            font-size: 11px;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 8px;
+            font-size: 13px;
             resize: none;
-            transition: all 0.3s ease;
-            min-height: 60px;
+            transition: all 0.2s ease;
             font-family: inherit;
+            background: white;
         }
-
         .text-input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+            border-color: #495057;
+            box-shadow: 0 0 0 2px rgba(73, 80, 87, 0.1);
         }
-
         .anxiety-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
-            margin-top: auto;
+            gap: 8px;
         }
-
         .anxiety-range {
             width: 100%;
-            height: 4px;
-            border-radius: 2px;
+            height: 6px;
+            border-radius: 3px;
             outline: none;
-            background: linear-gradient(to right, #4CAF50, #FFC107, #FF5722);
+            background: #e9ecef;
             cursor: pointer;
             -webkit-appearance: none;
             appearance: none;
         }
-
         .anxiety-range::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 14px;
-            height: 14px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: white;
-            border: 2px solid #667eea;
+            background: #495057;
+            border: 2px solid white;
             cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
-
         .anxiety-range::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: white;
-            border: 2px solid #667eea;
+            background: #495057;
+            border: 2px solid white;
             cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
-
         .anxiety-value {
-            font-size: 10px;
-            font-weight: bold;
-            color: #333;
-            padding: 1px 4px;
-            border-radius: 8px;
-            background: rgba(102, 126, 234, 0.1);
-            min-width: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #495057;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            min-width: 30px;
+            text-align: center;
         }
-
+        
         /* Dashboard Styles */
         .dashboard-grid {
             display: grid;
@@ -268,142 +330,109 @@
             gap: 25px;
             margin-bottom: 30px;
         }
-
         .chart-card {
             background: white;
             padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
         }
-
         .chart-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-
         .chart-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #333;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #212529;
             margin-bottom: 20px;
             text-align: center;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-
         .chart-container {
             position: relative;
             height: 300px;
         }
-
         .stats-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-
         .summary-card {
-            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-            padding: 20px;
-            border-radius: 15px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
             text-align: center;
-            border-left: 4px solid #667eea;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
         }
-
+        .summary-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
         .summary-value {
             font-size: 2.5rem;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 8px;
         }
-
         .summary-label {
-            font-size: 0.9rem;
-            color: #666;
-            font-weight: 500;
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 600;
         }
-
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
-
         .stat-card {
-            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            background: white;
             padding: 20px;
-            border-radius: 15px;
-            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
         }
-
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
         .stat-title {
-            font-weight: bold;
-            color: #333;
+            font-weight: 600;
+            color: #495057;
             margin-bottom: 10px;
-            font-size: 1.1rem;
+            font-size: 14px;
         }
-
         .stat-value {
             font-size: 2rem;
-            font-weight: bold;
-            color: #667eea;
+            font-weight: 700;
+            color: #212529;
         }
-
+        
+        /* Anxiety Level Colors */
         .anxiety-level-0-30 {
-            background: linear-gradient(45deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.1));
+            border-left: 4px solid #28a745;
         }
-
         .anxiety-level-31-60 {
-            background: linear-gradient(45deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1));
+            border-left: 4px solid #ffc107;
         }
-
         .anxiety-level-61-100 {
-            background: linear-gradient(45deg, rgba(244, 67, 54, 0.1), rgba(233, 30, 99, 0.1));
+            border-left: 4px solid #dc3545;
         }
-
-        @media (max-width: 1400px) {
-            .schedule-table th,
-            .schedule-cell {
-                font-size: 0.9rem;
-            }
-            .text-input {
-                font-size: 10px;
-                padding: 3px;
-            }
-            .anxiety-value {
-                font-size: 9px;
-            }
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
+        
         @media (max-width: 768px) {
             body {
-                padding: 5px;
+                padding: 10px;
             }
             .container {
-                padding: 15px 5px;
-                border-radius: 10px;
+                padding: 20px 15px;
             }
             h1 {
                 font-size: 1.8rem;
-                margin-bottom: 20px;
             }
-            .tabs {
-                flex-direction: column;
+            .day-buttons {
+                grid-template-columns: repeat(2, 1fr);
             }
-            .tab {
-                border-right: none;
-                border-bottom: 1px solid rgba(255,255,255,0.2);
-            }
-            .tab:last-child {
-                border-bottom: none;
+            .day-button {
+                padding: 15px;
             }
             .controls {
                 flex-direction: column;
@@ -415,21 +444,23 @@
                 justify-content: center;
                 gap: 10px;
             }
-            .schedule-cell {
-                height: 85px;
-                padding: 3px;
+            .dashboard-grid {
+                grid-template-columns: 1fr;
             }
-            .cell-content {
-                height: 75px;
-            }
-            .text-input {
-                font-size: 8px;
-                min-height: 40px;
+        }
+        @media (max-width: 480px) {
+            .day-buttons {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Status de Salvamento -->
+    <div id="saveStatus" class="save-status hidden">
+        <span id="saveStatusText">Salvando...</span>
+    </div>
+
     <div class="container">
         <h1>📅 Agenda de Humor e Ansiedade</h1>
         
@@ -442,10 +473,30 @@
 
         <!-- Tab Content: Agenda -->
         <div id="agenda-content" class="tab-content active">
+            <!-- Day Selector -->
+            <div class="day-selector">
+                <div class="day-selector-title">Selecione o dia da semana</div>
+                <div class="day-buttons">
+                    <button class="day-button active" onclick="selectDay('segunda')" data-day="segunda">Segunda</button>
+                    <button class="day-button" onclick="selectDay('terca')" data-day="terca">Terça</button>
+                    <button class="day-button" onclick="selectDay('quarta')" data-day="quarta">Quarta</button>
+                    <button class="day-button" onclick="selectDay('quinta')" data-day="quinta">Quinta</button>
+                    <button class="day-button" onclick="selectDay('sexta')" data-day="sexta">Sexta</button>
+                    <button class="day-button" onclick="selectDay('sabado')" data-day="sabado">Sábado</button>
+                    <button class="day-button" onclick="selectDay('domingo')" data-day="domingo">Domingo</button>
+                </div>
+            </div>
+
+            <!-- Current Day Header -->
+            <div class="current-day-header">
+                <div class="current-day-title" id="currentDayTitle">Segunda-feira</div>
+                <div class="current-day-date" id="currentDayDate">Salvamento automático ativado - Seus dados são preservados em tempo real</div>
+            </div>
+
             <div class="controls">
                 <div>
-                    <button class="btn" onclick="saveData()">💾 Salvar</button>
-                    <button class="btn btn-secondary" onclick="loadData()">📁 Carregar</button>
+                    <button class="btn" onclick="manualSaveData()">💾 Salvar Manualmente</button>
+                    <button class="btn btn-secondary" onclick="loadData()">📋 Recarregar</button>
                     <button class="btn btn-secondary" onclick="exportData()">📤 Exportar</button>
                     <button class="btn btn-secondary" onclick="importData()">📥 Importar</button>
                 </div>
@@ -460,13 +511,7 @@
                     <thead>
                         <tr>
                             <th>Horário</th>
-                            <th>Segunda</th>
-                            <th>Terça</th>
-                            <th>Quarta</th>
-                            <th>Quinta</th>
-                            <th>Sexta</th>
-                            <th>Sábado</th>
-                            <th>Domingo</th>
+                            <th id="dayHeader">Segunda-feira</th>
                         </tr>
                     </thead>
                     <tbody id="scheduleBody">
@@ -504,21 +549,18 @@
                         <canvas id="weeklyChart"></canvas>
                     </div>
                 </div>
-
                 <div class="chart-card">
                     <h3 class="chart-title">⏰ Ansiedade por Horário</h3>
                     <div class="chart-container">
                         <canvas id="hourlyChart"></canvas>
                     </div>
                 </div>
-
                 <div class="chart-card">
                     <h3 class="chart-title">🎯 Distribuição de Níveis</h3>
                     <div class="chart-container">
                         <canvas id="distributionChart"></canvas>
                     </div>
                 </div>
-
                 <div class="chart-card">
                     <h3 class="chart-title">📈 Tendência Temporal</h3>
                     <div class="chart-container">
@@ -537,14 +579,26 @@
     </div>
 
     <script>
-        // Banco de dados local usando IndexedDB
+        // ========================================================================================
+        // SISTEMA ROBUSTO DE PERSISTÊNCIA DE DADOS - INDEXEDDB + LOCALSTORAGE HÍBRIDO
+        // ========================================================================================
+        
+        // Variáveis globais do sistema
         let db;
         let database = {};
         let charts = {};
-
+        let currentDay = 'segunda';
+        let autoSaveEnabled = true;
+        let saveTimeout;
+        
         // Configurações
         const daysOfWeek = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
-        const daysOfWeekDisplay = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+        const daysOfWeekDisplay = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'];
+        const DB_NAME = 'MoodSchedulerDB';
+        const DB_VERSION = 2;
+        const STORE_NAME = 'entries';
+        const LOCALSTORAGE_KEY = 'moodSchedulerData_v2';
+        const AUTO_SAVE_DELAY = 1000; // 1 segundo de delay para auto-save
         
         // Horários de 6h às 24h
         const timeSlots = [];
@@ -553,124 +607,742 @@
             timeSlots.push({ hour, display: timeStr });
         }
 
-        // =======================
-        // INDEXEDDB FUNCTIONS
-        // =======================
+        // ========================================================================================
+        // SISTEMA DE STATUS DE SALVAMENTO
+        // ========================================================================================
+        
+        function showSaveStatus(status, message) {
+            const statusEl = document.getElementById('saveStatus');
+            const textEl = document.getElementById('saveStatusText');
+            
+            statusEl.className = `save-status ${status}`;
+            textEl.textContent = message;
+            
+            if (status === 'saved' || status === 'error') {
+                setTimeout(() => {
+                    statusEl.classList.add('hidden');
+                }, 3000);
+            }
+        }
 
-        function initDatabase() {
+        // ========================================================================================
+        // INICIALIZAÇÃO DO INDEXEDDB
+        // ========================================================================================
+        
+        async function initializeIndexedDB() {
             return new Promise((resolve, reject) => {
-                const request = indexedDB.open('MoodSchedulerDB', 1);
+                console.log('🚀 Inicializando IndexedDB...');
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
                 
                 request.onerror = () => {
-                    console.error('Erro ao abrir IndexedDB');
+                    console.error('❌ Erro ao abrir IndexedDB:', request.error);
                     reject(request.error);
                 };
                 
                 request.onsuccess = (event) => {
                     db = event.target.result;
-                    console.log('✅ IndexedDB inicializado');
+                    console.log('✅ IndexedDB inicializado com sucesso');
+                    
+                    // Event listener para erro de banco
+                    db.onerror = (event) => {
+                        console.error('❌ Erro no IndexedDB:', event.target.error);
+                    };
+                    
                     resolve(db);
                 };
                 
                 request.onupgradeneeded = (event) => {
                     db = event.target.result;
-                    if (!db.objectStoreNames.contains('entries')) {
-                        const store = db.createObjectStore('entries', { keyPath: 'cellId' });
+                    console.log('🔄 Atualizando estrutura do IndexedDB...');
+                    
+                    // Criar object store se não existir
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        const store = db.createObjectStore(STORE_NAME, { keyPath: 'cellId' });
                         store.createIndex('timestamp', 'timestamp', { unique: false });
-                        console.log('📊 Tabela criada no IndexedDB');
+                        store.createIndex('day', 'day', { unique: false });
+                        store.createIndex('hour', 'hour', { unique: false });
+                        console.log('📊 Object Store criado com índices');
                     }
                 };
             });
         }
 
-        function saveToIndexedDB(cellId, text, anxiety) {
+        // ========================================================================================
+        // FUNÇÕES DE PERSISTÊNCIA - INDEXEDDB
+        // ========================================================================================
+        
+        async function saveToIndexedDB(cellId, text, anxiety) {
+            if (!db) {
+                throw new Error('IndexedDB não está disponível');
+            }
+            
             return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('IndexedDB não inicializado'));
-                    return;
-                }
-
-                const transaction = db.transaction(['entries'], 'readwrite');
-                const store = transaction.objectStore('entries');
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
                 
+                const [day, hour] = cellId.split('-');
                 const entry = {
-                    cellId: cellId,
+                    cellId,
                     text: text || '',
                     anxiety: anxiety || 0,
-                    timestamp: new Date().toISOString()
+                    day,
+                    hour: parseInt(hour),
+                    timestamp: new Date().toISOString(),
+                    lastModified: Date.now()
                 };
-
+                
                 const request = store.put(entry);
                 
-                request.onsuccess = () => resolve(entry);
-                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    console.log(`✅ Salvo no IndexedDB: ${cellId}`);
+                    resolve(entry);
+                };
+                
+                request.onerror = () => {
+                    console.error(`❌ Erro ao salvar no IndexedDB: ${cellId}`, request.error);
+                    reject(request.error);
+                };
             });
         }
-
-        function loadFromIndexedDB() {
+        
+        async function loadAllFromIndexedDB() {
+            if (!db) {
+                throw new Error('IndexedDB não está disponível');
+            }
+            
             return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('IndexedDB não inicializado'));
-                    return;
-                }
-
-                const transaction = db.transaction(['entries'], 'readonly');
-                const store = transaction.objectStore('entries');
+                const transaction = db.transaction([STORE_NAME], 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
                 const request = store.getAll();
                 
                 request.onsuccess = () => {
                     const entries = {};
                     request.result.forEach(entry => {
                         entries[entry.cellId] = {
-                            text: entry.text,
-                            anxiety: entry.anxiety,
+                            text: entry.text || '',
+                            anxiety: entry.anxiety || 0,
                             timestamp: entry.timestamp
                         };
                     });
+                    console.log(`✅ Carregados ${Object.keys(entries).length} registros do IndexedDB`);
                     resolve(entries);
                 };
                 
-                request.onerror = () => reject(request.error);
+                request.onerror = () => {
+                    console.error('❌ Erro ao carregar do IndexedDB:', request.error);
+                    reject(request.error);
+                };
             });
         }
-
-        function clearIndexedDB() {
+        
+        async function deleteFromIndexedDB(cellId) {
+            if (!db) {
+                throw new Error('IndexedDB não está disponível');
+            }
+            
             return new Promise((resolve, reject) => {
-                if (!db) {
-                    reject(new Error('IndexedDB não inicializado'));
-                    return;
-                }
-
-                const transaction = db.transaction(['entries'], 'readwrite');
-                const store = transaction.objectStore('entries');
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.delete(cellId);
+                
+                request.onsuccess = () => {
+                    console.log(`🗑️ Removido do IndexedDB: ${cellId}`);
+                    resolve();
+                };
+                
+                request.onerror = () => {
+                    console.error(`❌ Erro ao remover do IndexedDB: ${cellId}`, request.error);
+                    reject(request.error);
+                };
+            });
+        }
+        
+        async function clearAllIndexedDB() {
+            if (!db) {
+                throw new Error('IndexedDB não está disponível');
+            }
+            
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
                 const request = store.clear();
                 
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    console.log('🧹 IndexedDB limpo completamente');
+                    resolve();
+                };
+                
+                request.onerror = () => {
+                    console.error('❌ Erro ao limpar IndexedDB:', request.error);
+                    reject(request.error);
+                };
             });
         }
 
-        // =======================
-        // MAIN FUNCTIONS
-        // =======================
-
-        async function init() {
+        // ========================================================================================
+        // FUNÇÕES DE PERSISTÊNCIA - LOCALSTORAGE (FALLBACK)
+        // ========================================================================================
+        
+        function saveToLocalStorage() {
             try {
-                await initDatabase();
-                generateScheduleTable();
-                await loadDataFromDatabase();
-                initializeCharts();
-                console.log('🚀 Aplicação inicializada com IndexedDB');
+                const dataToSave = {
+                    entries: database,
+                    timestamp: new Date().toISOString(),
+                    version: '2.1'
+                };
+                localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(dataToSave));
+                console.log(`💾 Backup salvo no localStorage: ${Object.keys(database).length} registros`);
+                return true;
             } catch (error) {
-                console.warn('⚠️ IndexedDB falhou, usando localStorage:', error);
-                generateScheduleTable();
-                loadDataFromLocalStorage();
-                initializeCharts();
+                console.error('❌ Erro ao salvar no localStorage:', error);
+                return false;
+            }
+        }
+        
+        function loadFromLocalStorage() {
+            try {
+                const savedData = localStorage.getItem(LOCALSTORAGE_KEY);
+                if (savedData) {
+                    const parsed = JSON.parse(savedData);
+                    const entries = parsed.entries || parsed; // Compatibilidade com versões antigas
+                    console.log(`📁 Carregados ${Object.keys(entries).length} registros do localStorage`);
+                    return entries;
+                } else {
+                    console.log('ℹ️ Nenhum backup encontrado no localStorage');
+                    return {};
+                }
+            } catch (error) {
+                console.error('❌ Erro ao carregar do localStorage:', error);
+                return {};
+            }
+        }
+        
+        function clearLocalStorage() {
+            try {
+                localStorage.removeItem(LOCALSTORAGE_KEY);
+                console.log('🧹 localStorage limpo');
+                return true;
+            } catch (error) {
+                console.error('❌ Erro ao limpar localStorage:', error);
+                return false;
             }
         }
 
-        // Alternar abas
+        // ========================================================================================
+        // SISTEMA HÍBRIDO DE ARMAZENAMENTO
+        // ========================================================================================
+        
+        async function saveToStorage(cellId, text, anxiety) {
+            if (!autoSaveEnabled) return;
+            
+            showSaveStatus('saving', 'Salvando...');
+            
+            try {
+                // Tentar salvar no IndexedDB primeiro
+                if (db) {
+                    await saveToIndexedDB(cellId, text, anxiety);
+                    showSaveStatus('saved', 'Salvo com sucesso');
+                } else {
+                    throw new Error('IndexedDB não disponível');
+                }
+                
+                // Sempre manter backup no localStorage
+                saveToLocalStorage();
+                
+            } catch (error) {
+                console.warn('⚠️ IndexedDB falhou, usando localStorage:', error);
+                
+                // Fallback para localStorage
+                if (saveToLocalStorage()) {
+                    showSaveStatus('saved', 'Salvo em backup');
+                } else {
+                    showSaveStatus('error', 'Erro ao salvar');
+                    console.error('❌ Falha completa no salvamento');
+                }
+            }
+        }
+        
+        async function loadAllData() {
+            try {
+                console.log('📖 Carregando todos os dados...');
+                
+                if (db) {
+                    // Tentar carregar do IndexedDB primeiro
+                    try {
+                        database = await loadAllFromIndexedDB();
+                        console.log('✅ Dados carregados do IndexedDB');
+                        
+                        // Manter sincronização com localStorage
+                        saveToLocalStorage();
+                        
+                        return database;
+                    } catch (error) {
+                        console.warn('⚠️ Erro no IndexedDB, tentando localStorage:', error);
+                        throw error;
+                    }
+                } else {
+                    throw new Error('IndexedDB não disponível');
+                }
+                
+            } catch (error) {
+                // Fallback para localStorage
+                console.log('🔄 Usando localStorage como fonte principal');
+                database = loadFromLocalStorage();
+                
+                // Se temos dados no localStorage e IndexedDB está disponível, sincronizar
+                if (db && Object.keys(database).length > 0) {
+                    console.log('🔄 Sincronizando localStorage → IndexedDB...');
+                    await syncLocalStorageToIndexedDB();
+                }
+                
+                return database;
+            }
+        }
+        
+        async function syncLocalStorageToIndexedDB() {
+            if (!db) return;
+            
+            try {
+                for (const [cellId, entry] of Object.entries(database)) {
+                    await saveToIndexedDB(cellId, entry.text, entry.anxiety);
+                }
+                console.log('✅ Sincronização localStorage → IndexedDB concluída');
+            } catch (error) {
+                console.error('❌ Erro na sincronização:', error);
+            }
+        }
+        
+        async function clearAllStorage() {
+            try {
+                if (db) {
+                    await clearAllIndexedDB();
+                }
+                clearLocalStorage();
+                database = {};
+                console.log('🧹 Todos os dados limpos');
+                return true;
+            } catch (error) {
+                console.error('❌ Erro ao limpar dados:', error);
+                return false;
+            }
+        }
+
+        // ========================================================================================
+        // FUNÇÕES ESPECÍFICAS DE GERENCIAMENTO DE DADOS
+        // ========================================================================================
+        
+        function saveDayData() {
+            console.log(`💾 Salvando dados do dia: ${currentDay}`);
+            
+            const promises = [];
+            let hasChanges = false;
+            
+            timeSlots.forEach(timeSlot => {
+                const cellId = `${currentDay}-${timeSlot.hour}`;
+                const textInput = document.getElementById(`text-${cellId}`);
+                const anxietyInput = document.getElementById(`anxiety-${cellId}`);
+                
+                if (textInput && anxietyInput) {
+                    const text = textInput.value.trim();
+                    const anxiety = parseInt(anxietyInput.value) || 0;
+                    
+                    // Verificar se houve mudanças
+                    const currentData = database[cellId];
+                    const hasTextChanged = !currentData || currentData.text !== text;
+                    const hasAnxietyChanged = !currentData || currentData.anxiety !== anxiety;
+                    
+                    if (hasTextChanged || hasAnxietyChanged || text || anxiety > 0) {
+                        // Atualizar dados em memória
+                        database[cellId] = {
+                            text: text,
+                            anxiety: anxiety,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        // Agendar salvamento se há mudanças significativas
+                        if (text || anxiety > 0) {
+                            promises.push(saveToStorage(cellId, text, anxiety));
+                            hasChanges = true;
+                        }
+                    }
+                }
+            });
+            
+            // Executar salvamentos de forma assíncrona
+            if (hasChanges && promises.length > 0) {
+                Promise.all(promises).then(() => {
+                    console.log(`✅ Dados do dia ${currentDay} salvos: ${promises.length} registros`);
+                }).catch(error => {
+                    console.error(`❌ Erro ao salvar dados do dia ${currentDay}:`, error);
+                });
+            }
+        }
+        
+        function loadDayData() {
+            console.log(`📖 Carregando dados do dia: ${currentDay}`);
+            
+            let loadedCount = 0;
+            
+            timeSlots.forEach(timeSlot => {
+                const cellId = `${currentDay}-${timeSlot.hour}`;
+                const data = database[cellId];
+                
+                const textInput = document.getElementById(`text-${cellId}`);
+                const anxietyInput = document.getElementById(`anxiety-${cellId}`);
+                
+                if (textInput && anxietyInput) {
+                    if (data) {
+                        textInput.value = data.text || '';
+                        anxietyInput.value = data.anxiety || 0;
+                        updateCellDisplay(cellId);
+                        if (data.text || data.anxiety > 0) loadedCount++;
+                    } else {
+                        textInput.value = '';
+                        anxietyInput.value = 0;
+                        updateCellDisplay(cellId);
+                    }
+                }
+            });
+            
+            console.log(`✅ Dados do dia ${currentDay} carregados: ${loadedCount} registros`);
+        }
+
+        // ========================================================================================
+        // SISTEMA DE AUTO-SAVE
+        // ========================================================================================
+        
+        function scheduleAutoSave(cellId, text, anxiety) {
+            // Cancelar timeout anterior se existir
+            if (saveTimeout) {
+                clearTimeout(saveTimeout);
+            }
+            
+            // Agendar novo salvamento
+            saveTimeout = setTimeout(async () => {
+                try {
+                    await saveToStorage(cellId, text, anxiety);
+                } catch (error) {
+                    console.error('❌ Erro no auto-save:', error);
+                }
+            }, AUTO_SAVE_DELAY);
+        }
+        
+        async function updateCell(cellId) {
+            const textInput = document.getElementById(`text-${cellId}`);
+            const anxietyInput = document.getElementById(`anxiety-${cellId}`);
+            
+            if (!textInput || !anxietyInput) return;
+            
+            const text = textInput.value.trim();
+            const anxiety = parseInt(anxietyInput.value) || 0;
+            
+            // Atualizar display imediatamente
+            updateCellDisplay(cellId);
+            
+            // Atualizar dados em memória
+            database[cellId] = {
+                text: text,
+                anxiety: anxiety,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Agendar auto-save
+            if (autoSaveEnabled) {
+                scheduleAutoSave(cellId, text, anxiety);
+            }
+        }
+
+        // ========================================================================================
+        // FUNÇÕES DE INTERFACE DE USUÁRIO
+        // ========================================================================================
+        
+        function selectDay(day) {
+            // Salvar dados do dia atual antes de trocar
+            saveDayData();
+            
+            // Atualizar dia atual
+            currentDay = day;
+            
+            // Atualizar interface
+            document.querySelectorAll('.day-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-day="${day}"]`).classList.add('active');
+            
+            // Atualizar header
+            const dayIndex = daysOfWeek.indexOf(day);
+            const dayDisplayName = daysOfWeekDisplay[dayIndex];
+            document.getElementById('currentDayTitle').textContent = dayDisplayName;
+            document.getElementById('dayHeader').textContent = dayDisplayName;
+            
+            // Carregar dados do novo dia
+            loadDayData();
+            
+            // Regenerar tabela para o novo dia
+            generateScheduleTable();
+        }
+        
+        function updateCellDisplay(cellId) {
+            const anxietyInput = document.getElementById(`anxiety-${cellId}`);
+            const valueDisplay = document.getElementById(`value-${cellId}`);
+            const cell = anxietyInput?.closest('.schedule-cell');
+            
+            if (!anxietyInput || !valueDisplay || !cell) return;
+            
+            const anxiety = parseInt(anxietyInput.value) || 0;
+            valueDisplay.textContent = anxiety;
+            
+            // Atualizar cores baseado no nível de ansiedade
+            cell.className = 'schedule-cell';
+            if (anxiety <= 30) {
+                cell.classList.add('anxiety-level-0-30');
+            } else if (anxiety <= 60) {
+                cell.classList.add('anxiety-level-31-60');
+            } else if (anxiety > 60) {
+                cell.classList.add('anxiety-level-61-100');
+            }
+        }
+        
+        function generateScheduleTable() {
+            const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = '';
+            
+            timeSlots.forEach(timeSlot => {
+                const row = document.createElement('tr');
+                
+                // Coluna de horário
+                const timeCell = document.createElement('td');
+                timeCell.className = 'time-column';
+                timeCell.textContent = timeSlot.display;
+                row.appendChild(timeCell);
+                
+                // Célula principal
+                const cell = document.createElement('td');
+                cell.className = 'schedule-cell';
+                
+                const cellId = `${currentDay}-${timeSlot.hour}`;
+                cell.innerHTML = `
+                    <div class="cell-content">
+                        <textarea 
+                            class="text-input" 
+                            placeholder="Adicionar nota..."
+                            id="text-${cellId}"
+                            oninput="updateCell('${cellId}')"
+                        ></textarea>
+                        <div class="anxiety-container">
+                            <input 
+                                type="range" 
+                                min="0" 
+                                max="100" 
+                                value="0" 
+                                class="anxiety-range"
+                                id="anxiety-${cellId}"
+                                oninput="updateCell('${cellId}')"
+                            />
+                            <div class="anxiety-value" id="value-${cellId}">0</div>
+                        </div>
+                    </div>
+                `;
+                
+                row.appendChild(cell);
+                tbody.appendChild(row);
+            });
+            
+            // Carregar dados do dia atual após gerar a tabela
+            loadDayData();
+        }
+
+        // ========================================================================================
+        // FUNÇÕES DE CONTROLE DE DADOS
+        // ========================================================================================
+        
+        async function manualSaveData() {
+            try {
+                showSaveStatus('saving', 'Salvamento manual...');
+                saveDayData();
+                
+                // Forçar salvamento completo
+                if (db) {
+                    await saveToLocalStorage();
+                    showSaveStatus('saved', 'Dados salvos manualmente!');
+                } else {
+                    if (saveToLocalStorage()) {
+                        showSaveStatus('saved', 'Dados salvos no backup!');
+                    } else {
+                        showSaveStatus('error', 'Erro no salvamento!');
+                    }
+                }
+                
+                console.log('💾 Salvamento manual concluído');
+            } catch (error) {
+                showSaveStatus('error', 'Erro ao salvar');
+                console.error('❌ Erro no salvamento manual:', error);
+            }
+        }
+        
+        async function loadData() {
+            try {
+                console.log('🔄 Recarregando todos os dados...');
+                await loadAllData();
+                loadDayData();
+                showSaveStatus('saved', 'Dados recarregados!');
+                console.log('✅ Recarregamento concluído');
+            } catch (error) {
+                showSaveStatus('error', 'Erro ao carregar');
+                console.error('❌ Erro no recarregamento:', error);
+            }
+        }
+        
+        async function clearAll() {
+            if (!confirm('⚠️ RECOMEÇAR: Deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
+                return;
+            }
+            
+            try {
+                showSaveStatus('saving', 'Limpando dados...');
+                
+                if (await clearAllStorage()) {
+                    // Limpar interface do dia atual
+                    document.querySelectorAll('.text-input').forEach(input => input.value = '');
+                    document.querySelectorAll('.anxiety-range').forEach(input => {
+                        input.value = 0;
+                        const cellId = input.id.replace('anxiety-', '');
+                        updateCellDisplay(cellId);
+                    });
+                    
+                    // Atualizar dashboards
+                    updateDashboard();
+                    updateStatistics();
+                    
+                    showSaveStatus('saved', 'Dados limpos!');
+                    console.log('🧹 Limpeza concluída');
+                } else {
+                    showSaveStatus('error', 'Erro ao limpar');
+                }
+            } catch (error) {
+                showSaveStatus('error', 'Erro ao limpar');
+                console.error('❌ Erro na limpeza:', error);
+            }
+        }
+        
+        function resetApp() {
+            if (confirm('🔄 RESET TOTAL: Deseja resetar completamente a aplicação? Isso irá recarregar a página.')) {
+                try {
+                    clearAllStorage();
+                    window.location.reload();
+                } catch (error) {
+                    console.error('❌ Erro no reset:', error);
+                    window.location.reload();
+                }
+            }
+        }
+        
+        function exportData() {
+            try {
+                saveDayData(); // Salvar dados do dia atual antes de exportar
+                
+                const exportObj = {
+                    data: database,
+                    exportDate: new Date().toISOString(),
+                    version: '2.1',
+                    totalEntries: Object.keys(database).filter(key => {
+                        const entry = database[key];
+                        return entry.text || entry.anxiety > 0;
+                    }).length,
+                    metadata: {
+                        appVersion: '2.1',
+                        features: ['indexeddb', 'localStorage', 'autoSave'],
+                        exportedBy: 'Sistema Híbrido de Persistência'
+                    }
+                };
+                
+                const dataStr = JSON.stringify(exportObj, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `mood-scheduler-backup-${new Date().toISOString().split('T')[0]}.json`;
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                
+                showSaveStatus('saved', `Exportação concluída! ${exportObj.totalEntries} registros`);
+                console.log(`📤 Dados exportados: ${exportObj.totalEntries} registros`);
+            } catch (error) {
+                showSaveStatus('error', 'Erro na exportação');
+                console.error('❌ Erro ao exportar:', error);
+            }
+        }
+        
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = async (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                try {
+                    showSaveStatus('saving', 'Importando dados...');
+                    
+                    const text = await file.text();
+                    const importedData = JSON.parse(text);
+                    const dataToImport = importedData.data || importedData;
+                    
+                    const totalEntries = Object.keys(dataToImport).filter(key => {
+                        const entry = dataToImport[key];
+                        return entry.text || entry.anxiety > 0;
+                    }).length;
+                    
+                    if (!confirm(`📥 Importar ${totalEntries} registros? Isso substituirá todos os dados atuais!`)) {
+                        showSaveStatus('saved', 'Importação cancelada');
+                        return;
+                    }
+                    
+                    // Limpar dados atuais
+                    await clearAllStorage();
+                    
+                    // Definir novos dados
+                    database = dataToImport;
+                    
+                    // Salvar nos dois sistemas
+                    if (db) {
+                        for (const [cellId, entry] of Object.entries(dataToImport)) {
+                            if (entry.text || entry.anxiety > 0) {
+                                await saveToIndexedDB(cellId, entry.text, entry.anxiety);
+                            }
+                        }
+                    }
+                    saveToLocalStorage();
+                    
+                    // Atualizar interface do dia atual
+                    loadDayData();
+                    
+                    showSaveStatus('saved', `${totalEntries} registros importados!`);
+                    console.log(`📥 Dados importados com sucesso: ${totalEntries} registros`);
+                    
+                } catch (error) {
+                    showSaveStatus('error', 'Erro na importação');
+                    console.error('❌ Erro ao importar:', error);
+                }
+            };
+            
+            input.click();
+        }
+
+        // ========================================================================================
+        // ALTERNAR ABAS
+        // ========================================================================================
+        
         function switchTab(tabName) {
+            // Salvar dados do dia atual antes de trocar de aba
+            if (tabName !== 'agenda') {
+                saveDayData();
+            }
+            
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
@@ -689,316 +1361,24 @@
             }
         }
 
-        // Gerar tabela
-        function generateScheduleTable() {
-            const tbody = document.getElementById('scheduleBody');
-            tbody.innerHTML = '';
-
-            timeSlots.forEach(timeSlot => {
-                const row = document.createElement('tr');
-                
-                const timeCell = document.createElement('td');
-                timeCell.className = 'time-column';
-                timeCell.textContent = timeSlot.display;
-                row.appendChild(timeCell);
-
-                daysOfWeek.forEach(day => {
-                    const cell = document.createElement('td');
-                    cell.className = 'schedule-cell';
-                    
-                    const cellId = `${day}-${timeSlot.hour}`;
-                    cell.innerHTML = `
-                        <div class="cell-content">
-                            <textarea 
-                                class="text-input" 
-                                placeholder="Adicionar nota..."
-                                id="text-${cellId}"
-                                oninput="updateCell('${cellId}')"
-                            ></textarea>
-                            <div class="anxiety-container">
-                                <input 
-                                    type="range" 
-                                    min="0" 
-                                    max="100" 
-                                    value="0" 
-                                    class="anxiety-range"
-                                    id="anxiety-${cellId}"
-                                    oninput="updateCell('${cellId}')"
-                                />
-                                <div class="anxiety-value" id="value-${cellId}">0</div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    row.appendChild(cell);
-                });
-
-                tbody.appendChild(row);
-            });
-        }
-
-        // Atualizar célula
-        async function updateCell(cellId) {
-            const textInput = document.getElementById(`text-${cellId}`);
-            const anxietyInput = document.getElementById(`anxiety-${cellId}`);
-            const valueDisplay = document.getElementById(`value-${cellId}`);
-            const cell = textInput.closest('.schedule-cell');
-
-            const text = textInput.value;
-            const anxiety = parseInt(anxietyInput.value);
-
-            valueDisplay.textContent = anxiety;
-
-            // Atualizar cores
-            cell.className = 'schedule-cell';
-            if (anxiety <= 30) {
-                cell.classList.add('anxiety-level-0-30');
-            } else if (anxiety <= 60) {
-                cell.classList.add('anxiety-level-31-60');
-            } else {
-                cell.classList.add('anxiety-level-61-100');
-            }
-
-            // Salvar em memória
-            database[cellId] = {
-                text: text,
-                anxiety: anxiety,
-                timestamp: new Date().toISOString()
-            };
-
-            // Salvar no banco
-            try {
-                if (db) {
-                    await saveToIndexedDB(cellId, text, anxiety);
-                } else {
-                    localStorage.setItem('moodSchedulerData', JSON.stringify(database));
-                }
-            } catch (error) {
-                console.error('Erro ao salvar:', error);
-                localStorage.setItem('moodSchedulerData', JSON.stringify(database));
-            }
-        }
-
-        // =======================
-        // DATA MANAGEMENT
-        // =======================
-
-        async function saveData() {
-            try {
-                if (db) {
-                    alert('✅ Dados salvos automaticamente no IndexedDB!');
-                } else {
-                    localStorage.setItem('moodSchedulerData', JSON.stringify(database));
-                    alert('✅ Dados salvos no localStorage!');
-                }
-            } catch (error) {
-                alert('❌ Erro ao salvar: ' + error.message);
-            }
-        }
-
-        async function loadData() {
-            try {
-                if (db) {
-                    await loadDataFromDatabase();
-                } else {
-                    loadDataFromLocalStorage();
-                }
-                alert('✅ Dados carregados com sucesso!');
-            } catch (error) {
-                alert('❌ Erro ao carregar: ' + error.message);
-            }
-        }
-
-        async function loadDataFromDatabase() {
-            try {
-                const entries = await loadFromIndexedDB();
-                database = entries;
-                
-                Object.keys(entries).forEach(cellId => {
-                    const data = entries[cellId];
-                    const textInput = document.getElementById(`text-${cellId}`);
-                    const anxietyInput = document.getElementById(`anxiety-${cellId}`);
-                    
-                    if (textInput && anxietyInput) {
-                        textInput.value = data.text || '';
-                        anxietyInput.value = data.anxiety || 0;
-                        updateCell(cellId);
-                    }
-                });
-            } catch (error) {
-                console.error('Erro IndexedDB:', error);
-                loadDataFromLocalStorage();
-            }
-        }
-
-        function loadDataFromLocalStorage() {
-            try {
-                const savedData = localStorage.getItem('moodSchedulerData');
-                if (savedData) {
-                    database = JSON.parse(savedData);
-                    
-                    Object.keys(database).forEach(cellId => {
-                        const data = database[cellId];
-                        const textInput = document.getElementById(`text-${cellId}`);
-                        const anxietyInput = document.getElementById(`anxiety-${cellId}`);
-                        
-                        if (textInput && anxietyInput) {
-                            textInput.value = data.text || '';
-                            anxietyInput.value = data.anxiety || 0;
-                            updateCell(cellId);
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error('Erro localStorage:', error);
-            }
-        }
-
-        async function clearAll() {
-            if (confirm('⚠️ RECOMEÇAR: Deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
-                try {
-                    if (db) {
-                        await clearIndexedDB();
-                    }
-                    localStorage.removeItem('moodSchedulerData');
-                    database = {};
-                    
-                    // Limpar interface
-                    document.querySelectorAll('.text-input').forEach(input => input.value = '');
-                    document.querySelectorAll('.anxiety-range').forEach(input => {
-                        input.value = 0;
-                        const cellId = input.id.replace('anxiety-', '');
-                        const valueDisplay = document.getElementById(`value-${cellId}`);
-                        const cell = input.closest('.schedule-cell');
-                        if (valueDisplay) valueDisplay.textContent = 0;
-                        if (cell) cell.className = 'schedule-cell';
-                    });
-                    
-                    updateDashboard();
-                    updateStatistics();
-                    
-                    alert('✅ Todos os dados foram limpos! Você pode recomeçar.');
-                } catch (error) {
-                    alert('❌ Erro ao limpar: ' + error.message);
-                }
-            }
-        }
-
-        function resetApp() {
-            if (confirm('🔄 RESET TOTAL: Deseja resetar completamente a aplicação? Isso irá recarregar a página.')) {
-                try {
-                    if (db) {
-                        clearIndexedDB();
-                    }
-                    localStorage.clear();
-                    window.location.reload();
-                } catch (error) {
-                    alert('❌ Erro no reset: ' + error.message);
-                }
-            }
-        }
-
-        function exportData() {
-            try {
-                const exportObj = {
-                    data: database,
-                    exportDate: new Date().toISOString(),
-                    version: '2.0',
-                    totalEntries: Object.keys(database).length
-                };
-                
-                const dataStr = JSON.stringify(exportObj, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `mood-scheduler-${new Date().toISOString().split('T')[0]}.json`;
-                
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-                
-                alert(`✅ Dados exportados! ${exportObj.totalEntries} registros salvos.`);
-            } catch (error) {
-                alert('❌ Erro ao exportar: ' + error.message);
-            }
-        }
-
-        function importData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            
-            input.onchange = async (event) => {
-                const file = event.target.files[0];
-                if (!file) return;
-                
-                try {
-                    const text = await file.text();
-                    const importedData = JSON.parse(text);
-                    const dataToImport = importedData.data || importedData;
-                    
-                    if (confirm(`📥 Importar ${Object.keys(dataToImport).length} registros? Isso substituirá todos os dados atuais!`)) {
-                        // Limpar dados atuais
-                        if (db) {
-                            await clearIndexedDB();
-                        }
-                        localStorage.removeItem('moodSchedulerData');
-                        
-                        database = dataToImport;
-                        
-                        // Salvar novos dados
-                        if (db) {
-                            for (const [cellId, entry] of Object.entries(dataToImport)) {
-                                await saveToIndexedDB(cellId, entry.text, entry.anxiety);
-                            }
-                        } else {
-                            localStorage.setItem('moodSchedulerData', JSON.stringify(database));
-                        }
-                        
-                        // Atualizar interface
-                        Object.keys(dataToImport).forEach(cellId => {
-                            const data = dataToImport[cellId];
-                            const textInput = document.getElementById(`text-${cellId}`);
-                            const anxietyInput = document.getElementById(`anxiety-${cellId}`);
-                            
-                            if (textInput && anxietyInput) {
-                                textInput.value = data.text || '';
-                                anxietyInput.value = data.anxiety || 0;
-                                updateCell(cellId);
-                            }
-                        });
-                        
-                        alert('✅ Dados importados com sucesso!');
-                    }
-                } catch (error) {
-                    alert('❌ Erro ao importar: ' + error.message);
-                }
-            };
-            
-            input.click();
-        }
-
-        // =======================
-        // CHARTS INITIALIZATION
-        // =======================
-
+        // ========================================================================================
+        // INICIALIZAÇÃO DE GRÁFICOS
+        // ========================================================================================
+        
         function initializeCharts() {
             // Gráfico semanal
             const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
             charts.weekly = new Chart(weeklyCtx, {
                 type: 'bar',
                 data: {
-                    labels: daysOfWeekDisplay,
+                    labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
                     datasets: [{
                         label: 'Ansiedade Média',
                         data: [0, 0, 0, 0, 0, 0, 0],
-                        backgroundColor: 'rgba(102, 126, 234, 0.6)',
-                        borderColor: 'rgba(102, 126, 234, 1)',
-                        borderWidth: 2,
-                        borderRadius: 10,
-                        borderSkipped: false,
+                        backgroundColor: '#6c757d',
+                        borderColor: '#495057',
+                        borderWidth: 1,
+                        borderRadius: 4,
                     }]
                 },
                 options: {
@@ -1006,8 +1386,16 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { beginAtZero: true, max: 100 },
-                        x: { grid: { display: false } }
+                        y: { 
+                            beginAtZero: true, 
+                            max: 100,
+                            grid: { color: '#f8f9fa' },
+                            ticks: { color: '#6c757d' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#6c757d' }
+                        }
                     }
                 }
             });
@@ -1021,11 +1409,11 @@
                     datasets: [{
                         label: 'Ansiedade Média',
                         data: new Array(timeSlots.length).fill(0),
-                        borderColor: 'rgba(54, 209, 220, 1)',
-                        backgroundColor: 'rgba(54, 209, 220, 0.1)',
-                        borderWidth: 3,
+                        borderColor: '#495057',
+                        backgroundColor: 'rgba(108, 117, 125, 0.1)',
+                        borderWidth: 2,
                         fill: true,
-                        tension: 0.4
+                        tension: 0.3
                     }]
                 },
                 options: {
@@ -1033,8 +1421,16 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { beginAtZero: true, max: 100 },
-                        x: { grid: { display: false } }
+                        y: { 
+                            beginAtZero: true, 
+                            max: 100,
+                            grid: { color: '#f8f9fa' },
+                            ticks: { color: '#6c757d' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#6c757d' }
+                        }
                     }
                 }
             });
@@ -1047,12 +1443,9 @@
                     labels: ['Baixa (0-30)', 'Média (31-60)', 'Alta (61-100)'],
                     datasets: [{
                         data: [0, 0, 0],
-                        backgroundColor: [
-                            'rgba(76, 175, 80, 0.8)',
-                            'rgba(255, 193, 7, 0.8)',
-                            'rgba(244, 67, 54, 0.8)'
-                        ],
-                        borderWidth: 2
+                        backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
+                        borderWidth: 2,
+                        borderColor: 'white'
                     }]
                 },
                 options: {
@@ -1061,7 +1454,11 @@
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: { padding: 20, usePointStyle: true }
+                            labels: { 
+                                padding: 20, 
+                                usePointStyle: true,
+                                color: '#495057'
+                            }
                         }
                     }
                 }
@@ -1076,11 +1473,11 @@
                     datasets: [{
                         label: 'Tendência',
                         data: [],
-                        borderColor: 'rgba(118, 75, 162, 1)',
-                        backgroundColor: 'rgba(118, 75, 162, 0.1)',
-                        borderWidth: 3,
+                        borderColor: '#212529',
+                        backgroundColor: 'rgba(33, 37, 41, 0.1)',
+                        borderWidth: 2,
                         fill: true,
-                        tension: 0.4
+                        tension: 0.3
                     }]
                 },
                 options: {
@@ -1088,18 +1485,27 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { beginAtZero: true, max: 100 },
-                        x: { grid: { display: false } }
+                        y: { 
+                            beginAtZero: true, 
+                            max: 100,
+                            grid: { color: '#f8f9fa' },
+                            ticks: { color: '#6c757d' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#6c757d' }
+                        }
                     }
                 }
             });
         }
 
-        // =======================
-        // DASHBOARD UPDATES
-        // =======================
-
+        // ========================================================================================
+        // ATUALIZAÇÃO DE DASHBOARD E ESTATÍSTICAS
+        // ========================================================================================
+        
         function updateDashboard() {
+            saveDayData(); // Salvar dados atuais antes de calcular estatísticas
             const stats = calculateStatistics();
             
             // Atualizar cards resumo
@@ -1111,7 +1517,7 @@
             // Atualizar gráficos
             updateCharts(stats);
         }
-
+        
         function updateCharts(stats) {
             // Dados semanais
             const weeklyData = calculateWeeklyData();
@@ -1137,7 +1543,7 @@
             charts.trend.data.datasets[0].data = trendData.data;
             charts.trend.update();
         }
-
+        
         function calculateWeeklyData() {
             const weeklyData = new Array(7).fill(0);
             const weeklyCounts = new Array(7).fill(0);
@@ -1163,7 +1569,7 @@
 
             return weeklyData;
         }
-
+        
         function calculateHourlyData() {
             const hourlyData = new Array(timeSlots.length).fill(0);
             const hourlyCounts = new Array(timeSlots.length).fill(0);
@@ -1189,7 +1595,7 @@
 
             return hourlyData;
         }
-
+        
         function calculateTrendData() {
             const trendMap = new Map();
             
@@ -1219,7 +1625,7 @@
                 data: trendArray.map(item => item.average)
             };
         }
-
+        
         function calculateStatistics() {
             const entries = Object.values(database).filter(entry => entry.text || entry.anxiety > 0);
             
@@ -1265,14 +1671,15 @@
                 averageAnxiety: anxietyLevels.reduce((a, b) => a + b, 0) / anxietyLevels.length,
                 maxAnxiety: Math.max(...anxietyLevels),
                 minAnxiety: Math.min(...anxietyLevels),
-                busiestDay: busiestDay === 'N/A' ? 'N/A' : daysOfWeekDisplay[daysOfWeek.indexOf(busiestDay)],
+                busiestDay: busiestDay === 'N/A' ? 'N/A' : daysOfWeekDisplay[daysOfWeek.indexOf(busiestDay)].replace('-feira', ''),
                 busiestHour: busiestHour === 'N/A' ? 'N/A' : `${busiestHour}:00`,
                 activeDays: activeDaysSet.size,
                 anxietyDistribution
             };
         }
-
+        
         function updateStatistics() {
+            saveDayData(); // Salvar dados atuais antes de calcular estatísticas
             const stats = calculateStatistics();
             const detailedStats = document.getElementById('detailedStats');
             
@@ -1312,7 +1719,7 @@
                     </div>
                 </div>
                 
-                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #333;">📈 Distribuição por Níveis</h3>
+                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #212529; font-weight: 700;">📈 Distribuição por Níveis</h3>
                 <div class="stats-grid">
                     <div class="stat-card anxiety-level-0-30">
                         <div class="stat-title">Baixa (0-30)</div>
@@ -1331,9 +1738,9 @@
                     </div>
                 </div>
 
-                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #333;">📊 Análise por Dia da Semana</h3>
+                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #212529; font-weight: 700;">📊 Análise por Dia da Semana</h3>
                 <div class="stats-grid">
-                    ${daysOfWeekDisplay.map((day, index) => {
+                    ${['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'].map((day, index) => {
                         const dayKey = daysOfWeek[index];
                         const dayEntries = Object.keys(database).filter(cellId => {
                             const [d] = cellId.split('-');
@@ -1355,8 +1762,99 @@
             `;
         }
 
-        // Inicializar aplicação
-        window.addEventListener('load', init);
+        // ========================================================================================
+        // INICIALIZAÇÃO DA APLICAÇÃO
+        // ========================================================================================
+        
+        async function initializeApp() {
+            try {
+                console.log('🚀 Inicializando aplicação com sistema robusto de persistência...');
+                
+                // Tentar inicializar IndexedDB
+                try {
+                    await initializeIndexedDB();
+                    console.log('✅ IndexedDB disponível e inicializado');
+                } catch (error) {
+                    console.warn('⚠️ IndexedDB não disponível, usando apenas localStorage:', error);
+                    db = null;
+                }
+                
+                // Carregar dados existentes
+                await loadAllData();
+                
+                // Gerar interface
+                generateScheduleTable();
+                initializeCharts();
+                
+                // Configurar auto-save
+                console.log('⚙️ Sistema de auto-save ativado');
+                autoSaveEnabled = true;
+                
+                console.log('✅ Aplicação inicializada com sucesso!');
+                console.log(`📊 Sistema: ${db ? 'IndexedDB + localStorage' : 'localStorage apenas'}`);
+                console.log(`📋 Total de registros: ${Object.keys(database).filter(key => {
+                    const entry = database[key];
+                    return entry.text || entry.anxiety > 0;
+                }).length}`);
+                
+                // Mostrar status inicial
+                showSaveStatus('saved', 'Sistema pronto');
+                
+            } catch (error) {
+                console.error('❌ Erro na inicialização:', error);
+                showSaveStatus('error', 'Erro na inicialização');
+                
+                // Tentar inicialização básica
+                database = {};
+                generateScheduleTable();
+                initializeCharts();
+            }
+        }
+        
+        // ========================================================================================
+        // EVENTOS E LISTENERS
+        // ========================================================================================
+        
+        // Salvar dados antes de fechar/recarregar a página
+        window.addEventListener('beforeunload', (event) => {
+            if (Object.keys(database).length > 0) {
+                saveDayData();
+                // Força salvamento síncrono no localStorage como backup
+                saveToLocalStorage();
+            }
+        });
+        
+        // Detectar quando a página se torna visível novamente (para sincronizar dados)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                console.log('📱 Página visível novamente - verificando dados...');
+                loadData().catch(console.error);
+            }
+        });
+        
+        // Detectar mudanças de conectividade
+        window.addEventListener('online', () => {
+            console.log('🌐 Conexão restaurada');
+            showSaveStatus('saved', 'Conexão restaurada');
+        });
+        
+        window.addEventListener('offline', () => {
+            console.log('🔌 Modo offline');
+            showSaveStatus('error', 'Modo offline - dados salvos localmente');
+        });
+
+        // ========================================================================================
+        // INICIALIZAR APLICAÇÃO AO CARREGAR A PÁGINA
+        // ========================================================================================
+        
+        window.addEventListener('DOMContentLoaded', initializeApp);
+        
+        // Fallback caso DOMContentLoaded já tenha passado
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
     </script>
 </body>
 </html>
