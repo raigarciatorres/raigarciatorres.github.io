@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Humor e Ansiedade</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            overflow-x: auto;
+        }
+
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 25px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s ease;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .tab:last-child {
+            border-right: none;
+        }
+
+        .tab.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab:hover:not(.active) {
+            background: linear-gradient(45deg, #e9ecef, #dee2e6);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #36d1dc, #5b86e5);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            table-layout: fixed;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            border: 1px solid #e0e0e0;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .schedule-table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+            padding: 15px 5px;
+            font-size: 1rem;
+            width: calc(100% / 8);
+        }
+
+        .schedule-table th:first-child {
+            width: 80px;
+        }
+
+        .time-column {
+            background: linear-gradient(45deg, #36d1dc, #5b86e5);
+            color: white;
+            font-weight: bold;
+            padding: 12px 5px;
+            width: 80px;
+            font-size: 0.85rem;
+            min-width: 80px;
+        }
+
+        .schedule-cell {
+            padding: 6px;
+            position: relative;
+            background: white;
+            transition: all 0.3s ease;
+            height: 110px;
+            min-height: 110px;
+        }
+
+        .schedule-cell:hover {
+            background: #f8f9ff;
+        }
+
+        .cell-content {
+            display: flex;
+            flex-direction: column;
+            height: 95px;
+            gap: 4px;
+        }
+
+        .text-input {
+            flex: 1;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 4px;
+            font-size: 11px;
+            resize: none;
+            transition: all 0.3s ease;
+            min-height: 60px;
+            font-family: inherit;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .anxiety-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            margin-top: auto;
+        }
+
+        .anxiety-range {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            outline: none;
+            background: linear-gradient(to right, #4CAF50, #FFC107, #FF5722);
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .anxiety-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #667eea;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .anxiety-range::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #667eea;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .anxiety-value {
+            font-size: 10px;
+            font-weight: bold;
+            color: #333;
+            padding: 1px 4px;
+            border-radius: 8px;
+            background: rgba(102, 126, 234, 0.1);
+            min-width: 20px;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .summary-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .anxiety-level-0-30 {
+            background: linear-gradient(45deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.1));
+        }
+
+        .anxiety-level-31-60 {
+            background: linear-gradient(45deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1));
+        }
+
+        .anxiety-level-61-100 {
+            background: linear-gradient(45deg, rgba(244, 67, 54, 0.1), rgba(233, 30, 99, 0.1));
+        }
+
+        @media (max-width: 1400px) {
+            .schedule-table th,
+            .schedule-cell {
+                font-size: 0.9rem;
+            }
+            .text-input {
+                font-size: 10px;
+                padding: 3px;
+            }
+            .anxiety-value {
+                font-size: 9px;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            .container {
+                padding: 15px 5px;
+                border-radius: 10px;
+            }
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+            .tabs {
+                flex-direction: column;
+            }
+            .tab {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+            }
+            .tab:last-child {
+                border-bottom: none;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .controls > div {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .schedule-cell {
+                height: 85px;
+                padding: 3px;
+            }
+            .cell-content {
+                height: 75px;
+            }
+            .text-input {
+                font-size: 8px;
+                min-height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📅 Agenda de Humor e Ansiedade</h1>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('agenda')">📅 Agenda</button>
+            <button class="tab" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="tab" onclick="switchTab('statistics')">📈 Estatísticas</button>
+        </div>
+
+        <!-- Tab Content: Agenda -->
+        <div id="agenda-content" class="tab-content active">
+            <div class="controls">
+                <div>
+                    <button class="btn" onclick="saveData()">💾 Salvar</button>
+                    <button class="btn btn-secondary" onclick="loadData()">📁 Carregar</button>
+                    <button class="btn btn-secondary" onclick="exportData()">📤 Exportar</button>
+                    <button class="btn btn-secondary" onclick="importData()">📥 Importar</button>
+                </div>
+                <div>
+                    <button class="btn btn-danger" onclick="clearAll()">🔄 Recomeçar</button>
+                    <button class="btn btn-danger" onclick="resetApp()">⚠️ Reset Total</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="schedule-table" id="scheduleTable">
+                    <thead>
+                        <tr>
+                            <th>Horário</th>
+                            <th>Segunda</th>
+                            <th>Terça</th>
+                            <th>Quarta</th>
+                            <th>Quinta</th>
+                            <th>Sexta</th>
+                            <th>Sábado</th>
+                            <th>Domingo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody">
+                        <!-- Linhas serão geradas pelo JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab Content: Dashboard -->
+        <div id="dashboard-content" class="tab-content">
+            <div class="stats-summary">
+                <div class="summary-card">
+                    <div class="summary-value" id="totalEntries">0</div>
+                    <div class="summary-label">Total de Registros</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="avgAnxiety">0.0</div>
+                    <div class="summary-label">Ansiedade Média</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="maxAnxiety">0</div>
+                    <div class="summary-label">Pico de Ansiedade</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="activeDays">0</div>
+                    <div class="summary-label">Dias Ativos</div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="chart-card">
+                    <h3 class="chart-title">📊 Ansiedade por Dia da Semana</h3>
+                    <div class="chart-container">
+                        <canvas id="weeklyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3 class="chart-title">⏰ Ansiedade por Horário</h3>
+                    <div class="chart-container">
+                        <canvas id="hourlyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3 class="chart-title">🎯 Distribuição de Níveis</h3>
+                    <div class="chart-container">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3 class="chart-title">📈 Tendência Temporal</h3>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Statistics -->
+        <div id="statistics-content" class="tab-content">
+            <div id="detailedStats">
+                <!-- Conteúdo será gerado pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados local usando IndexedDB
+        let db;
+        let database = {};
+        let charts = {};
+
+        // Configurações
+        const daysOfWeek = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+        const daysOfWeekDisplay = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+        
+        // Horários de 6h às 24h
+        const timeSlots = [];
+        for (let hour = 6; hour <= 24; hour++) {
+            const timeStr = hour === 24 ? '00:00' : `${hour.toString().padStart(2, '0')}:00`;
+            timeSlots.push({ hour, display: timeStr });
+        }
+
+        // =======================
+        // INDEXEDDB FUNCTIONS
+        // =======================
+
+        function initDatabase() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('MoodSchedulerDB', 1);
+                
+                request.onerror = () => {
+                    console.error('Erro ao abrir IndexedDB');
+                    reject(request.error);
+                };
+                
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    console.log('✅ IndexedDB inicializado');
+                    resolve(db);
+                };
+                
+                request.onupgradeneeded = (event) => {
+                    db = event.target.result;
+                    if (!db.objectStoreNames.contains('entries')) {
+                        const store = db.createObjectStore('entries', { keyPath: 'cellId' });
+                        store.createIndex('timestamp', 'timestamp', { unique: false });
+                        console.log('📊 Tabela criada no IndexedDB');
+                    }
+                };
+            });
+        }
+
+        function saveToIndexedDB(cellId, text, anxiety) {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject(new Error('IndexedDB não inicializado'));
+                    return;
+                }
+
+                const transaction = db.transaction(['entries'], 'readwrite');
+                const store = transaction.objectStore('entries');
+                
+                const entry = {
+                    cellId: cellId,
+                    text: text || '',
+                    anxiety: anxiety || 0,
+                    timestamp: new Date().toISOString()
+                };
+
+                const request = store.put(entry);
+                
+                request.onsuccess = () => resolve(entry);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function loadFromIndexedDB() {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject(new Error('IndexedDB não inicializado'));
+                    return;
+                }
+
+                const transaction = db.transaction(['entries'], 'readonly');
+                const store = transaction.objectStore('entries');
+                const request = store.getAll();
+                
+                request.onsuccess = () => {
+                    const entries = {};
+                    request.result.forEach(entry => {
+                        entries[entry.cellId] = {
+                            text: entry.text,
+                            anxiety: entry.anxiety,
+                            timestamp: entry.timestamp
+                        };
+                    });
+                    resolve(entries);
+                };
+                
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function clearIndexedDB() {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject(new Error('IndexedDB não inicializado'));
+                    return;
+                }
+
+                const transaction = db.transaction(['entries'], 'readwrite');
+                const store = transaction.objectStore('entries');
+                const request = store.clear();
+                
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // =======================
+        // MAIN FUNCTIONS
+        // =======================
+
+        async function init() {
+            try {
+                await initDatabase();
+                generateScheduleTable();
+                await loadDataFromDatabase();
+                initializeCharts();
+                console.log('🚀 Aplicação inicializada com IndexedDB');
+            } catch (error) {
+                console.warn('⚠️ IndexedDB falhou, usando localStorage:', error);
+                generateScheduleTable();
+                loadDataFromLocalStorage();
+                initializeCharts();
+            }
+        }
+
+        // Alternar abas
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(`${tabName}-content`).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'dashboard') {
+                updateDashboard();
+            } else if (tabName === 'statistics') {
+                updateStatistics();
+            }
+        }
+
+        // Gerar tabela
+        function generateScheduleTable() {
+            const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = '';
+
+            timeSlots.forEach(timeSlot => {
+                const row = document.createElement('tr');
+                
+                const timeCell = document.createElement('td');
+                timeCell.className = 'time-column';
+                timeCell.textContent = timeSlot.display;
+                row.appendChild(timeCell);
+
+                daysOfWeek.forEach(day => {
+                    const cell = document.createElement('td');
+                    cell.className = 'schedule-cell';
+                    
+                    const cellId = `${day}-${timeSlot.hour}`;
+                    cell.innerHTML = `
+                        <div class="cell-content">
+                            <textarea 
+                                class="text-input" 
+                                placeholder="Adicionar nota..."
+                                id="text-${cellId}"
+                                oninput="updateCell('${cellId}')"
+                            ></textarea>
+                            <div class="anxiety-container">
+                                <input 
+                                    type="range" 
+                                    min="0" 
+                                    max="100" 
+                                    value="0" 
+                                    class="anxiety-range"
+                                    id="anxiety-${cellId}"
+                                    oninput="updateCell('${cellId}')"
+                                />
+                                <div class="anxiety-value" id="value-${cellId}">0</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    row.appendChild(cell);
+                });
+
+                tbody.appendChild(row);
+            });
+        }
+
+        // Atualizar célula
+        async function updateCell(cellId) {
+            const textInput = document.getElementById(`text-${cellId}`);
+            const anxietyInput = document.getElementById(`anxiety-${cellId}`);
+            const valueDisplay = document.getElementById(`value-${cellId}`);
+            const cell = textInput.closest('.schedule-cell');
+
+            const text = textInput.value;
+            const anxiety = parseInt(anxietyInput.value);
+
+            valueDisplay.textContent = anxiety;
+
+            // Atualizar cores
+            cell.className = 'schedule-cell';
+            if (anxiety <= 30) {
+                cell.classList.add('anxiety-level-0-30');
+            } else if (anxiety <= 60) {
+                cell.classList.add('anxiety-level-31-60');
+            } else {
+                cell.classList.add('anxiety-level-61-100');
+            }
+
+            // Salvar em memória
+            database[cellId] = {
+                text: text,
+                anxiety: anxiety,
+                timestamp: new Date().toISOString()
+            };
+
+            // Salvar no banco
+            try {
+                if (db) {
+                    await saveToIndexedDB(cellId, text, anxiety);
+                } else {
+                    localStorage.setItem('moodSchedulerData', JSON.stringify(database));
+                }
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                localStorage.setItem('moodSchedulerData', JSON.stringify(database));
+            }
+        }
+
+        // =======================
+        // DATA MANAGEMENT
+        // =======================
+
+        async function saveData() {
+            try {
+                if (db) {
+                    alert('✅ Dados salvos automaticamente no IndexedDB!');
+                } else {
+                    localStorage.setItem('moodSchedulerData', JSON.stringify(database));
+                    alert('✅ Dados salvos no localStorage!');
+                }
+            } catch (error) {
+                alert('❌ Erro ao salvar: ' + error.message);
+            }
+        }
+
+        async function loadData() {
+            try {
+                if (db) {
+                    await loadDataFromDatabase();
+                } else {
+                    loadDataFromLocalStorage();
+                }
+                alert('✅ Dados carregados com sucesso!');
+            } catch (error) {
+                alert('❌ Erro ao carregar: ' + error.message);
+            }
+        }
+
+        async function loadDataFromDatabase() {
+            try {
+                const entries = await loadFromIndexedDB();
+                database = entries;
+                
+                Object.keys(entries).forEach(cellId => {
+                    const data = entries[cellId];
+                    const textInput = document.getElementById(`text-${cellId}`);
+                    const anxietyInput = document.getElementById(`anxiety-${cellId}`);
+                    
+                    if (textInput && anxietyInput) {
+                        textInput.value = data.text || '';
+                        anxietyInput.value = data.anxiety || 0;
+                        updateCell(cellId);
+                    }
+                });
+            } catch (error) {
+                console.error('Erro IndexedDB:', error);
+                loadDataFromLocalStorage();
+            }
+        }
+
+        function loadDataFromLocalStorage() {
+            try {
+                const savedData = localStorage.getItem('moodSchedulerData');
+                if (savedData) {
+                    database = JSON.parse(savedData);
+                    
+                    Object.keys(database).forEach(cellId => {
+                        const data = database[cellId];
+                        const textInput = document.getElementById(`text-${cellId}`);
+                        const anxietyInput = document.getElementById(`anxiety-${cellId}`);
+                        
+                        if (textInput && anxietyInput) {
+                            textInput.value = data.text || '';
+                            anxietyInput.value = data.anxiety || 0;
+                            updateCell(cellId);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Erro localStorage:', error);
+            }
+        }
+
+        async function clearAll() {
+            if (confirm('⚠️ RECOMEÇAR: Deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
+                try {
+                    if (db) {
+                        await clearIndexedDB();
+                    }
+                    localStorage.removeItem('moodSchedulerData');
+                    database = {};
+                    
+                    // Limpar interface
+                    document.querySelectorAll('.text-input').forEach(input => input.value = '');
+                    document.querySelectorAll('.anxiety-range').forEach(input => {
+                        input.value = 0;
+                        const cellId = input.id.replace('anxiety-', '');
+                        const valueDisplay = document.getElementById(`value-${cellId}`);
+                        const cell = input.closest('.schedule-cell');
+                        if (valueDisplay) valueDisplay.textContent = 0;
+                        if (cell) cell.className = 'schedule-cell';
+                    });
+                    
+                    updateDashboard();
+                    updateStatistics();
+                    
+                    alert('✅ Todos os dados foram limpos! Você pode recomeçar.');
+                } catch (error) {
+                    alert('❌ Erro ao limpar: ' + error.message);
+                }
+            }
+        }
+
+        function resetApp() {
+            if (confirm('🔄 RESET TOTAL: Deseja resetar completamente a aplicação? Isso irá recarregar a página.')) {
+                try {
+                    if (db) {
+                        clearIndexedDB();
+                    }
+                    localStorage.clear();
+                    window.location.reload();
+                } catch (error) {
+                    alert('❌ Erro no reset: ' + error.message);
+                }
+            }
+        }
+
+        function exportData() {
+            try {
+                const exportObj = {
+                    data: database,
+                    exportDate: new Date().toISOString(),
+                    version: '2.0',
+                    totalEntries: Object.keys(database).length
+                };
+                
+                const dataStr = JSON.stringify(exportObj, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `mood-scheduler-${new Date().toISOString().split('T')[0]}.json`;
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                
+                alert(`✅ Dados exportados! ${exportObj.totalEntries} registros salvos.`);
+            } catch (error) {
+                alert('❌ Erro ao exportar: ' + error.message);
+            }
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = async (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                try {
+                    const text = await file.text();
+                    const importedData = JSON.parse(text);
+                    const dataToImport = importedData.data || importedData;
+                    
+                    if (confirm(`📥 Importar ${Object.keys(dataToImport).length} registros? Isso substituirá todos os dados atuais!`)) {
+                        // Limpar dados atuais
+                        if (db) {
+                            await clearIndexedDB();
+                        }
+                        localStorage.removeItem('moodSchedulerData');
+                        
+                        database = dataToImport;
+                        
+                        // Salvar novos dados
+                        if (db) {
+                            for (const [cellId, entry] of Object.entries(dataToImport)) {
+                                await saveToIndexedDB(cellId, entry.text, entry.anxiety);
+                            }
+                        } else {
+                            localStorage.setItem('moodSchedulerData', JSON.stringify(database));
+                        }
+                        
+                        // Atualizar interface
+                        Object.keys(dataToImport).forEach(cellId => {
+                            const data = dataToImport[cellId];
+                            const textInput = document.getElementById(`text-${cellId}`);
+                            const anxietyInput = document.getElementById(`anxiety-${cellId}`);
+                            
+                            if (textInput && anxietyInput) {
+                                textInput.value = data.text || '';
+                                anxietyInput.value = data.anxiety || 0;
+                                updateCell(cellId);
+                            }
+                        });
+                        
+                        alert('✅ Dados importados com sucesso!');
+                    }
+                } catch (error) {
+                    alert('❌ Erro ao importar: ' + error.message);
+                }
+            };
+            
+            input.click();
+        }
+
+        // =======================
+        // CHARTS INITIALIZATION
+        // =======================
+
+        function initializeCharts() {
+            // Gráfico semanal
+            const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+            charts.weekly = new Chart(weeklyCtx, {
+                type: 'bar',
+                data: {
+                    labels: daysOfWeekDisplay,
+                    datasets: [{
+                        label: 'Ansiedade Média',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100 },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Gráfico horário
+            const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+            charts.hourly = new Chart(hourlyCtx, {
+                type: 'line',
+                data: {
+                    labels: timeSlots.map(slot => slot.display),
+                    datasets: [{
+                        label: 'Ansiedade Média',
+                        data: new Array(timeSlots.length).fill(0),
+                        borderColor: 'rgba(54, 209, 220, 1)',
+                        backgroundColor: 'rgba(54, 209, 220, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100 },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Gráfico de distribuição
+            const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+            charts.distribution = new Chart(distributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Baixa (0-30)', 'Média (31-60)', 'Alta (61-100)'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: [
+                            'rgba(76, 175, 80, 0.8)',
+                            'rgba(255, 193, 7, 0.8)',
+                            'rgba(244, 67, 54, 0.8)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { padding: 20, usePointStyle: true }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de tendência
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            charts.trend = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Tendência',
+                        data: [],
+                        borderColor: 'rgba(118, 75, 162, 1)',
+                        backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100 },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // =======================
+        // DASHBOARD UPDATES
+        // =======================
+
+        function updateDashboard() {
+            const stats = calculateStatistics();
+            
+            // Atualizar cards resumo
+            document.getElementById('totalEntries').textContent = stats.totalEntries;
+            document.getElementById('avgAnxiety').textContent = stats.averageAnxiety.toFixed(1);
+            document.getElementById('maxAnxiety').textContent = stats.maxAnxiety;
+            document.getElementById('activeDays').textContent = stats.activeDays;
+
+            // Atualizar gráficos
+            updateCharts(stats);
+        }
+
+        function updateCharts(stats) {
+            // Dados semanais
+            const weeklyData = calculateWeeklyData();
+            charts.weekly.data.datasets[0].data = weeklyData;
+            charts.weekly.update();
+
+            // Dados horários
+            const hourlyData = calculateHourlyData();
+            charts.hourly.data.datasets[0].data = hourlyData;
+            charts.hourly.update();
+
+            // Distribuição
+            charts.distribution.data.datasets[0].data = [
+                stats.anxietyDistribution.low,
+                stats.anxietyDistribution.medium,
+                stats.anxietyDistribution.high
+            ];
+            charts.distribution.update();
+
+            // Tendência
+            const trendData = calculateTrendData();
+            charts.trend.data.labels = trendData.labels;
+            charts.trend.data.datasets[0].data = trendData.data;
+            charts.trend.update();
+        }
+
+        function calculateWeeklyData() {
+            const weeklyData = new Array(7).fill(0);
+            const weeklyCounts = new Array(7).fill(0);
+
+            Object.keys(database).forEach(cellId => {
+                const [day, hour] = cellId.split('-');
+                const entry = database[cellId];
+                
+                if (entry.text || entry.anxiety > 0) {
+                    const dayIndex = daysOfWeek.indexOf(day);
+                    if (dayIndex !== -1) {
+                        weeklyData[dayIndex] += entry.anxiety;
+                        weeklyCounts[dayIndex]++;
+                    }
+                }
+            });
+
+            for (let i = 0; i < 7; i++) {
+                if (weeklyCounts[i] > 0) {
+                    weeklyData[i] = weeklyData[i] / weeklyCounts[i];
+                }
+            }
+
+            return weeklyData;
+        }
+
+        function calculateHourlyData() {
+            const hourlyData = new Array(timeSlots.length).fill(0);
+            const hourlyCounts = new Array(timeSlots.length).fill(0);
+
+            Object.keys(database).forEach(cellId => {
+                const [day, hour] = cellId.split('-');
+                const entry = database[cellId];
+                
+                if (entry.text || entry.anxiety > 0) {
+                    const hourIndex = timeSlots.findIndex(slot => slot.hour == hour);
+                    if (hourIndex !== -1) {
+                        hourlyData[hourIndex] += entry.anxiety;
+                        hourlyCounts[hourIndex]++;
+                    }
+                }
+            });
+
+            for (let i = 0; i < timeSlots.length; i++) {
+                if (hourlyCounts[i] > 0) {
+                    hourlyData[i] = hourlyData[i] / hourlyCounts[i];
+                }
+            }
+
+            return hourlyData;
+        }
+
+        function calculateTrendData() {
+            const trendMap = new Map();
+            
+            Object.keys(database).forEach(cellId => {
+                const entry = database[cellId];
+                if (entry.text || entry.anxiety > 0) {
+                    const date = entry.timestamp ? entry.timestamp.split('T')[0] : new Date().toISOString().split('T')[0];
+                    if (!trendMap.has(date)) {
+                        trendMap.set(date, { total: 0, count: 0 });
+                    }
+                    const dayData = trendMap.get(date);
+                    dayData.total += entry.anxiety;
+                    dayData.count++;
+                }
+            });
+
+            const trendArray = Array.from(trendMap.entries()).map(([date, data]) => ({
+                date,
+                average: data.total / data.count
+            })).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            return {
+                labels: trendArray.map(item => {
+                    const date = new Date(item.date);
+                    return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+                }),
+                data: trendArray.map(item => item.average)
+            };
+        }
+
+        function calculateStatistics() {
+            const entries = Object.values(database).filter(entry => entry.text || entry.anxiety > 0);
+            
+            if (entries.length === 0) {
+                return {
+                    totalEntries: 0,
+                    averageAnxiety: 0,
+                    maxAnxiety: 0,
+                    minAnxiety: 0,
+                    busiestDay: 'N/A',
+                    busiestHour: 'N/A',
+                    activeDays: 0,
+                    anxietyDistribution: { low: 0, medium: 0, high: 0 }
+                };
+            }
+
+            const anxietyLevels = entries.map(entry => entry.anxiety);
+            const dayCount = {};
+            const hourCount = {};
+            const anxietyDistribution = { low: 0, medium: 0, high: 0 };
+            const activeDaysSet = new Set();
+
+            Object.keys(database).forEach(cellId => {
+                const [day, hour] = cellId.split('-');
+                const entry = database[cellId];
+                
+                if (entry.text || entry.anxiety > 0) {
+                    dayCount[day] = (dayCount[day] || 0) + 1;
+                    hourCount[hour] = (hourCount[hour] || 0) + 1;
+                    activeDaysSet.add(day);
+                    
+                    if (entry.anxiety <= 30) anxietyDistribution.low++;
+                    else if (entry.anxiety <= 60) anxietyDistribution.medium++;
+                    else anxietyDistribution.high++;
+                }
+            });
+
+            const busiestDay = Object.keys(dayCount).reduce((a, b) => dayCount[a] > dayCount[b] ? a : b, 'N/A');
+            const busiestHour = Object.keys(hourCount).reduce((a, b) => hourCount[a] > hourCount[b] ? a : b, 'N/A');
+
+            return {
+                totalEntries: entries.length,
+                averageAnxiety: anxietyLevels.reduce((a, b) => a + b, 0) / anxietyLevels.length,
+                maxAnxiety: Math.max(...anxietyLevels),
+                minAnxiety: Math.min(...anxietyLevels),
+                busiestDay: busiestDay === 'N/A' ? 'N/A' : daysOfWeekDisplay[daysOfWeek.indexOf(busiestDay)],
+                busiestHour: busiestHour === 'N/A' ? 'N/A' : `${busiestHour}:00`,
+                activeDays: activeDaysSet.size,
+                anxietyDistribution
+            };
+        }
+
+        function updateStatistics() {
+            const stats = calculateStatistics();
+            const detailedStats = document.getElementById('detailedStats');
+            
+            detailedStats.innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Total de Registros</div>
+                        <div class="stat-value">${stats.totalEntries}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Ansiedade Média</div>
+                        <div class="stat-value">${stats.averageAnxiety.toFixed(1)}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Maior Nível</div>
+                        <div class="stat-value">${stats.maxAnxiety}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Menor Nível</div>
+                        <div class="stat-value">${stats.minAnxiety}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Dia com Mais Registros</div>
+                        <div class="stat-value">${stats.busiestDay}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Horário Mais Comum</div>
+                        <div class="stat-value">${stats.busiestHour}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Dias Ativos</div>
+                        <div class="stat-value">${stats.activeDays}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Registros por Dia</div>
+                        <div class="stat-value">${(stats.totalEntries / Math.max(stats.activeDays, 1)).toFixed(1)}</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #333;">📈 Distribuição por Níveis</h3>
+                <div class="stats-grid">
+                    <div class="stat-card anxiety-level-0-30">
+                        <div class="stat-title">Baixa (0-30)</div>
+                        <div class="stat-value">${stats.anxietyDistribution.low}</div>
+                        <div class="summary-label">${stats.totalEntries > 0 ? ((stats.anxietyDistribution.low / stats.totalEntries) * 100).toFixed(1) : 0}% do total</div>
+                    </div>
+                    <div class="stat-card anxiety-level-31-60">
+                        <div class="stat-title">Média (31-60)</div>
+                        <div class="stat-value">${stats.anxietyDistribution.medium}</div>
+                        <div class="summary-label">${stats.totalEntries > 0 ? ((stats.anxietyDistribution.medium / stats.totalEntries) * 100).toFixed(1) : 0}% do total</div>
+                    </div>
+                    <div class="stat-card anxiety-level-61-100">
+                        <div class="stat-title">Alta (61-100)</div>
+                        <div class="stat-value">${stats.anxietyDistribution.high}</div>
+                        <div class="summary-label">${stats.totalEntries > 0 ? ((stats.anxietyDistribution.high / stats.totalEntries) * 100).toFixed(1) : 0}% do total</div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #333;">📊 Análise por Dia da Semana</h3>
+                <div class="stats-grid">
+                    ${daysOfWeekDisplay.map((day, index) => {
+                        const dayKey = daysOfWeek[index];
+                        const dayEntries = Object.keys(database).filter(cellId => {
+                            const [d] = cellId.split('-');
+                            const entry = database[cellId];
+                            return d === dayKey && (entry.text || entry.anxiety > 0);
+                        });
+                        const dayAnxietySum = dayEntries.reduce((sum, cellId) => sum + database[cellId].anxiety, 0);
+                        const dayAnxietyAvg = dayEntries.length > 0 ? dayAnxietySum / dayEntries.length : 0;
+                        
+                        return `
+                            <div class="stat-card">
+                                <div class="stat-title">${day}</div>
+                                <div class="stat-value">${dayAnxietyAvg.toFixed(1)}</div>
+                                <div class="summary-label">${dayEntries.length} registros</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Inicializar aplicação
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
