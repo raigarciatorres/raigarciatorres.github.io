@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sistema de Registro de Vendas</title>
 <style>
-/* --- MESMO CSS DO SEU CÓDIGO COM ADIÇÃO DE ALERTA DE ESTOQUE --- */
+/* --- ESTILO PADRÃO (DESKTOP E GRANDE) --- */
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); min-height:100vh; padding:20px;}
 .container { max-width:1200px; margin:0 auto; background:white; border-radius:15px; box-shadow:0 15px 35px rgba(0,0,0,0.1); overflow:hidden;}
@@ -68,6 +68,29 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:#3498db; 
 .stat-number { font-size:2rem; font-weight:600; color:#2c3e50; margin-bottom:5px;}
 .stat-label { color:#666; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.5px;}
 .low-stock { border-left:4px solid #e74c3c; padding-left:10px;}
+
+/* --- MEDIA QUERIES (ESTILOS PARA TELAS MENORES) --- */
+@media (max-width: 768px) {
+    body { padding: 10px; }
+    .container { border-radius: 0; }
+    .header h1 { font-size: 1.8rem; }
+    .header p { font-size: 1rem; }
+    .tabs { flex-wrap: wrap; }
+    .tab { font-size: 0.9rem; padding: 15px; }
+    .content { padding: 15px; }
+    .form-row { flex-direction: column; align-items: stretch; gap: 0; }
+    .form-row .form-group { margin-bottom: 15px; }
+    .btn { width: 100%; padding: 15px; }
+    .btn.btn-secondary { margin-top: 10px; }
+    .item-header, .sale-header { flex-direction: column; align-items: flex-start; }
+    .item-price, .sale-date { margin-top: 5px; }
+    .item-actions, .sale-actions { flex-direction: column; gap: 10px; width: 100%; }
+    .sale-actions .btn { width: 100%; }
+    .sale-item { flex-direction: column; align-items: flex-start; }
+    .sale-item span:last-child { margin-top: 5px; }
+    .stats { grid-template-columns: 1fr; }
+    .reset-section .btn { width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -85,7 +108,6 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:#3498db; 
     </div>
 
     <div class="content">
-        <!-- Aba Produtos -->
         <div id="products" class="tab-content active">
             <div class="form-section">
                 <h3>Adicionar Novo Produto</h3>
@@ -99,7 +121,6 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:#3498db; 
             <div class="item-list" id="productsList"></div>
         </div>
 
-        <!-- Aba Vendas -->
         <div id="sales" class="tab-content">
             <div style="margin-bottom:10px;">
                 <button class="btn btn-warning" onclick="generatePDF()">📄 Gerar Relatório PDF</button>
@@ -108,7 +129,6 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:#3498db; 
             <div class="sales-list" id="salesList"></div>
         </div>
 
-        <!-- Aba Nova Venda -->
         <div id="register" class="tab-content">
             <div class="form-section">
                 <h3>Registrar Nova Venda</h3>
@@ -139,7 +159,6 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:#3498db; 
             </div>
         </div>
 
-        <!-- Aba Configurações -->
         <div id="settings" class="tab-content">
             <div class="reset-section">
                 <h3>⚠️ Zona de Perigo</h3>
