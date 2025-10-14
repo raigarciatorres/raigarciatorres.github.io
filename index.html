@@ -3,282 +3,953 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rai</title>
+    <title>Dr. Nome do Pesquisador - Carreira Acadêmica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <link href="img/favicon.png" rel="icon">
-    <link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
-    <script type="text/javascript" src="script.js" ></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        :root {
+            --primary-dark: #1a1a1a;
+            --secondary-dark: #2d2d2d;
+            --gray-dark: #4a4a4a;
+            --gray-medium: #6b6b6b;
+            --gray-light: #e8e8e8;
+            --white: #ffffff;
+            --accent-blue: #5d7a8a;
+            --accent-beige: #b8a890;
+            --border-color: #d4d4d4;
+        }
 
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--secondary-dark);
+            line-height: 1.8;
+            background-color: var(--white);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--gray-medium);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            background: linear-gradient(135deg, var(--gray-light) 0%, var(--white) 100%);
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--gray-medium);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .hero .divider {
+            width: 80px;
+            height: 2px;
+            background-color: var(--accent-blue);
+            margin: 2rem auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: var(--accent-beige);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-medium);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* Biography */
+        .bio-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .bio-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: var(--gray-light);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--gray-medium);
+        }
+
+        .bio-text p {
+            margin-bottom: 1.5rem;
+            color: var(--gray-dark);
+            font-size: 1.05rem;
+        }
+
+        .credentials {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .credential-badge {
+            background-color: var(--gray-light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 2px;
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+        }
+
+        /* Publications */
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--gray-medium);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--accent-blue);
+            color: var(--white);
+            border-color: var(--accent-blue);
+        }
+
+        .publication-item {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .publication-item:last-child {
+            border-bottom: none;
+        }
+
+        .pub-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .pub-authors {
+            color: var(--gray-medium);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .pub-details {
+            font-style: italic;
+            color: var(--gray-medium);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .pub-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .pub-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .pub-link:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Projects */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .project-card {
+            border: 1px solid var(--gray-light);
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .project-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background-color: var(--gray-light);
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .project-status.ongoing {
+            background-color: #e8f4f8;
+            color: var(--accent-blue);
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: var(--gray-dark);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Teaching */
+        .course-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .course-item {
+            border-left: 3px solid var(--accent-beige);
+            padding-left: 2rem;
+        }
+
+        .course-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .course-code {
+            color: var(--gray-medium);
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .course-description {
+            color: var(--gray-dark);
+            margin-bottom: 1rem;
+        }
+
+        .course-materials {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .material-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 1rem;
+            background-color: var(--gray-light);
+            color: var(--gray-dark);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .material-link:hover {
+            background-color: var(--accent-blue);
+            color: var(--white);
+        }
+
+        /* CV Section */
+        .cv-section {
+            background-color: var(--gray-light);
+            padding: 4rem;
+            text-align: center;
+        }
+
+        .cv-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2.5rem;
+            background-color: var(--primary-dark);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .cv-button:hover {
+            background-color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            color: var(--secondary-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background-color: var(--primary-dark);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-blue);
+        }
+
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray-dark);
+        }
+
+        .info-item i {
+            color: var(--accent-blue);
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border: 1px solid var(--border-color);
+            color: var(--gray-medium);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--accent-blue);
+            color: var(--white);
+            border-color: var(--accent-blue);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--gray-light);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .bio-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .bio-image {
+                max-width: 250px;
+                margin: 0 auto;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-message {
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 2px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .form-message.success {
+            background-color: #e8f4f8;
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+        }
+
+        .form-message.error {
+            background-color: #f8e8e8;
+            color: #c54545;
+            border: 1px solid #c54545;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="profile-header">
-                <img src="img/rai.jpeg" alt="Professor Rai Garcia Torres">
-                <h1 class="profile-name">Rai Garcia Torres</h1>
-                <p class="profile-title">Mestre em Ensino de Ciências e Matemática (UNICAMP)</p>
-                <p class="profile-title">Licenciado em Física (UNICAMP)</p>
-            </div>
-        </div>
-    </header>
-
-    <div class="container">
-        <nav class="nav-tabs">
-            <ul>
-                <li><a href="index.html#sobre" class="tab-link active" data-tab="sobre">Sobre</a></li>
-                <li><a href="index.html#educacao" class="tab-link" data-tab="educacao">Educação</a></li>
-                <li><a href="index.html#pesquisa" class="tab-link" data-tab="pesquisa">Pesquisa</a></li>
-                <li><a href="index.html#exp-prof" class="tab-link" data-tab="exp-prof">Experiências</a></li>
-                <li><a href="index.html#proj-pessoais" class="tab-link" data-tab="proj-pessoais">Projetos</a></li>
-                <li><a href="index.html#publicacoes" class="tab-link" data-tab="publicacoes">Publicações</a></li>
-                <li><a href="index.html#habilidades" class="tab-link" data-tab="habilidades">Habilidades</a></li>
-                <li><a href="index.html#artigos" class="tab-link" data-tab="artigos">Artigos</a></li>
-                <li><a href="index.html#contato" class="tab-link" data-tab="contato">Contato</a></li>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Dr. Nome do Pesquisador</a>
+            <ul class="nav-menu">
+                <li><a href="#biografia">Biografia</a></li>
+                <li><a href="#publicacoes">Publicações</a></li>
+                <li><a href="#projetos">Projetos</a></li>
+                <li><a href="#ensino">Ensino</a></li>
+                <li><a href="#curriculo">Currículo</a></li>
+                <li><a href="#contato">Contato</a></li>
             </ul>
-        </nav>
-
-        <div id="sobre" class="content-section">
-            <h2>Sobre Mim</h2>
-            <div class="about-grid">
-                <div class="about-item">
-                    <h3>Biografia</h3>
-                    <p>Possui Licenciatura plena em Física pela Universidade Estadual de Campinas (UNICAMP-IFGW), 2019. Mestre pela Universidade Estadual de Campinas no Programa de Pós-Graduação Multiunidades em Ensino de Ciências e Matemática (PECIM), 2023. Atualmente se interessa pelo uso das tecnologias de Inteligência Artificial generativa na educação.</p>
-                </div>
-                <div class="about-item">
-                    <h3>Interesses de Pesquisa</h3>
-                    <p>• Inteligência Artificial<br>
-                    • Ensino de Ciências<br>
-                    • Aprendizagem Significativa<br>
-                    • Escrita Acadêmica<br>
-                    • Processamento de Linguagem Natural<br>
-                    • Neurociências</p>
-                </div>
-                <div class="about-item">
-                    <h3>Experiência</h3>
-                    <p>10+ anos de experiência em sala de aula, lecionando principalmente Física, e com experiência em Matemática, Química e Tecnologia da Informação. Conta com 3 publicações em periódicos/conferências, das quais duas internacionais. Atualmente bolsista TT-4 pela FAPESP no projeto <i>TRAJETÓRIAS SEM FRONTEIRAS: Memória e trauma de refugiados do mundo contemporâneo</i>, atuando no desenvolvimento de página web e da modelagem de banco de dados.</p>
-                </div>
-                <div class="about-item">
-                    <h3>Reconhecimentos</h3>
-                    <p>• Aluno destaque Ensino Médio (2010)<br>
-                    • Menção Honrosa - Publicação de artigo no ENSIPEX<br>
-                    • Revisor da revista International journal of educational technology in higher education - Springer Nature</p>
-                </div>
-            </div>
         </div>
+    </nav>
 
-        <div id="educacao" class="content-section">
-            <h2>Formação Acadêmica</h2>
-            <div class="education-item">
-                <h3>Mestrado em Ensino de Ciências e Matemática</h3>
-                <p><strong>Universidade Estadual de Campinas (UNICAMP)</strong> | 2023 - 2025</p>
-                <p align="justify">Dissertação: "Percepções Sobre Uso da Inteligência Artificial Generativa de Textos na Escrita Acadêmica: Uma análise sobre diretrizes e autoria no contexto da pós-graduação em Ensino de Ciências e Matemática da UNICAMP."</p>
-            </div>
-            <div class="education-item">
-                <h3>Bacharelado em Ciência de Dados e Tecnologia da Informação</h3>
-                <p><strong>Universidade Virtual do Estado de São Paulo (UNIVESP)</strong> | 2022 - 2026</p>
-                <p align="justify">Curso voltado para ferramentas matemáticas, estatísticas e computacionais para extração de conhecimentos a partir de dados.</p>
-            </div>
-            <div class="education-item">
-                <h3>Licenciatura em Física</h3>
-                <p><strong>Universidade Estadual de Campinas (UNICAMP)</strong> | 2015 - 2019</p>
-                <p align="justify">A Licenciatura em Física oferece uma formação completa e abrangente, que combina o estudo da Física com a formação pedagógica e prática de ensino. Os(As) alunos(as) têm a oportunidade de se envolver em pesquisa de ponta, desenvolver habilidades pedagógicas e ganhar experiência prática em sala de aula. Com essa base sólida, os(as) graduados(as) estão preparados(as) para se tornarem professores(as) de física altamente capacitados(as) e contribuir para a educação científica de qualidade.</p>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Dr. Nome do Pesquisador</h1>
+            <p class="subtitle">Professor Associado | Pesquisador | Especialista em Sua Área</p>
+            <div class="divider"></div>
         </div>
+    </section>
 
-        <div id="pesquisa" class="content-section">
-            <h2>Projetos de Pesquisa</h2>
-            <div class="research-item">
-                <h3>TRAJETÓRIAS SEM FRONTEIRAS: Memória e trauma de refugiados do mundo contemporâneo</h3>
-                <p><strong>Período:</strong> 2025 - 2026 | <strong>Financiamento:</strong> FAPESP (Bolsa TT-4)</p>
-                <p align="justify">O presente projeto de pesquisa pretende investigar os deslocamentos forçados contemporâneos e um de seus principais efeitos, o "refúgio", a partir do debate conceitual interdisciplinar sobre memória, testemunho e trajetórias de vida. Trata-se de uma proposta colaborativa realizada em parceria entre a Cátedra Sérgio Vieira de Mello/ UNICAMP/ ACNUR e o Institut Convergences Migrations/ Paris (ICM) e que abordará narrativas - notadamente testemunhos em primeira pessoa - com o objetivo de captar, produzir, discutir e disponibilizar dimensões de vivências traumáticas que pairam em grande parte invisibilizadas e inacessíveis a um público mais amplo. Nessa perspectiva, o estudo visa contribuir com o transbordamento das fronteiras de diferentes campos de conhecimento na produção de perspectivas teóricas que instrumentalizem reflexões sobre os agenciamentos das pessoas que vivenciam os deslocamentos forçados. Proposto por uma equipe de pesquisadores do Brasil e da França, atuantes em áreas complementares ligadas ao tema do refúgio, a pesquisa compreende a publicação de artigos, livro, a promoção de eventos acadêmicos nacionais e internacionais, um curso de formação voltado à estudantes, funcionários de ONGs e do poder público e privado desenvolvido pelo INALCO PARIS que será ser realizado na Universidade Estadual de Campinas (UNICAMP), a criação e disponibilização de um Repositório de Dados sobre refúgio além da captação de entrevistas com refugiados radicados no Brasil e na França, conferindo o protagonismo da fala a esse espectro populacional em grande parte invisibilizado. Sendo assim, Trajetórias Sem Fronteiras possibilitará um qualificado debate pautado nas linhas de pesquisa, teóricas e de campo, empreendidas pelos pesquisadores envolvidos e com o fecundo engajamento de ambas instituições, UNICAMP e Institut Convergences Migrations (ICM), nos estudos migratórios.</p>
-            </div>
-            <div class="research-item">
-                <h3>Percepções Sobre Uso da Inteligência Artificial Generativa de Textos na Escrita Acadêmica: Uma análise sobre diretrizes e autoria no contexto da pós-graduação em Ensino de Ciências e Matemática da UNICAMP.</h3>
-                <p><strong>Período:</strong> 2023 - 2025 | <strong>Financiamento:</strong> CAPES</p>
-                <p align="justify"></p>
-            </div>
-        </div>
-
-        <div id="exp-prof" class="content-section">
-            <h2>Experiências Profissionais</h2>
-            <div class="education-item">
-                <h3>AI Expert</h3>
-                <p><strong>Flaterz - Manchester, UK</strong> | Fev. 2025 - Presente</p>
-                <p>Implementação de soluções de IA, usando técnicas de WebScrping</p>
-            </div>
-            <div class="education-item">
-                <h3>Professor</h3>
-                <p><strong>SENAC - Sorocaba, SP</strong> | Jan. 2020 - Dez. 2022</p>
-                <p>Aulas de Física para o Ensino Médio</p>
-            </div>
-            <div class="education-item">
-                <h3>Professor</h3>
-                <p><strong>Escola Estadual Luiz Gonzaga de Camargo Fleury - Sorocaba, SP</strong> | Out. 2019 - Nov. 2019</p>
-                <p>Aulas de Física para o Ensino Médio</p>
-            </div>
-            <div class="education-item">
-                <h3>Monitoria</h3>
-                <p><strong>Colégio Ápice - Campinas, SP</strong> | Ago. 2017 - Dez. 2017</p>
-                <p>Física, Química e Matemática para o Ensino Médio</p>
-            </div>
-            <div class="education-item">
-                <h3>Professor</h3>
-                <p><strong>Cescon - Campinas, SP</strong> | Ago. 2016 - Dez. 2016</p>
-                <p>Física e Matemática para o Ensino Fundamnetal II</p>
-            </div>
-            <div class="education-item">
-                <h3>Professor</h3>
-                <p><strong>PROCEU Conhecimento - Campinas, SP</strong> | Ago. 2016 - Dez. 2016</p>
-                <p>Física e Matemática para o Cursinho</p>
-            </div>
-            <div class="education-item">
-                <h3>Currículo completo</h3>
-                <a href="CV_teacher_pt_br.pdf" download target="_blank">Clique aqui para baixar o PDF do currículo</a>
-            </div>
-        </div>
-
-        <div id="proj-pessoais" class="content-section">
-            <h2>Projetos Pessoais</h2>
-            <div class="education-item">
-                <h3><a href="medicine.html" target="_blank" >Transcrição Médica com IA</a></h3>
-                <details>
-                <p><strong>Produzido via Claude.ai e usa-se a API do Gemini</strong> | 2025</p>
-                <p>A IA foi treinada para reconhecer terminologia específica da neuropsicopedagogia e gerar relatórios seguindo os padrões profissionais da área, incluindo todas as seções necessárias para uma avaliação completa!</p>
-                </details>
-            </div>
-            <div class="education-item">
-                <h3><a href="https://adapt-test-gemini-maker.lovable.app/" target="_blank">AdaptaLearn</a></h3>
-                <details>
-                <p><strong>Produzido via Lovable.dev e usa-se a API do Gemini</strong> | 2025</p>
-                <p>Interface estruturada para seleção de transtornos baseada no DSM-5, incluindo transtornos específicos de aprendizagem (Dislexia, Disortografia, Discalculia) e transtornos do neurodesenvolvimento (Deficiência Intelectual, TDAH, TEA, Transtornos Motores, Transtornos da Comunicação) com níveis de severidade apropriados, permitindo geração de provas mais precisamente adaptadas às necessidades educacionais especiais.</p>
-                </details>
-            </div>
-            <div class="education-item">
-                <h3><a href="https://discalcul-ia.lovable.app/" target="_blank">DISCALCULia</a></h3>
-                <details>
-                <p><strong>Produzido via Lovable.dev e usa-se a API do Gemini</strong> | 2025</p>
-                <p>Foco em suporte ao professor para atividades diversas para alunos com Discalculia.</p>
-                </details>
-            </div>
-        </div>
-
-        <div id="publicacoes" class="content-section">
-            <h2>Publicações</h2>
-            <div class="publication-item">
-                <h3>Percepções de Indivíduos da Pós-graduação da Unicamp Sobre o Uso da Inteligência Artificial nas Práticas de Escrita Acadêmica</h3>
-                <p class="authors">TORRES, Rai G.; LINHALIS, Flavia</p>
-                <p class="journal">IV Congresso Brasileiro On-line de Ensino, Pesquisa e Extensão - ENSIPEX, 2025</p>
-                <p align="justify">Pesquisas do estado da arte revelam que preocupações sobre Inteligência Artificial (IA) em geral abordam aspectos relativos a sistemas de tutores inteligentes, de avaliação e do gerenciamento do aprendizado. No entanto, como resultado do surgimento de chatbots que geram textos via prompt, esse cenário pode se modificar dada a ausência de consenso sobre seus usos de ordem ética, especialmente nas práticas na escrita acadêmica. Por isso, pretende- se responder com esta pesquisa à seguinte questão: quais são as percepções de sujeitos acadêmicos sobre as práticas na escrita de teses e dissertações diante da inteligência artificial generativa de textos? Porque, embora existam diretrizes para integridade de autores em revistas científicas que, em geral, abordam a ética e os modos de uso íntegro da inteligência artificial na escrita científica, o surgimento de tecnologias de inteligência artificial que geram textos tem instigado novas reflexões carregadas de incertezas entre os indivíduos no contexto acadêmico. Portanto, objetiva-se com este estudo descrever as percepções de alunos de mestrado e doutorado, orientadores e coordenadores de programas de pós-graduação stricto sensu da Universidade Estadual de Campinas (Unicamp) sobre as práticas da escrita acadêmica diante da inteligência artificial generativa de textos. Coletaram-se dados de 68 sujeitos das quatro grandes áreas de pós-graduação via questionário semiaberto, composto por questões de perfil acadêmico, por questões fechadas em escala Likert sobre as temáticas encontradas na literatura e por questões abertas para justificar as questões fechadas. Obtiveram-se 11 correlações entre as questões em escala Likert a partir do teste de Spearman e analisaram-se dez das possíveis comparações entre grupos independentes. Conclui-se que atingir um consenso será um desafio e que será necessário reavaliar o letramento tecnológico dentro desse contexto.
-</p>
-                <a href="https://ime.events/iv-ensipex/pdf/48037">DOI: 10.51189/iv-ensipex/48037</a>
-            </div>
-            <div class="publication-item">
-                <h3>Perceptions of Faculty Members and Graduate Students on Guidelines in the Face of Use of Text Generative Artificial Intelligence</h3>
-                <p class="authors">TORRES, Rai G.; LINHALIS, Flavia</p>
-                <p class="journal">CONFERÊNCIA LATINO-AMERICANA DE ÉTICA EM INTELIGÊNCIA ARTIFICIAL, 2024</p>
-                <p align="justify">Major scientific institutions worldwide have integrated ethics into their policies to promote sound scientific writing practices and to guide authors in the AI era. This article summarizes initial discussions on academic writing and presents a comparison of perspectives on the development of guidelines for scholars across four distinct academic disciplines in higher education. Additionally, we underscore the importance of understanding the perceptions of these academic participants, as this insight can support decision-making by academic leaders. Furthermore, this understanding is essential for reassessing technology literacy within the academic community, with the goal of preserving academic integrity.</p>
-                <a href="https://doi.org/10.5753/laai-ethics.2024.32450">DOI: laai-ethics.2024.32450</a>
-            </div>
-        </div>
-
-        <div id="habilidades" class="content-section">
-            <h2>Habilidades e Competências</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Linguagens de Programação</h3>
-                    <ul>
-                        <li>Python</li>
-                        <li>HTML</li>
-                        <li>CSS</li>
-                        <li>TypeScript</li>
-                        <li>MySQL</li>
-                        <li>Sqlite3</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Frameworks & Bibliotecas</h3>
-                    <ul>
-                        <li>Angular</li>
-                        <li>Pandas</li>
-                        <li>Streamlit</li>
-                        <li>Scikit-Learn</li>
-                        <li>SpaCy</li>
-                        <li>BeautifulSoup</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Áreas de Interesse de Pesquisa</h3>
-                    <ul>
-                        <li>Ensino</li>
-                        <li>Aprendizagem Significativa</li>
-                        <li>Aprendizagem Baseada em Projetos</li>
-                        <li>Ensino por Experimentação e Investigação</li>
-                        <li>Alfabetização Científica e Midiática</li>
-                        <li>Neurociência</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Ferramentas</h3>
-                    <ul>
-                        <li>Jupyter Notebook</li>
-                        <li>Git/GitHub</li>
-                        <li>LaTeX</li>
-                        <li>Excel</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div id="artigos" class="content-section">
-            <h2>Artigos</h2>
+    <!-- Biography Section -->
+    <section id="biografia" class="container">
+        <div class="section">
+            <h2 class="section-title">Biografia</h2>
+            <p class="section-subtitle">Trajetória acadêmica e profissional</p>
             
-            <!-- Navegação dos Artigos -->
-            <div class="articles-nav" id="articles-nav">
-                <h3>Selecione um Artigo</h3>
-                <div class="articles-list">
-                    <div class="article-card" onclick="window.location.href='artigo1.html'">
-                        <h4>Um pouco do que li sobre "Neurociência Aplicada à Aprendizagem"</h4>
-                        <p>de Telma Pantano e Jaime Luiz Zorzi</p>
-                    </div>
-                    <div class="article-card" onclick="window.location.href='artigo2.html'">
-                        <h4>texto</h4>
-                        <p>texto</p>
+            <div class="bio-content">
+                <div class="bio-image">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="bio-text">
+                    <p>Dr. Nome do Pesquisador é Professor Associado na Universidade XYZ, onde atua desde 2015. Com formação em [Área de Conhecimento] pela Universidade ABC (Ph.D., 2012), dedica-se à pesquisa em [temas principais de pesquisa], tendo publicado mais de 50 artigos em periódicos internacionais de alto impacto.</p>
+                    
+                    <p>Sua trajetória acadêmica inclui pós-doutorado na Universidade DEF (2012-2014), onde desenvolveu pesquisas inovadoras em [área específica]. Ao longo de sua carreira, coordenou importantes projetos de pesquisa financiados por agências nacionais e internacionais, contribuindo significativamente para o avanço do conhecimento em sua área.</p>
+                    
+                    <p>Além da pesquisa, é reconhecido por sua excelência no ensino, tendo orientado mais de 30 estudantes de pós-graduação e recebido prêmios de ensino. Atua também como revisor de periódicos internacionais e membro de comitês científicos em conferências relevantes.</p>
+                    
+                    <div class="credentials">
+                        <span class="credential-badge">Ph.D. em [Área]</span>
+                        <span class="credential-badge">Pós-Doc Universidade DEF</span>
+                        <span class="credential-badge">Professor Associado</span>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-         <div id="contato" class="content-section">
-            <div class="contact-grid">
-                <div class="article-card" onclick="window.open('mailto:raigarciatorres@outlook.com', '_blank')">
-                    <h3>E-mail</h3>
+    <!-- Publications Section -->
+    <section id="publicacoes" class="container">
+        <div class="section">
+            <h2 class="section-title">Publicações</h2>
+            <p class="section-subtitle">Artigos, livros e trabalhos acadêmicos</p>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="articles">Artigos</button>
+                <button class="filter-btn" data-filter="books">Livros</button>
+                <button class="filter-btn" data-filter="chapters">Capítulos</button>
+            </div>
+
+            <div class="publications-list">
+                <div class="publication-item" data-category="articles">
+                    <h3 class="pub-title">Título do Artigo Científico Recente sobre Tema Relevante</h3>
+                    <p class="pub-authors">Pesquisador, N.; Coautor, A.; Colaborador, B.</p>
+                    <p class="pub-details">Journal of Important Research, vol. 45, n. 3, pp. 234-256, 2024</p>
+                    <div class="pub-links">
+                        <a href="#" class="pub-link"><i class="fas fa-file-pdf"></i> PDF</a>
+                        <a href="#" class="pub-link"><i class="fas fa-external-link-alt"></i> DOI: 10.1234/journal.2024.001</a>
+                    </div>
                 </div>
-                <div class="article-card" onclick="window.open('https://wa.me/5515997693102', '_blank')">
-                    <h3>WhatsApp</h3>
+
+                <div class="publication-item" data-category="articles">
+                    <h3 class="pub-title">Metodologias Inovadoras em Pesquisa Aplicada: Um Estudo de Caso</h3>
+                    <p class="pub-authors">Pesquisador, N.; Silva, C.; Santos, D.</p>
+                    <p class="pub-details">International Review of Academic Studies, vol. 28, n. 2, pp. 145-168, 2023</p>
+                    <div class="pub-links">
+                        <a href="#" class="pub-link"><i class="fas fa-file-pdf"></i> PDF</a>
+                        <a href="#" class="pub-link"><i class="fas fa-external-link-alt"></i> DOI: 10.5678/iras.2023.045</a>
+                    </div>
                 </div>
-                <div class="article-card" onclick="window.open('https://orcid.org/0000-0002-6860-0905', '_blank')">
-                    <h3>ORCID</h3>
+
+                <div class="publication-item" data-category="books">
+                    <h3 class="pub-title">Fundamentos Teóricos e Práticos da [Área de Conhecimento]</h3>
+                    <p class="pub-authors">Pesquisador, N.</p>
+                    <p class="pub-details">Editora Acadêmica, 1ª edição, 456 páginas, 2022</p>
+                    <div class="pub-links">
+                        <a href="#" class="pub-link"><i class="fas fa-book"></i> Ver detalhes</a>
+                        <a href="#" class="pub-link"><i class="fas fa-shopping-cart"></i> Adquirir</a>
+                    </div>
                 </div>
-                <div class="article-card" onclick="window.open('https://scholar.google.com.br/citations?user=lA-smlwAAAAJ', '_blank')">
-                    <h3>Google Scholar</h3>
+
+                <div class="publication-item" data-category="chapters">
+                    <h3 class="pub-title">Perspectivas Contemporâneas em Pesquisa Avançada</h3>
+                    <p class="pub-authors">Pesquisador, N.; Oliveira, E.</p>
+                    <p class="pub-details">In: Manual de Estudos Avançados (Org. F. Rodrigues), Editora Científica, pp. 89-112, 2023</p>
+                    <div class="pub-links">
+                        <a href="#" class="pub-link"><i class="fas fa-file-pdf"></i> PDF</a>
+                    </div>
                 </div>
-                <div class="article-card" onclick="window.open('http://lattes.cnpq.br/1641463862771835', '_blank')">
-                    <h3>Lattes</h3>
-                </div>
-                <div class="article-card" onclick="window.open('https://maps.app.goo.gl/GS1V3Mdn1LkDLNE79', '_blank')">
-                    <h3>Escritório - Rua xyz</h3>
-                    <p>Sala xyz<br>Departamento de xyz</p>
+
+                <div class="publication-item" data-category="articles">
+                    <h3 class="pub-title">Análise Crítica de Modelos Teóricos Contemporâneos</h3>
+                    <p class="pub-authors">Coautor, M.; Pesquisador, N.; Lima, G.</p>
+                    <p class="pub-details">Quarterly Journal of Research, vol. 52, n. 4, pp. 567-589, 2022</p>
+                    <div class="pub-links">
+                        <a href="#" class="pub-link"><i class="fas fa-file-pdf"></i> PDF</a>
+                        <a href="#" class="pub-link"><i class="fas fa-external-link-alt"></i> DOI: 10.9012/qjr.2022.089</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <footer>
+    <!-- Projects Section -->
+    <section id="projetos" class="container">
+        <div class="section">
+            <h2 class="section-title">Projetos de Pesquisa</h2>
+            <p class="section-subtitle">Investigações em andamento e concluídas</p>
+            
+            <div class="project-grid">
+                <div class="project-card">
+                    <span class="project-status ongoing">Em Andamento</span>
+                    <h3 class="project-title">Investigação sobre Temas Emergentes na Área de Conhecimento</h3>
+                    <p class="project-description">Este projeto investiga aspectos fundamentais relacionados a [tema específico], utilizando metodologias inovadoras e colaboração internacional. Financiamento: CNPq, R$ 250.000. Período: 2023-2026.</p>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-status ongoing">Em Andamento</span>
+                    <h3 class="project-title">Desenvolvimento de Novas Abordagens Metodológicas</h3>
+                    <p class="project-description">Projeto dedicado ao desenvolvimento e validação de novas metodologias para análise de [tema]. Envolve equipe multidisciplinar e parcerias com instituições internacionais. Financiamento: FAPESP, R$ 180.000. Período: 2024-2027.</p>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-status">Concluído</span>
+                    <h3 class="project-title">Análise Comparativa de Modelos Teóricos Contemporâneos</h3>
+                    <p class="project-description">Pesquisa concluída que resultou em publicações de alto impacto e formação de recursos humanos qualificados. O projeto contribuiu significativamente para o avanço do conhecimento na área. Financiamento: CAPES. Período: 2020-2023.</p>
+                </div>
+
+                <div class="project-card">
+                    <span class="project-status">Concluído</span>
+                    <h3 class="project-title">Colaboração Internacional em Pesquisa Avançada</h3>
+                    <p class="project-description">Projeto desenvolvido em colaboração com universidades europeias, focando em aspectos inovadores de [tema]. Gerou importantes publicações e intercâmbio de pesquisadores. Período: 2019-2022.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teaching Section -->
+    <section id="ensino" class="container">
+        <div class="section">
+            <h2 class="section-title">Ensino</h2>
+            <p class="section-subtitle">Disciplinas, metodologias e materiais didáticos</p>
+            
+            <div class="course-list">
+                <div class="course-item">
+                    <h3 class="course-name">Introdução à [Área de Conhecimento]</h3>
+                    <p class="course-code">Código: ABC-101 | Graduação | 60 horas</p>
+                    <p class="course-description">Disciplina introdutória que aborda os fundamentos teóricos e práticos da área, preparando estudantes para compreender conceitos essenciais e desenvolver pensamento crítico. Metodologia ativa com estudos de caso, discussões em grupo e projetos práticos.</p>
+                    <div class="course-materials">
+                        <a href="#" class="material-link"><i class="fas fa-file-alt"></i> Programa da Disciplina</a>
+                        <a href="#" class="material-link"><i class="fas fa-book"></i> Bibliografia</a>
+                        <a href="#" class="material-link"><i class="fas fa-folder"></i> Materiais de Apoio</a>
+                    </div>
+                </div>
+
+                <div class="course-item">
+                    <h3 class="course-name">Metodologia de Pesquisa Avançada</h3>
+                    <p class="course-code">Código: ABC-301 | Pós-Graduação | 45 horas</p>
+                    <p class="course-description">Curso avançado voltado para estudantes de mestrado e doutorado, focando em técnicas contemporâneas de pesquisa, análise de dados e redação acadêmica. Inclui seminários com pesquisadores convidados e desenvolvimento de projetos de pesquisa.</p>
+                    <div class="course-materials">
+                        <a href="#" class="material-link"><i class="fas fa-file-alt"></i> Programa da Disciplina</a>
+                        <a href="#" class="material-link"><i class="fas fa-book"></i> Bibliografia</a>
+                        <a href="#" class="material-link"><i class="fas fa-video"></i> Videoaulas</a>
+                    </div>
+                </div>
+
+                <div class="course-item">
+                    <h3 class="course-name">Tópicos Especiais em [Área Específica]</h3>
+                    <p class="course-code">Código: ABC-401 | Pós-Graduação | 30 horas</p>
+                    <p class="course-description">Disciplina que explora temáticas contemporâneas e emergentes na área, com ênfase em debates teóricos atuais e aplicações práticas. Formato de seminário com apresentações dos estudantes e discussões aprofundadas.</p>
+                    <div class="course-materials">
+                        <a href="#" class="material-link"><i class="fas fa-file-alt"></i> Programa da Disciplina</a>
+                        <a href="#" class="material-link"><i class="fas fa-book"></i> Artigos Selecionados</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CV Section -->
+    <section id="curriculo" class="cv-section">
         <div class="container">
-            <p>&copy; 2025 - Todos os direitos reservados.</p>
+            <h2 class="section-title">Currículo</h2>
+            <p class="section-subtitle">Acesse o currículo completo em formato PDF</p>
+            <a href="#" class="cv-button">
+                <i class="fas fa-download"></i> Download Currículo Completo (PDF)
+            </a>
         </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="container">
+        <div class="section">
+            <h2 class="section-title">Contato</h2>
+            <p class="section-subtitle">Entre em contato para colaborações e informações</p>
+            
+            <div class="contact-grid">
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nome *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">E-mail *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Assunto *</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mensagem *</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Enviar Mensagem</button>
+                        <div class="form-message" id="formMessage"></div>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <h3>Informações de Contato</h3>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>nome.pesquisador@universidade.edu.br</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+55 (11) 1234-5678</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Departamento de [Área]<br>Universidade XYZ<br>Rua Exemplo, 123 - Campus Central<br>CEP 12345-678 - Cidade, Estado</span>
+                    </div>
+
+                    <h3 style="margin-top: 3rem;">Redes Acadêmicas</h3>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="ORCID">
+                            <i class="fab fa-orcid"></i>
+                        </a>
+                        <a href="#" class="social-link" title="ResearchGate">
+                            <i class="fab fa-researchgate"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Google Scholar">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="#" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Lattes">
+                            <i class="fas fa-id-card"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Academia.edu">
+                            <i class="fas fa-university"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Dr. Nome do Pesquisador. Todos os direitos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Última atualização: Outubro de 2025</p>
     </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Publication filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const publicationItems = document.querySelectorAll('.publication-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filter = button.getAttribute('data-filter');
+
+                publicationItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Contact form validation and submission
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            // Basic validation
+            if (!name || !email || !subject || !message) {
+                showMessage('Por favor, preencha todos os campos obrigatórios.', 'error');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('Por favor, insira um e-mail válido.', 'error');
+                return;
+            }
+
+            // Simulate form submission (in production, this would send to a server)
+            showMessage('Mensagem enviada com sucesso! Responderei em breve.', 'success');
+            contactForm.reset();
+        });
+
+        function showMessage(text, type) {
+            formMessage.textContent = text;
+            formMessage.className = 'form-message ' + type;
+            formMessage.style.display = 'block';
+
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Navbar scroll effect
+        let lastScroll = 0;
+        const navbar = document.querySelector('.navbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                navbar.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            }
+
+            lastScroll = currentScroll;
+        });
+    </script>
 </body>
-</html>
+</html
