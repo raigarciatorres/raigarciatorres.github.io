@@ -494,7 +494,7 @@
 
         .submit-btn {
             padding: 1rem 2rem;
-            background-color: var(--primary-dark);
+            background-color: #25D366;
             color: var(--white);
             border: none;
             cursor: pointer;
@@ -502,10 +502,14 @@
             font-weight: 600;
             transition: all 0.3s ease;
             font-family: 'Lato', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .submit-btn:hover {
-            background-color: var(--accent-blue);
+            background-color: #128C7E;
         }
 
         .contact-info h3 {
@@ -613,26 +617,6 @@
             .timeline {
                 padding-left: 2rem;
             }
-        }
-
-        .form-message {
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 2px;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        .form-message.success {
-            background-color: #e8f4f8;
-            color: var(--accent-blue);
-            border: 1px solid var(--accent-blue);
-        }
-
-        .form-message.error {
-            background-color: #f8e8e8;
-            color: #c54545;
-            border: 1px solid #c54545;
         }
     </style>
 </head>
@@ -942,22 +926,13 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="email">E-mail *</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="subject">Assunto *</label>
-                            <input type="text" id="subject" name="subject" required>
-                        </div>
-                        
-                        <div class="form-group">
                             <label for="message">Mensagem *</label>
                             <textarea id="message" name="message" required></textarea>
                         </div>
                         
-                        <button type="submit" class="submit-btn">Enviar Mensagem</button>
-                        <div class="form-message" id="formMessage"></div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fab fa-whatsapp"></i> Enviar via WhatsApp
+                        </button>
                     </form>
                 </div>
 
@@ -1035,33 +1010,26 @@
             }
         });
 
-        // Contact Form Handling
+        // Contact Form Handling - WhatsApp Integration
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const formMessage = document.getElementById('formMessage');
-            const submitBtn = this.querySelector('.submit-btn');
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
             
-            // Disable button during submission
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
+            // Format WhatsApp message
+            const whatsappMessage = `Olá! Meu nome é ${name}.%0A%0A${message}`;
             
-            // Simulate form submission (replace with actual backend logic)
+            // WhatsApp number (remove spaces and special characters)
+            const phoneNumber = '5515997693102';
+            
+            // Redirect to WhatsApp
+            window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
+            
+            // Reset form after a short delay
             setTimeout(() => {
-                formMessage.className = 'form-message success';
-                formMessage.textContent = 'Mensagem enviada com sucesso! Entrarei em contato em breve.';
-                formMessage.style.display = 'block';
-                
-                // Reset form
                 this.reset();
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Enviar Mensagem';
-                
-                // Hide message after 5 seconds
-                setTimeout(() => {
-                    formMessage.style.display = 'none';
-                }, 5000);
-            }, 1500);
+            }, 500);
         });
     </script>
 </body>
