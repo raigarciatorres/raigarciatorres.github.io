@@ -398,6 +398,215 @@
     color: var(--muted);
   }
 
+  /* ── PROFESSOR ── */
+  .professor {
+    background: var(--ink);
+    padding: 7rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .professor::before {
+    content: '';
+    position: absolute;
+    left: -15%;
+    top: -20%;
+    width: 60%;
+    height: 140%;
+    background: radial-gradient(ellipse at center, rgba(184,148,74,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .prof-inner {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Foto */
+  .prof-photo-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .prof-photo-wrap {
+    position: relative;
+  }
+
+  .prof-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: rgba(255,255,255,0.04);
+    border: 2px dashed rgba(184,148,74,0.35);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: border-color 0.3s;
+  }
+
+  .prof-photo-placeholder svg {
+    width: 90px;
+    opacity: 0.35;
+  }
+
+  .prof-photo-placeholder span {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+  }
+
+  /* Para quando tiver foto real — basta trocar a div por <img> com class="prof-photo-img" */
+  .prof-photo-img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .prof-photo-badge {
+    position: absolute;
+    bottom: -1rem;
+    right: -1rem;
+    background: var(--gold);
+    padding: 0.9rem 1.2rem;
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  .prof-photo-badge strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--white);
+    margin-bottom: 0.15rem;
+  }
+
+  .prof-photo-badge span {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.05em;
+  }
+
+  .prof-stats {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 4px;
+    padding: 1.2rem;
+    margin-top: 0.5rem;
+  }
+
+  .prof-stat {
+    flex: 1;
+    text-align: center;
+  }
+
+  .prof-stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .prof-stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  .prof-stat-divider {
+    width: 1px;
+    height: 2.5rem;
+    background: rgba(255,255,255,0.08);
+    flex-shrink: 0;
+  }
+
+  /* Texto */
+  .prof-text .section-eyebrow { color: var(--gold-light); }
+  .prof-text h2 { color: var(--white); }
+
+  .prof-bio {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+    margin: 1.5rem 0 2rem;
+    max-width: 55ch;
+  }
+
+  .prof-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .prof-info-block {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.2rem 1.4rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 3px solid var(--gold);
+    border-radius: 3px;
+    transition: background 0.3s;
+  }
+
+  .prof-info-block:hover { background: rgba(255,255,255,0.06); }
+
+  .prof-info-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .prof-info-block strong {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .prof-info-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .prof-info-block ul li {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+    padding-left: 0.8rem;
+    position: relative;
+  }
+
+  .prof-info-block ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+
   /* ── PRICING ── */
   .pricing {
     background: var(--cream);
@@ -880,6 +1089,219 @@
     transform: translateY(0);
   }
 
+  /* ── PLATFORM ── */
+  .platform {
+    background: var(--cream);
+    padding: 7rem 4rem;
+  }
+
+  .platform-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .platform-features {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .pf-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .pf-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: var(--gold-pale);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pf-item strong {
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+
+  .pf-item p {
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  /* Mockup card */
+  .mockup-card {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 24px 60px rgba(26,22,18,0.12), 0 4px 16px rgba(26,22,18,0.06);
+    overflow: hidden;
+    border: 1px solid rgba(26,22,18,0.07);
+  }
+
+  .mockup-header {
+    background: var(--ink);
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .mockup-dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .mockup-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: block;
+  }
+
+  .mockup-dots span:first-child { background: #ff5f57; }
+  .mockup-dots span:nth-child(2) { background: #febc2e; }
+  .mockup-dots span:nth-child(3) { background: #28c840; }
+
+  .mockup-title {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .mockup-body {
+    padding: 1.5rem;
+  }
+
+  .mockup-section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  .mockup-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--text);
+  }
+
+  .bar-row > span:first-child {
+    width: 130px;
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--warm);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 99px;
+    transition: width 1s ease;
+  }
+
+  .bar-pct {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--gold);
+    width: 2.5rem;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .mockup-divider {
+    height: 1px;
+    background: var(--warm);
+    margin: 1rem 0;
+  }
+
+  .mockup-activity {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.77rem;
+    color: var(--text);
+    padding: 0.3rem 0;
+  }
+
+  .activity-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .activity-dot.green { background: #2ecc71; }
+  .activity-dot.gold  { background: var(--gold); }
+  .activity-dot.muted { background: #ccc; }
+
+  .mockup-next {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--gold-pale);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    margin-top: 0.4rem;
+  }
+
+  .next-info strong {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--ink);
+    margin-bottom: 0.15rem;
+  }
+
+  .next-info span {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .next-badge {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    background: rgba(184,148,74,0.15);
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     header { padding: 1rem 1.5rem; }
@@ -892,7 +1314,14 @@
     .plan.featured { transform: none; }
     .testimonials-grid { grid-template-columns: 1fr; }
     .strip { padding: 1rem 1.5rem; gap: 1.5rem; flex-wrap: wrap; }
-    .cta-band { padding: 4rem 1.5rem; }
+    .platform { padding: 4rem 1.5rem; }
+    .platform-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .platform-visual { order: -1; }
+    .professor { padding: 4rem 1.5rem; }
+    .prof-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .prof-photo-badge { right: 0; }
+    .prof-stats { flex-wrap: wrap; gap: 1rem; }
+    
     footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
     .footer-links { justify-content: center; }
   }
@@ -905,6 +1334,8 @@
   <div class="logo">Me. Prof. <span>Rai</span></div>
   <nav>
     <a href="#como-funciona">Como Funciona</a>
+    <a href="#plataforma">Plataforma</a>
+    <a href="#professor">Professor</a>
     <a href="#planos">Planos</a>
     <a href="#faq">Dúvidas</a>
     <a href="https://wa.me/5515997693102?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20as%20aulas%20particulares." target="_blank" class="btn-wa-header">Falar no WhatsApp</a>
@@ -925,7 +1356,7 @@
     </p>
     <div class="hero-ctas">
       <a href="#planos" class="btn-primary">Ver Planos</a>
-      <a href="https://wa.me/5516999999999?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20as%20aulas%20particulares." target="_blank" class="btn-outline">Falar agora →</a>
+      <a href="https://wa.me/5515997693102?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20as%20aulas%20particulares." target="_blank" class="btn-outline">Falar agora →</a>
     </div>
   </div>
 
@@ -963,6 +1394,107 @@
   <span class="strip-item"><strong>Suporte</strong> Via WhatsApp</span>
 </div>
 
+<!-- PLATAFORMA ONLINE -->
+<section class="platform" id="plataforma">
+  <div class="platform-inner">
+    <div class="platform-text reveal">
+      <span class="section-eyebrow">Plataforma Online</span>
+      <h2>Aprendizado que não<br><em>para na aula</em></h2>
+      <p class="section-sub" style="text-align:left; max-width: 48ch;">
+        Além das aulas ao vivo, cada aluno tem acesso a uma plataforma pedagógica exclusiva — um ambiente digital de suporte contínuo, pensado para manter o ritmo de evolução entre as sessões.
+      </p>
+      <div class="platform-features">
+        <div class="pf-item">
+          <div class="pf-icon">📚</div>
+          <div>
+            <strong>Material de Apoio Organizado</strong>
+            <p>Resumos, exercícios e listas separados por bimestre e matéria, sempre atualizados conforme o conteúdo da escola.</p>
+          </div>
+        </div>
+        <div class="pf-item">
+          <div class="pf-icon">✏️</div>
+          <div>
+            <strong>Atividades e Correções</strong>
+            <p>O aluno envia listas e atividades para correção comentada — com explicação do erro e caminho para acertar da próxima vez.</p>
+          </div>
+        </div>
+        <div class="pf-item">
+          <div class="pf-icon">📊</div>
+          <div>
+            <strong>Acompanhamento de Evolução</strong>
+            <p>Registro de desempenho por conteúdo ao longo do bimestre, com indicadores visuais de progresso para aluno e responsável.</p>
+          </div>
+        </div>
+        <div class="pf-item">
+          <div class="pf-icon">💬</div>
+          <div>
+            <strong>Suporte entre Aulas</strong>
+            <p>Canal direto para envio de dúvidas nos dias em que não há aula — respondidas com prioridade e de forma didática.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="platform-visual reveal">
+      <div class="mockup-card">
+        <div class="mockup-header">
+          <div class="mockup-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="mockup-title">Painel do Aluno</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-section-label">Progresso — 2º Bimestre</div>
+          <div class="mockup-bars">
+            <div class="bar-row">
+              <span>Funções do 1º Grau</span>
+              <div class="bar-track"><div class="bar-fill" style="width:88%"></div></div>
+              <span class="bar-pct">88%</span>
+            </div>
+            <div class="bar-row">
+              <span>Equações</span>
+              <div class="bar-track"><div class="bar-fill" style="width:74%"></div></div>
+              <span class="bar-pct">74%</span>
+            </div>
+            <div class="bar-row">
+              <span>Geometria Plana</span>
+              <div class="bar-track"><div class="bar-fill" style="width:61%"></div></div>
+              <span class="bar-pct">61%</span>
+            </div>
+            <div class="bar-row">
+              <span>Probabilidade</span>
+              <div class="bar-track"><div class="bar-fill" style="width:45%"></div></div>
+              <span class="bar-pct">45%</span>
+            </div>
+          </div>
+          <div class="mockup-divider"></div>
+          <div class="mockup-section-label">Atividades Recentes</div>
+          <div class="mockup-activity">
+            <div class="activity-dot green"></div>
+            <span>Lista 04 — Corrigida com comentários</span>
+          </div>
+          <div class="mockup-activity">
+            <div class="activity-dot gold"></div>
+            <span>Simulado pré-prova disponível</span>
+          </div>
+          <div class="mockup-activity">
+            <div class="activity-dot muted"></div>
+            <span>Resumo: Geometria Plana adicionado</span>
+          </div>
+          <div class="mockup-divider"></div>
+          <div class="mockup-section-label">Próxima Aula</div>
+          <div class="mockup-next">
+            <div class="next-info">
+              <strong>Quinta-feira, 08/05</strong>
+              <span>19h00 — Revisão Pré-Prova</span>
+            </div>
+            <div class="next-badge">Em 3 dias</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- HOW IT WORKS -->
 <section class="how" id="como-funciona">
   <div class="section-header reveal">
@@ -985,13 +1517,106 @@
     <div class="step reveal">
       <div class="step-num">03</div>
       <h3>Aulas Regulares</h3>
-      <p>Sessões semanais com explicação do conteúdo, resolução de exercícios e suporte para dúvidas em tempo real.</p>
+      <p>Sessões semanais com explicação do conteúdo, resolução de exercícios e tiração de dúvidas em tempo real.</p>
     </div>
     <div class="step reveal">
       <div class="step-num">04</div>
       <h3>Revisão Pré-prova</h3>
       <p>Aula especial antes de cada avaliação, com simulados e estratégias para maximizar a performance na prova.</p>
     </div>
+  </div>
+</section>
+
+<!-- PROFESSOR -->
+<section class="professor" id="professor">
+  <div class="prof-inner">
+
+    <!-- FOTO -->
+    <div class="prof-photo-col reveal">
+      <div class="prof-photo-wrap">
+        <div class="prof-photo-placeholder">
+          <svg viewBox="0 0 120 140" fill="none" xmlns="rai.png">
+            <circle cx="60" cy="48" r="32" fill="#e8dfc8"/>
+            <path d="M4 140c0-30.928 25.072-56 56-56s56 25.072 56 56" fill="#e8dfc8"/>
+          </svg>
+          <span>Sua foto aqui</span>
+        </div>
+        <div class="prof-photo-badge">
+          <strong>Me. Prof. Rai</strong>
+          <span>Física &amp; Matemática</span>
+        </div>
+      </div>
+      <div class="prof-stats">
+        <div class="prof-stat">
+          <div class="prof-stat-value">+5</div>
+          <div class="prof-stat-label">anos de experiência</div>
+        </div>
+        <div class="prof-stat-divider"></div>
+        <div class="prof-stat">
+          <div class="prof-stat-value">50+</div>
+          <div class="prof-stat-label">alunos acompanhados</div>
+        </div>
+        <div class="prof-stat-divider"></div>
+        <div class="prof-stat">
+          <div class="prof-stat-value">98%</div>
+          <div class="prof-stat-label">de aprovação</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEXTO -->
+    <div class="prof-text reveal">
+      <span class="section-eyebrow">Conheça o Professor</span>
+      <h2>Quem está ao<br><em>seu lado</em></h2>
+
+      <p class="prof-bio">
+        Olá! Sou o Prof. Rai, mestre em [sua área] pela [sua universidade]. Dedico minha carreira ao ensino personalizado de Física e Matemática, acreditando que todo aluno tem potencial — o que faz a diferença é a atenção individualizada e o método certo.
+      </p>
+
+      <div class="prof-info-grid">
+        <div class="prof-info-block">
+          <div class="prof-info-icon">🎓</div>
+          <div>
+            <strong>Formação &amp; Titulação</strong>
+            <ul>
+              <li>Mestrado em [Área] — [Universidade], [Ano]</li>
+              <li>Licenciatura em [Área] — [Universidade], [Ano]</li>
+              <li>[Especialização ou certificação adicional]</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="prof-info-block">
+          <div class="prof-info-icon">📅</div>
+          <div>
+            <strong>Experiência</strong>
+            <ul>
+              <li>+5 anos de aulas particulares e reforço escolar</li>
+              <li>Atendimento a alunos do Fund. II e Ensino Médio</li>
+              <li>[Experiência em escola, cursinho ou outra instituição]</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="prof-info-block">
+          <div class="prof-info-icon">💡</div>
+          <div>
+            <strong>Metodologia</strong>
+            <ul>
+              <li>Diagnóstico individual antes de cada ciclo</li>
+              <li>Ensino contextualizado — teoria aplicada a problemas reais</li>
+              <li>Revisões estratégicas alinhadas ao calendário bimestral</li>
+              <li>Acompanhamento contínuo entre as aulas via plataforma</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://wa.me/5515997693102?text=Olá%20Prof.%20Rai!%20Gostaria%20de%20saber%20mais%20sobre%20as%20aulas." target="_blank" class="btn-primary" style="margin-top:2rem; display:inline-block;">
+        Falar com o professor →
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -1142,8 +1767,7 @@
         Para quais matérias e séries atende?
         <span class="faq-icon">+</span>
       </button>
-      <div class="faq-answer">Atendo alunos do Ensino Fundamental II (6º ao 9º ano) e Ensino Médio. As matérias disponíveis são F
-       ísica e Matemática, mas a grade são combinadas no diagnóstico inicial. Entre em contato para verificar disponibilidade para a série e matéria do seu filho.</div>
+      <div class="faq-answer">Atendo alunos do Ensino Fundamental II (6º ao 9º ano) e Ensino Médio. As matérias disponíveis e a grade são combinadas no diagnóstico inicial. Entre em contato para verificar disponibilidade para a série e matéria do seu filho.</div>
     </div>
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFaq(this)">
@@ -1177,7 +1801,7 @@
     <a href="#planos">Planos</a>
     <a href="#faq">FAQ</a>
   </div>
-  <p class="footer-copy">© 2026 · Aulas Particulares · Ribeirão Preto, SP</p>
+  <p class="footer-copy">© 2025 · Aulas Particulares · Ribeirão Preto, SP</p>
 </footer>
 
 <!-- FLOATING WHATSAPP -->
