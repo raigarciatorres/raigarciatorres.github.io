@@ -1,1049 +1,695 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rai Garcia Torres - Carreira Acadêmica</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-dark: #1a1a1a;
-            --secondary-dark: #2d2d2d;
-            --gray-dark: #4a4a4a;
-            --gray-medium: #6b6b6b;
-            --gray-light: #e8e8e8;
-            --white: #ffffff;
-            --accent-blue: #5d7a8a;
-            --accent-beige: #b8a890;
-            --border-color: #d4d4d4;
-        }
-
-        body {
-            font-family: 'Lato', sans-serif;
-            color: var(--secondary-dark);
-            line-height: 1.8;
-            background-color: var(--white);
-        }
-
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-        }
-
-        .nav-menu a {
-            color: var(--gray-medium);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            transition: color 0.3s ease;
-        }
-
-        .nav-menu a:hover {
-            color: var(--accent-blue);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--primary-dark);
-            cursor: pointer;
-        }
-
-        /* Hero Section */
-        .hero {
-            margin-top: 80px;
-            background: linear-gradient(135deg, var(--gray-light) 0%, var(--white) 100%);
-            padding: 8rem 2rem 6rem;
-            text-align: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-        }
-
-        .hero .subtitle {
-            font-size: 1.3rem;
-            color: var(--gray-medium);
-            font-weight: 300;
-            margin-bottom: 2rem;
-        }
-
-        .hero .divider {
-            width: 80px;
-            height: 2px;
-            background-color: var(--accent-blue);
-            margin: 2rem auto;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-        }
-
-        .section {
-            margin-bottom: 6rem;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 2px;
-            background-color: var(--accent-beige);
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--gray-medium);
-            margin-bottom: 3rem;
-            font-weight: 300;
-        }
-
-        /* Biography */
-        .bio-content {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        .bio-image {
-            width: 100%;
-            aspect-ratio: 1;
-            background-color: var(--gray-light);
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: var(--gray-medium);
-            overflow: hidden;
-        }
-
-        .bio-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .bio-text p {
-            margin-bottom: 1.5rem;
-            color: var(--gray-dark);
-            font-size: 1.05rem;
-        }
-
-        .credentials {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        .credential-badge {
-            background-color: var(--gray-light);
-            padding: 0.5rem 1.2rem;
-            border-radius: 2px;
-            font-size: 0.9rem;
-            color: var(--gray-dark);
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        .skill-category h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-        }
-
-        .skill-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
-        .skill-item {
-            background-color: var(--gray-light);
-            padding: 0.5rem 1rem;
-            border-radius: 2px;
-            font-size: 0.9rem;
-            color: var(--gray-dark);
-        }
-
-        /* Publications */
-        .filter-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 0.6rem 1.5rem;
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--gray-medium);
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            font-family: 'Lato', sans-serif;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background-color: var(--accent-blue);
-            color: var(--white);
-            border-color: var(--accent-blue);
-        }
-
-        .publication-item {
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .publication-item:last-child {
-            border-bottom: none;
-        }
-
-        .pub-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .pub-authors {
-            color: var(--gray-medium);
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .pub-details {
-            font-style: italic;
-            color: var(--gray-medium);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .pub-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .pub-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-
-        .pub-link:hover {
-            color: var(--primary-dark);
-        }
-
-        /* Experience Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 3rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background-color: var(--gray-light);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -3.5rem;
-            top: 0.5rem;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--accent-blue);
-        }
-
-        .timeline-period {
-            font-size: 0.9rem;
-            color: var(--accent-blue);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 0.3rem;
-        }
-
-        .timeline-institution {
-            color: var(--gray-medium);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .timeline-description {
-            color: var(--gray-dark);
-            margin-bottom: 0.8rem;
-        }
-
-        .timeline-activities {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
-        .timeline-activities li {
-            color: var(--gray-dark);
-            padding-left: 1.5rem;
-            position: relative;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-activities li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--accent-beige);
-            font-weight: bold;
-        }
-
-        /* Teaching Section */
-        .course-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .course-item {
-            border-left: 3px solid var(--accent-beige);
-            padding-left: 2rem;
-        }
-
-        .course-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .course-code {
-            color: var(--gray-medium);
-            font-size: 0.9rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .course-description {
-            color: var(--gray-dark);
-            margin-bottom: 1rem;
-        }
-
-        /* CV Section */
-        .cv-section {
-            background-color: var(--gray-light);
-            padding: 4rem;
-            text-align: center;
-        }
-
-        .cv-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem 2.5rem;
-            background-color: var(--primary-dark);
-            color: var(--white);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .cv-button:hover {
-            background-color: var(--accent-blue);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Contact */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 0.5rem;
-            color: var(--gray-dark);
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 0.8rem;
-            border: 1px solid var(--border-color);
-            font-family: 'Lato', sans-serif;
-            font-size: 0.95rem;
-            color: var(--secondary-dark);
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
-
-        .submit-btn {
-            padding: 1rem 2rem;
-            background-color: #25D366;
-            color: var(--white);
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-family: 'Lato', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .submit-btn:hover {
-            background-color: #128C7E;
-        }
-
-        .contact-info h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary-dark);
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            color: var(--gray-dark);
-        }
-
-        .info-item i {
-            color: var(--accent-blue);
-            font-size: 1.2rem;
-            width: 25px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            border: 1px solid var(--border-color);
-            color: var(--gray-medium);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            background-color: var(--accent-blue);
-            color: var(--white);
-            border-color: var(--accent-blue);
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--primary-dark);
-            color: var(--gray-light);
-            text-align: center;
-            padding: 2rem;
-        }
-
-        footer p {
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: var(--white);
-                flex-direction: column;
-                padding: 1rem 2rem;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-                gap: 1rem;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .bio-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .bio-image {
-                max-width: 250px;
-                margin: 0 auto;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline {
-                padding-left: 2rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rai Garcia Torres · Ecossistema de Ensino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0D0F14;
+    --bg2:       #141720;
+    --blue:      #4F8EF7;
+    --cyan:      #00D4C8;
+    --white:     #F0F4FF;
+    --muted:     #8B9AB7;
+    --border:    rgba(79,142,247,0.18);
+    --card-bg:   rgba(20,23,32,0.85);
+    --glow:      rgba(79,142,247,0.25);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── CANVAS ── */
+  #universe {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── LAYOUT ── */
+  .wrap { position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 2.5rem;
+    background: rgba(13,15,20,0.75);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--cyan); }
+  nav a.nav-cta {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  nav a.nav-cta:hover { background: var(--blue); color: #fff; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 7rem 1.5rem 4rem;
+  }
+  .hero-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 1.4rem;
+  }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.6rem, 7vw, 5.2rem);
+    font-weight: 700;
+    line-height: 1.07;
+    letter-spacing: -0.02em;
+    max-width: 820px;
+    margin-bottom: 1.4rem;
+  }
+  .hero h1 .accent { color: var(--blue); }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.8rem;
+  }
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  .badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: rgba(79,142,247,0.06);
+    letter-spacing: 0.04em;
+  }
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    animation: float 2.5s ease-in-out infinite;
+  }
+  .hero-scroll svg { opacity: 0.5; }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ── SECTION ── */
+  section { padding: 5rem 1.5rem; }
+  .section-label {
+    font-size: 0.74rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+  }
+  .section-desc {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 3rem;
+  }
+
+  /* ── GRID ── */
+  .projects-grid {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.4rem;
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem 1.8rem 1.8rem;
+    text-decoration: none;
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, var(--glow) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: inherit;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue);
+    box-shadow: 0 0 28px rgba(79,142,247,0.2);
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .c-blue  { background: rgba(79,142,247,0.12); }
+  .c-cyan  { background: rgba(0,212,200,0.12); }
+  .c-violet{ background: rgba(167,139,250,0.12); }
+  .c-amber { background: rgba(251,191,36,0.12); }
+
+  .card-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+  }
+  .card-arrow {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--blue);
+    margin-top: 0.4rem;
+    transition: gap 0.2s;
+  }
+  .card:hover .card-arrow { gap: 0.7rem; }
+
+  /* ── FEATURED CARD (span 2) ── */
+  .card-featured {
+    grid-column: span 2;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+  }
+  .card-featured .card-content { flex: 1; display: flex; flex-direction: column; gap: 0.9rem; }
+  .card-featured .card-visual {
+    flex-shrink: 0;
+    width: 180px;
+    height: 120px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(79,142,247,0.12), rgba(0,212,200,0.1));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 640px) {
+    .card-featured { grid-column: span 1; flex-direction: column; }
+    .card-featured .card-visual { width: 100%; }
+  }
+
+  /* ── ABOUT ── */
+  .about-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  @media (max-width: 700px) {
+    .about-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+  .about-photo-wrap {
+    position: relative;
+  }
+  .about-photo-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    z-index: -1;
+    opacity: 0.35;
+  }
+  .about-photo {
+    width: 100%;
+    border-radius: 15px;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 4/5;
+    filter: grayscale(20%);
+  }
+  .about-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 4/5;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(0,212,200,0.08));
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem;
+  }
+  .stats-row {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2.2rem;
+    flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .footer-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0 1.5rem;
+  }
+
+  /* ── SOCIAL ── */
+  .social-bar {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(79,142,247,0.06);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.83rem;
+    font-weight: 500;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .social-btn:hover {
+    border-color: var(--blue);
+    background: rgba(79,142,247,0.14);
+    transform: translateY(-2px);
+  }
+  .social-btn svg { flex-shrink: 0; }
+  .social-btn.whatsapp:hover { border-color: #25D366; background: rgba(37,211,102,0.1); }
+  .social-btn.instagram:hover { border-color: #E1306C; background: rgba(225,48,108,0.1); }
+
+  .footer-social {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+  }
+  .footer-icon {
+    width: 32px; height: 32px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-icon:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">Rai</a>
-            <ul class="nav-menu">
-                <li><a href="#biografia">Biografia</a></li>
-                <li><a href="#experiencia">Experiência</a></li>
-                <li><a href="#formacao">Formação</a></li>
-                <li><a href="#publicacoes">Publicações</a></li>
-                <li><a href="#ensino">Ensino</a></li>
-                <li><a href="#curriculo">Currículo</a></li>
-                <li><a href="#contato">Contato</a></li>
-            </ul>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
+
+<canvas id="universe"></canvas>
+
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Rai<span>.</span></a>
+    <a href="https://raigarciatorres.github.io#contato" class="nav-cta" target="_blank">Contato</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Mestre em Ensino de Ciências · UNICAMP</p>
+    <h1>Professor de Física.<br><span class="accent">Um ecossistema</span> de ensino.</h1>
+    <p class="hero-sub">
+      Reuno aqui todos os meus projetos educacionais — do currículo às plataformas digitais —
+      para que você encontre tudo em um só lugar.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">Física</span>
+      <span class="badge">Metodologias Ativas</span>
+      <span class="badge">Inteligência Artificial</span>
+      <span class="badge">Vestibulares</span>
+      <span class="badge">Aulas Particulares</span>
+      <span class="badge">EdTech</span>
+    </div>
+    <div class="hero-scroll">
+      <svg width="18" height="24" viewBox="0 0 18 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="16" height="22" rx="8" stroke="currentColor" stroke-width="1.5"/>
+        <rect x="7.5" y="5" width="3" height="6" rx="1.5" fill="currentColor"/>
+      </svg>
+      Explore
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <section id="projetos">
+    <div class="projects-grid">
+      <div class="reveal">
+        <p class="section-label">Meus projetos</p>
+        <h2 class="section-title">Onde você me encontra</h2>
+        <p class="section-desc">Cada plataforma foi criada com um propósito específico. Navegue e explore o que faz mais sentido para você.</p>
+      </div>
+
+      <div class="grid reveal">
+
+        <!-- Currículo -->
+        <a class="card" href="https://raigarciatorres.github.io" target="_blank">
+          <div class="card-icon c-blue">📄</div>
+          <span class="card-tag">Apresentação profissional</span>
+          <h3>Currículo Acadêmico</h3>
+          <p>Trajetória completa: formação pela UNICAMP, experiências em instituições como SENAC, publicações e competências técnicas.</p>
+          <div class="card-arrow">Ver currículo <span>→</span></div>
+        </a>
+
+        <!-- Aulas particulares -->
+        <a class="card" href="https://raigarciatorres.github.io/aulas/" target="_blank">
+          <div class="card-icon c-cyan">🎓</div>
+          <span class="card-tag">Aulas personalizadas</span>
+          <h3>Aulas Particulares de Física</h3>
+          <p>Aulas individuais e em pequenos grupos, adaptadas ao ritmo e necessidade de cada aluno — do básico ao avançado.</p>
+          <div class="card-arrow">Saber mais <span>→</span></div>
+        </a>
+
+        <!-- Plataforma acompanhamento — featured -->
+        <a class="card card-featured" href="https://raitorres.lovable.app" target="_blank">
+          <div class="card-content">
+            <div class="card-icon c-violet">📊</div>
+            <span class="card-tag">Plataforma digital · Alunos particulares</span>
+            <h3>Portal do Aluno</h3>
+            <p>Plataforma online exclusiva para os alunos acompanharem seu progresso, acessarem materiais e manterem contato direto com o professor.</p>
+            <div class="card-arrow">Acessar plataforma <span>→</span></div>
+          </div>
+          <div class="card-visual">🛰️</div>
+        </a>
+
+        <!-- 2ª Fase vestibulares -->
+        <a class="card" href="https://fisica2fase.lovable.app" target="_blank">
+          <div class="card-icon c-amber">🚀</div>
+          <span class="card-tag">Vestibulares · 2ª fase</span>
+          <h3>Física para 2ª Fase</h3>
+          <p>Plataforma focada nas provas discursivas de FUVEST, UNICAMP e afins. Resolução detalhada, estratégia e prática intensiva.</p>
+          <div class="card-arrow">Acessar plataforma <span>→</span></div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="sobre">
+    <div class="about-inner">
+      <div class="about-photo-wrap reveal">
+        <img
+          src="https://raigarciatorres.github.io/img/rai.jpeg"
+          alt="Rai Garcia Torres"
+          class="about-photo"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        >
+        <div class="about-photo-placeholder" style="display:none;">👨‍🔬</div>
+      </div>
+      <div class="reveal">
+        <p class="section-label">Sobre mim</p>
+        <h2 class="section-title">Rai Garcia Torres</h2>
+        <p style="color: var(--muted); line-height: 1.75; font-size: 0.97rem; margin-bottom: 1rem;">
+          Mestre em Ensino de Ciências e Matemática pela <strong style="color:var(--white)">UNICAMP</strong>, licenciado em Física e em formação em Tecnologia da Informação pela <strong style="color:var(--white)">UNIVESP</strong>.
+        </p>
+        <p style="color: var(--muted); line-height: 1.75; font-size: 0.97rem;">
+          Com mais de 8 anos de sala de aula e pesquisa em metodologias ativas, inteligência artificial e educação científica, desenvolvo projetos que conectam física, tecnologia e aprendizagem significativa.
+        </p>
+        <div class="social-bar">
+          <!-- Instagram -->
+          <a class="social-btn instagram" href="https://instagram.com/prof.raitorres" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+            </svg>
+            @prof.raitorres
+          </a>
+          <!-- LinkedIn -->
+          <a class="social-btn" href="https://linkedin.com/in/raigarciatorres" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+            raigarciatorres
+          </a>
+          <!-- WhatsApp -->
+          <a class="social-btn whatsapp" href="https://wa.me/5515997693102" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+            </svg>
+            WhatsApp
+          </a>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Rai Garcia Torres</h1>
-            <p class="subtitle">Mestre em Ensino de Ciências e Matemática | Professor de Física | Especialista em Metodologias Ativas e IA</p>
-            <div class="divider"></div>
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-num">8+</span>
+            <span class="stat-label">anos de docência</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">4</span>
+            <span class="stat-label">plataformas ativas</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">3</span>
+            <span class="stat-label">conferências internacionais</span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Biography Section -->
-    <section id="biografia" class="container">
-        <div class="section">
-            <h2 class="section-title">Biografia</h2>
-            <p class="section-subtitle">Trajetória acadêmica e profissional</p>
-            
-            <div class="bio-content">
-                <div class="bio-image">
-                    <img src="img/rai.jpeg" alt="Rai Garcia Torres">
-                </div>
-                <div class="bio-text">
-                    <p>Rai Garcia Torres é Mestre em Ensino de Ciências e Matemática pela UNICAMP (2023-2025) e Professor de Física com sólida experiência em diferentes níveis de ensino. Licenciado em Física pela UNICAMP (2013-2019) e atualmente cursando Bacharelado em Tecnologia da Informação pela UNIVESP (2024-2026), combina expertise em ensino de ciências com conhecimentos avançados em tecnologia.</p>
-                    
-                    <p>Com mais de 8 anos de experiência em sala de aula, atuou em instituições renomadas como SENAC, CESCON, Escola Ápice e PROCEU, lecionando Física, Matemática e Química para diferentes níveis - do Pré-Vestibular ao Ensino Médio Técnico. Sua abordagem pedagógica integra metodologias ativas, experimentação e uso de tecnologias, incluindo Inteligência Artificial e programação.</p>
-                    
-                    <p>Durante sua trajetória no SENAC, além das aulas de Física, desenvolveu atividades diversificadas incluindo ensino de programação web, hardware, Arduino e eletrônica. Foi responsável pela escrita de material didático, organização de olimpíadas de Física e Astronomia, e coordenação de feiras de ciências, demonstrando versatilidade e comprometimento com a educação científica de qualidade.</p>
-                    
-                    <div class="credentials">
-                        <span class="credential-badge">Mestre - UNICAMP</span>
-                        <span class="credential-badge">Lic. Física - UNICAMP</span>
-                        <span class="credential-badge">Bach. TI - UNIVESP</span>
-                        <span class="credential-badge">Inglês - B2</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span>© 2025 Rai Garcia Torres</span>
+      <div class="footer-social">
+        <a class="footer-icon" href="https://instagram.com/prof.raitorres" target="_blank" title="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+          </svg>
+        </a>
+        <a class="footer-icon" href="https://linkedin.com/in/raigarciatorres" target="_blank" title="LinkedIn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a class="footer-icon" href="https://wa.me/5515997693102" target="_blank" title="WhatsApp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+          </svg>
+        </a>
+      </div>
+      <span>
+        <a href="https://raigarciatorres.github.io" target="_blank">Currículo</a> ·
+        <a href="https://raigarciatorres.github.io/aulas/" target="_blank">Aulas</a> ·
+        <a href="https://raitorres.lovable.app" target="_blank">Portal do Aluno</a> ·
+        <a href="https://fisica2fase.lovable.app" target="_blank">2ª Fase</a>
+      </span>
+    </div>
+  </footer>
 
-    <!-- Experience Section -->
-    <section id="experiencia" class="container">
-        <div class="section">
-            <h2 class="section-title">Experiência Profissional</h2>
-            <p class="section-subtitle">Trajetória como educador</p>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-period">Janeiro de 2020 - Janeiro de 2023</div>
-                    <h3 class="timeline-title">Professor de Física</h3>
-                    <div class="timeline-institution">SENAC - Sorocaba, SP</div>
-                    <p class="timeline-description">Aulas para alunos do Ensino Médio Técnico em Informática</p>
-                    <ul class="timeline-activities">
-                        <li>Aulas de TI (programação web e hardware)</li>
-                        <li>Escrita de Material Didático para professores de Física</li>
-                        <li>Organização de olimpíadas de Física e Astronomia</li>
-                        <li>Organização de Feira de Ciências</li>
-                        <li>Aulas de Arduino (eletrônica)</li>
-                    </ul>
-                </div>
+</div>
 
-                <div class="timeline-item">
-                    <div class="timeline-period">Janeiro - Dezembro de 2018 | Janeiro - Dezembro de 2016</div>
-                    <h3 class="timeline-title">Professor de Física</h3>
-                    <div class="timeline-institution">CESCON - Campinas, SP</div>
-                    <p class="timeline-description">Aulas para alunos do Ensino Fundamental</p>
-                </div>
+<script>
+// ── PARTICLE UNIVERSE ──
+(function() {
+  const canvas = document.getElementById('universe');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], lines = [];
 
-                <div class="timeline-item">
-                    <div class="timeline-period">Agosto - Dezembro de 2017</div>
-                    <h3 class="timeline-title">Professor de Física, Matemática e Química</h3>
-                    <div class="timeline-institution">Escola Ápice - Campinas, SP</div>
-                    <p class="timeline-description">Aulas para alunos do Ensino Médio regular</p>
-                </div>
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
 
-                <div class="timeline-item">
-                    <div class="timeline-period">Janeiro - Dezembro de 2015</div>
-                    <h3 class="timeline-title">Professor de Física e Matemática</h3>
-                    <div class="timeline-institution">PROCEU - Campinas, SP</div>
-                    <p class="timeline-description">Aulas para alunos do Pré-Vestibular</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  function rand(a, b) { return a + Math.random() * (b - a); }
 
-    <!-- Education Section -->
-    <section id="formacao" class="container">
-        <div class="section">
-            <h2 class="section-title">Formação Acadêmica</h2>
-            <p class="section-subtitle">Qualificações e títulos</p>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-period">2023 - 2025</div>
-                    <h3 class="timeline-title">Mestre em Ensino de Ciências e Matemática</h3>
-                    <div class="timeline-institution">UNICAMP - Campinas, SP</div>
-                </div>
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x = rand(0, W);
+      this.y = init ? rand(0, H) : rand(-20, -5);
+      this.r = rand(0.8, 2.2);
+      this.vx = rand(-0.15, 0.15);
+      this.vy = rand(0.08, 0.3);
+      this.alpha = rand(0.3, 0.9);
+      this.hue = Math.random() < 0.4 ? '79,212,200' : '79,142,247';
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.y > H + 10) this.reset(false);
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.hue},${this.alpha})`;
+      ctx.fill();
+    }
+  }
 
-                <div class="timeline-item">
-                    <div class="timeline-period">2024 - 2026 (em andamento)</div>
-                    <h3 class="timeline-title">Bacharelado em Tecnologia da Informação</h3>
-                    <div class="timeline-institution">UNIVESP - Sorocaba, SP</div>
-                </div>
+  for (let i = 0; i < 90; i++) particles.push(new Particle());
 
-                <div class="timeline-item">
-                    <div class="timeline-period">2013 - 2019</div>
-                    <h3 class="timeline-title">Licenciatura em Física</h3>
-                    <div class="timeline-institution">UNICAMP - Campinas, SP</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 100) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(79,142,247,${0.06 * (1 - d / 100)})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+  }
 
-    <!-- Skills Section -->
-    <section class="container">
-        <div class="section">
-            <h2 class="section-title">Habilidades e Competências</h2>
-            <p class="section-subtitle">Áreas de expertise</p>
-            
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Competências Técnicas</h3>
-                    <div class="skill-list">
-                        <span class="skill-item">Metodologias Ativas</span>
-                        <span class="skill-item">Inteligência Artificial</span>
-                        <span class="skill-item">Experimentação</span>
-                        <span class="skill-item">Computação</span>
-                        <span class="skill-item">Programação Web</span>
-                        <span class="skill-item">Arduino</span>
-                        <span class="skill-item">Hardware</span>
-                    </div>
-                </div>
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawConnections();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
 
-                <div class="skill-category">
-                    <h3>Soft Skills</h3>
-                    <div class="skill-list">
-                        <span class="skill-item">Proatividade</span>
-                        <span class="skill-item">Autodidata</span>
-                        <span class="skill-item">Criatividade</span>
-                        <span class="skill-item">Organização</span>
-                        <span class="skill-item">Sensibilidade Cultural</span>
-                        <span class="skill-item">Consciência Social</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Publications and Academic Events Section -->
-    <section id="publicacoes" class="container">
-        <div class="section">
-            <h2 class="section-title">Publicações e Eventos Acadêmicos</h2>
-            <p class="section-subtitle">Participações em congressos e apresentações científicas</p>
-            
-            <div class="publications-list">
-                <div class="publication-item">
-                    <h3 class="pub-title">Menção Honrosa - IV Congresso Brasileiro On-line de Ensino, Pesquisa e Extensão (ENSIPEX)</h3>
-                    <p class="pub-authors">Torres, R. G.</p>
-                    <p class="pub-details">Apresentação de Pôster | Janeiro 2025</p>
-                    <div class="pub-links">
-                        <a href="https://ime.events/certificado/download/QU964-HGC66-KQ0DH-8N3HQ" class="pub-link" target="_blank"><i class="fas fa-certificate"></i> Certificado</a>
-                        <a href="https://doi.org/10.51189/iv-ensipex/48037" class="pub-link" target="_blank"><i class="fas fa-external-link-alt"></i> DOI: 10.51189/iv-ensipex/48037</a>
-                    </div>
-                </div>
-
-                <div class="publication-item">
-                    <h3 class="pub-title">VII Brazilian Meeting on Research Integrity, Science Ethics, and Publication (VII BRISPE)</h3>
-                    <p class="pub-authors">Torres, R. G.</p>
-                    <p class="pub-details">Apresentação Oral - UFRJ | Dezembro 2024</p>
-                </div>
-
-                <div class="publication-item">
-                    <h3 class="pub-title">1st Latin American Conference on Ethics in Artificial Intelligence (LAAI-Ethics)</h3>
-                    <p class="pub-authors">Torres, R. G.</p>
-                    <p class="pub-details">Apresentação Oral - UFF | Novembro 2024</p>
-                    <div class="pub-links">
-                        <a href="http://dx.doi.org/10.5753/laai-ethics.2024.32450" class="pub-link" target="_blank"><i class="fas fa-external-link-alt"></i> DOI: 10.5753/laai-ethics.2024.32450</a>
-                    </div>
-                </div>
-
-                <div class="publication-item">
-                    <h3 class="pub-title">5º Congresso de Inteligência Artificial da PUC-SP</h3>
-                    <p class="pub-authors">Torres, R. G.</p>
-                    <p class="pub-details">Participante | Novembro 2024</p>
-                </div>
-
-                <div class="publication-item">
-                    <h3 class="pub-title">4º Congresso de Inteligência Artificial da PUC-SP</h3>
-                    <p class="pub-authors">Torres, R. G.</p>
-                    <p class="pub-details">Participante | Novembro 2023</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Additional Courses Section -->
-    <section class="container">
-        <div class="section">
-            <h2 class="section-title">Cursos e Certificações</h2>
-            <p class="section-subtitle">Desenvolvimento profissional contínuo</p>
-            
-            <div class="course-list">
-
-                <div class="course-item">
-                    <h3 class="course-name">Fundamentos e aplicativos de design instrucional</h3>
-                    <p class="course-code">University of Illinois</p>
-                    <p class="course-description">(cursando)</p>
-                </div>
-
-                <div class="course-item">
-                    <h3 class="course-name">Design Instrucional e Tecnologia com Articulate Storyline 360 </h3>
-                    <p class="course-code">EVG</p>
-                    <p class="course-description">(cursando)</p>
-                </div>
-
-                <div class="course-item">
-                    <h3 class="course-name">Produção Editorial</h3>
-                    <p class="course-code">Universidade do Livro</p>
-                    <p class="course-description">(cursando)</p>
-                </div>
-
-                <div class="course-item">
-                    <h3 class="course-name">Research Academy Scopus AI: Conteúdo confiável com ajuda de IA responsável</h3>
-                    <p class="course-code">ELSEVIER Research Academy | 2024</p>
-                    <p class="course-description">Curso focado em uso responsável de Inteligência Artificial para pesquisa acadêmica e produção de conteúdo científico confiável.</p>
-                </div>
-
-                <div class="course-item">
-                    <h3 class="course-name">Progress Toward Gender Equality in Research and Innovation - 2024 Review</h3>
-                    <p class="course-code">ELSEVIER Research Academy | 2024</p>
-                    <p class="course-description">Análise e discussão sobre equidade de gênero na pesquisa científica e inovação.</p>
-                </div>
-
-                <div class="course-item">
-                    <h3 class="course-name">Gestão de Projetos Educacionais</h3>
-                    <p class="course-code">Escola Nacional de Administração Pública (Enap) | Outubro 2022</p>
-                    <p class="course-description">Capacitação em planejamento, execução e avaliação de projetos educacionais.</p>
-                </div>
-
-                <div class="course-item">
-                    <h3 class="course-name">Políticas Públicas de Educação</h3>
-                    <p class="course-code">Escola Nacional de Administração Pública (Enap) | Junho 2022</p>
-                    <p class="course-description">Estudo aprofundado sobre políticas públicas educacionais no contexto brasileiro.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Teaching Section -->
-    <section id="ensino" class="container">
-        <div class="section">
-            <h2 class="section-title">Ensino</h2>
-            <p class="section-subtitle">Áreas de atuação e metodologias</p>
-            
-            <div class="course-list">
-                <div class="course-item">
-                    <h3 class="course-name">Física</h3>
-                    <p class="course-code">Ensino Fundamental, Médio e Técnico</p>
-                    <p class="course-description">Experiência abrangente no ensino de Física em diferentes níveis, com foco em metodologias ativas e experimentação. Desenvolvimento de materiais didáticos e organização de eventos científicos como olimpíadas de Física e Astronomia.</p>
-                </div>
-
-                <div class="course-item">
-                    <h3 class="course-name">Matemática</h3>
-                    <p class="course-code">Ensino Fundamental, Médio e Pré-Vestibular</p>
-                    <p class="course-description">Atuação em diversos níveis de ensino, integrando conceitos matemáticos com aplicações práticas e uso de tecnologias educacionais.</p>
-                </div>
-
-                <div class="course-item">
-                    <h3 class="course-name">Tecnologia da Informação</h3>
-                    <p class="course-code">Ensino Médio Técnico</p>
-                    <p class="course-description">Programação web, hardware, Arduino e eletrônica. Abordagem prática e interdisciplinar, conectando teoria e aplicações tecnológicas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CV Section -->
-    <section id="curriculo" class="cv-section">
-        <div class="container">
-            <h2 class="section-title">Currículo</h2>
-            <p class="section-subtitle">Acesse o currículo completo em formato PDF</p>
-            <a href="raigarciatorres.pdf" target="_blank" class="cv-button">
-                <i class="fas fa-download"></i> Download Currículo Completo (PDF)
-            </a>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contato" class="container">
-        <div class="section">
-            <h2 class="section-title">Contato</h2>
-            <p class="section-subtitle">Entre em contato para colaborações e informações</p>
-            
-            <div class="contact-grid">
-                <div class="contact-form-wrapper">
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Nome *</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message">Mensagem *</label>
-                            <textarea id="message" name="message" required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            <i class="fab fa-whatsapp"></i> Enviar via WhatsApp
-                        </button>
-                    </form>
-                </div>
-
-                <div class="contact-info">
-                    <h3>Informações de Contato</h3>
-                    
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>raigarciatorres@outlook.com</span>
-                    </div>
-                    
-                    <div class="info-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+55 15 997 693 102</span>
-                    </div>
-                    
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Sorocaba, SP</span>
-                    </div>
-                    
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/raigarciatorres" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link" title="ResearchGate"><i class="fab fa-researchgate"></i></a>
-                        <a href="https://github.com/raigarciatorres" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="lattes.cnpq.br/1641463862771835" class="social-link" title="Lattes"><i class="fas fa-graduation-cap"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Rai Garcia Torres. Todos os direitos reservados.</p>
-    </footer>
-
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Mobile menu toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navMenu = document.querySelector('.nav-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-            });
-        });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
-            }
-        });
-
-        // Contact Form Handling - WhatsApp Integration
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const message = document.getElementById('message').value;
-            
-            // Format WhatsApp message
-            const whatsappMessage = `Olá! Meu nome é ${name}.%0A%0A${message}`;
-            
-            // WhatsApp number (remove spaces and special characters)
-            const phoneNumber = '5515997693102';
-            
-            // Redirect to WhatsApp
-            window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
-            
-            // Reset form after a short delay
-            setTimeout(() => {
-                this.reset();
-            }, 500);
-        });
-    </script>
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => io.observe(el));
+</script>
 </body>
 </html>
