@@ -1,1180 +1,944 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rai Garcia Torres · Física & Educação</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --white: #ffffff;
-    --surface: #f5f5f7;
-    --surface-2: #fbfbfd;
-    --black: #050505;
-    --ink: #1d1d1f;
-    --ink-soft: #515154;
-    --muted: #86868b;
-    --blue: #0071e3;
-    --blue-dark: #005bb5;
-    --blue-soft: #e8f2ff;
-    --line: rgba(0, 0, 0, 0.10);
-    --line-soft: rgba(0, 0, 0, 0.06);
-    --shadow: 0 18px 60px rgba(0, 0, 0, 0.08);
-    --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.06);
-    --radius: 28px;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--white);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-
-  ::selection { background: var(--blue); color: #fff; }
-
-  a { color: inherit; }
-
-  .wrap { position: relative; z-index: 1; }
-
-  .background-glow {
-    position: fixed;
-    inset: -20vh -10vw auto auto;
-    width: min(720px, 80vw);
-    height: min(720px, 80vw);
-    pointer-events: none;
-    z-index: 0;
-    background:
-      radial-gradient(circle at 45% 45%, rgba(0, 113, 227, 0.24), transparent 56%),
-      radial-gradient(circle at 70% 35%, rgba(0, 91, 181, 0.14), transparent 45%);
-    filter: blur(12px);
-    opacity: 0.85;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    padding: 0.8rem 1rem;
-    pointer-events: none;
-  }
-
-  .nav-shell {
-    width: min(1120px, calc(100vw - 2rem));
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.72rem 0.86rem 0.72rem 1.05rem;
-    border: 1px solid rgba(255, 255, 255, 0.56);
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: saturate(180%) blur(22px);
-    -webkit-backdrop-filter: saturate(180%) blur(22px);
-    border-radius: 999px;
-    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.08);
-    pointer-events: auto;
-  }
-
-  .nav-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    font-weight: 650;
-    font-size: 0.98rem;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .nav-logo::before {
-    content: "RT";
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    color: #fff;
-    background: linear-gradient(145deg, var(--black), #2d2d30);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .nav-logo .dot { color: var(--blue); }
-
-  .nav-right { display: flex; align-items: center; gap: 0.65rem; }
-
-  .nav-socials { display: flex; align-items: center; gap: 0.12rem; }
-
-  .nav-socials a {
-    width: 34px; height: 34px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-    color: var(--ink-soft);
-    text-decoration: none;
-    transition: color 0.24s ease, background 0.24s ease, transform 0.24s ease;
-  }
-
-  .nav-socials a:hover {
-    color: var(--blue);
-    background: var(--blue-soft);
-    transform: translateY(-1px);
-  }
-
-  .nav-socials svg { width: 15px; height: 15px; }
-
-  nav a.nav-cta, .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 36px;
-    padding: 0.55rem 1rem;
-    border-radius: 999px;
-    border: 1px solid var(--blue);
-    background: var(--blue);
-    color: #fff;
-    text-decoration: none;
-    font-size: 0.86rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    box-shadow: 0 8px 24px rgba(0, 113, 227, 0.22);
-    transition: background 0.24s ease, transform 0.24s ease, box-shadow 0.24s ease;
-  }
-
-  nav a.nav-cta:hover, .btn-primary:hover {
-    background: var(--blue-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 12px 30px rgba(0, 113, 227, 0.26);
-  }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 0.72rem 1.12rem;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    background: rgba(255, 255, 255, 0.72);
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    transition: border-color 0.24s ease, transform 0.24s ease, background 0.24s ease;
-  }
-
-  .btn-secondary:hover {
-    border-color: rgba(0, 113, 227, 0.35);
-    color: var(--blue);
-    background: #fff;
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 640px) {
-    nav { padding: 0.65rem 0.7rem; }
-    .nav-shell { width: calc(100vw - 1.4rem); }
-    .nav-logo { font-size: 0.88rem; }
-    .nav-socials { display: none; }
-  }
-
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 9rem 1.4rem 5rem;
-    background:
-      linear-gradient(180deg, #fff 0%, #fff 46%, var(--surface) 100%);
-    overflow: hidden;
-    position: relative;
-  }
-
-  .hero::before {
-    content: "";
-    position: absolute;
-    width: min(900px, 90vw);
-    height: min(900px, 90vw);
-    left: 50%; top: 53%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background:
-      radial-gradient(circle, rgba(0,113,227,0.13) 0%, rgba(0,113,227,0.06) 36%, transparent 68%);
-    pointer-events: none;
-  }
-
-  .hero-inner {
-    width: min(1100px, 100%);
-    position: relative;
-    z-index: 1;
-    text-align: center;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.48rem;
-    padding: 0.44rem 0.74rem;
-    margin-bottom: 1.4rem;
-    border: 1px solid rgba(0, 113, 227, 0.16);
-    border-radius: 999px;
-    color: var(--blue);
-    background: rgba(232, 242, 255, 0.72);
-    font-size: clamp(0.72rem, 1.2vw, 0.84rem);
-    font-weight: 650;
-    letter-spacing: -0.01em;
-  }
-
-  .hero-eyebrow::before {
-    content: "";
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--blue);
-    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
-  }
-
-  .hero h1 {
-    margin: 0 auto 1.55rem;
-    max-width: 940px;
-    font-size: clamp(3.1rem, 8.2vw, 7rem);
-    font-weight: 760;
-    line-height: 0.98;
-    letter-spacing: -0.074em;
-    color: var(--black);
-  }
-
-  .hero h1 em {
-    display: block;
-    font-style: normal;
-    background: linear-gradient(90deg, var(--blue) 0%, #49a1ff 45%, #111 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .hero-sub {
-    margin: 0 auto 2rem;
-    max-width: 690px;
-    color: var(--ink-soft);
-    font-size: clamp(1.06rem, 2.2vw, 1.45rem);
-    line-height: 1.48;
-    font-weight: 400;
-    letter-spacing: -0.025em;
-  }
-
-  .hero-actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin: 0 auto 2.6rem;
-  }
-
-  .hero-badges {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 0 auto;
-    max-width: 820px;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    min-height: 34px;
-    padding: 0.46rem 0.78rem;
-    border-radius: 999px;
-    border: 1px solid var(--line-soft);
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--ink-soft);
-    font-size: 0.84rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.03);
-  }
-
-  .hero-device {
-    margin: 3.4rem auto 0;
-    width: min(980px, 100%);
-    border-radius: 42px;
-    padding: 0.75rem;
-    background: linear-gradient(145deg, #1d1d1f, #060606);
-    box-shadow: 0 38px 90px rgba(0, 0, 0, 0.22);
-  }
-
-  .device-screen {
-    min-height: 260px;
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 1rem;
-    padding: clamp(1rem, 3vw, 2rem);
-    border-radius: 34px;
-    background:
-      radial-gradient(circle at 78% 20%, rgba(0, 113, 227, 0.38), transparent 34%),
-      linear-gradient(145deg, #fbfbfd 0%, #f5f5f7 48%, #ffffff 100%);
-    overflow: hidden;
-  }
-
-  .device-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: left;
-  }
-
-  .device-main span {
-    color: var(--blue);
-    font-size: 0.86rem;
-    font-weight: 700;
-    margin-bottom: 0.6rem;
-  }
-
-  .device-main h2 {
-    font-size: clamp(2rem, 4.3vw, 4.2rem);
-    letter-spacing: -0.06em;
-    line-height: 0.98;
-    max-width: 620px;
-  }
-
-  .device-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 230px;
-    padding: 1.35rem;
-    border-radius: 26px;
-    background: rgba(255, 255, 255, 0.76);
-    border: 1px solid rgba(255, 255, 255, 0.72);
-    box-shadow: var(--shadow-soft);
-    text-align: left;
-  }
-
-  .device-panel p {
-    color: var(--ink-soft);
-    line-height: 1.55;
-    font-size: 0.98rem;
-    letter-spacing: -0.01em;
-  }
-
-  .device-panel strong {
-    display: block;
-    color: var(--black);
-    font-size: 2.1rem;
-    line-height: 1;
-    letter-spacing: -0.06em;
-    margin-bottom: 0.4rem;
-  }
-
-  @media (max-width: 780px) {
-    .device-screen { grid-template-columns: 1fr; }
-    .device-panel { min-height: auto; gap: 1.5rem; }
-    .hero h1 { letter-spacing: -0.055em; }
-  }
-
-  @media (max-width: 520px) {
-    .hero { padding-top: 8.2rem; }
-    .hero-actions a { width: 100%; }
-    .hero-device { border-radius: 30px; padding: 0.5rem; }
-    .device-screen { border-radius: 24px; }
-  }
-
-  /* ── SECTION ── */
-  section { padding: 6.5rem 1.4rem; }
-
-  .section-head {
-    max-width: 1120px;
-    margin: 0 auto 2.2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 2rem;
-  }
-
-  .section-num {
-    display: block;
-    margin-bottom: 0.65rem;
-    color: var(--blue);
-    font-size: 0.92rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-
-  .section-title {
-    max-width: 760px;
-    font-size: clamp(2.25rem, 5vw, 4.2rem);
-    font-weight: 760;
-    line-height: 0.98;
-    letter-spacing: -0.065em;
-    color: var(--black);
-  }
-
-  .section-desc {
-    color: var(--ink-soft);
-    font-size: 1.02rem;
-    line-height: 1.5;
-    max-width: 340px;
-    text-align: right;
-    letter-spacing: -0.02em;
-  }
-
-  @media (max-width: 760px) {
-    section { padding: 5rem 1.1rem; }
-    .section-head { flex-direction: column; align-items: flex-start; }
-    .section-desc { text-align: left; }
-  }
-
-  /* ── PROJECTS / BENTO ── */
-  #projetos { background: var(--surface); }
-  .projects-grid { max-width: 1120px; margin: 0 auto; }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-  }
-
-  .card {
-    position: relative;
-    min-height: 360px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.6rem;
-    border: 1px solid rgba(255, 255, 255, 0.78);
-    border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.86);
-    color: var(--ink);
-    text-decoration: none;
-    box-shadow: var(--shadow-soft);
-    overflow: hidden;
-    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
-  }
-
-  .card:nth-child(1), .card:nth-child(4) { grid-column: span 2; }
-  .card:nth-child(2), .card:nth-child(3) { grid-column: span 2; }
-
-  .card::before {
-    content: "";
-    position: absolute;
-    inset: auto -30% -40% auto;
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 113, 227, 0.20), transparent 66%);
-    transition: transform 0.28s ease, opacity 0.28s ease;
-    opacity: 0.6;
-  }
-
-  .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.12);
-    border-color: rgba(0, 113, 227, 0.22);
-  }
-
-  .card:hover::before { transform: scale(1.15); opacity: 0.9; }
-
-  .card-top { position: relative; z-index: 1; }
-
-  .card-index {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px; height: 34px;
-    margin-bottom: 1.3rem;
-    border-radius: 50%;
-    color: #fff;
-    background: var(--black);
-    font-size: 0.82rem;
-    font-weight: 700;
-  }
-
-  .card-tag {
-    display: block;
-    margin-bottom: 0.55rem;
-    color: var(--blue);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-
-  .card h3 {
-    margin-bottom: 0.82rem;
-    max-width: 420px;
-    color: var(--black);
-    font-size: clamp(1.65rem, 3vw, 2.25rem);
-    font-weight: 750;
-    line-height: 1.04;
-    letter-spacing: -0.05em;
-  }
-
-  .card p {
-    max-width: 520px;
-    color: var(--ink-soft);
-    font-size: 1rem;
-    line-height: 1.55;
-    letter-spacing: -0.02em;
-  }
-
-  .card-arrow {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: fit-content;
-    margin-top: 2rem;
-    color: var(--blue);
-    font-size: 0.96rem;
-    font-weight: 650;
-    letter-spacing: -0.02em;
-  }
-
-  .card-arrow svg { width: 15px; height: 15px; transition: transform 0.24s ease; }
-  .card:hover .card-arrow svg { transform: translateX(4px); }
-
-  @media (max-width: 840px) {
-    .grid { grid-template-columns: 1fr; }
-    .card:nth-child(n) { grid-column: auto; }
-    .card { min-height: 320px; }
-  }
-
-  /* ── METHOD SECTION ── */
-  #metodo { background: var(--white); }
-
-  .method-grid {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .method-item {
-    min-height: 275px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1.25rem;
-    padding: 1.45rem;
-    border: 1px solid var(--line-soft);
-    border-radius: 26px;
-    background: var(--surface-2);
-    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
-  }
-
-  .method-item:hover {
-    transform: translateY(-4px);
-    background: #fff;
-    border-color: rgba(0, 113, 227, 0.22);
-  }
-
-  .method-num {
-    width: 36px;
-    height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    color: var(--blue);
-    background: var(--blue-soft);
-    font-size: 0.86rem;
-    font-weight: 750;
-  }
-
-  .method-item h3 {
-    color: var(--black);
-    font-size: 1.26rem;
-    font-weight: 720;
-    line-height: 1.12;
-    letter-spacing: -0.04em;
-  }
-
-  .method-item p {
-    color: var(--ink-soft);
-    font-size: 0.96rem;
-    line-height: 1.55;
-    letter-spacing: -0.02em;
-  }
-
-  @media (max-width: 920px) { .method-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 620px) { .method-grid { grid-template-columns: 1fr; } }
-
-  /* ── ABOUT ── */
-  #sobre {
-    color: #fff;
-    background:
-      radial-gradient(circle at 80% 10%, rgba(0, 113, 227, 0.30), transparent 30%),
-      linear-gradient(145deg, #050505 0%, #111114 62%, #050505 100%);
-  }
-
-  #sobre .section-title { color: #fff; }
-  #sobre .section-desc { color: rgba(255,255,255,0.72); }
-
-  .about-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 0.85fr 1.25fr;
-    gap: 1.2rem;
-    align-items: stretch;
-  }
-
-  .about-photo-card, .about-copy-card {
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 34px;
-    background: rgba(255, 255, 255, 0.07);
-    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.22);
-    overflow: hidden;
-  }
-
-  .about-photo-card {
-    padding: 0.7rem;
-  }
-
-  .about-photo-wrap { position: relative; }
-
-  .about-photo {
-    width: 100%;
-    display: block;
-    object-fit: cover;
-    aspect-ratio: 4/5;
-    border-radius: 26px;
-    filter: grayscale(18%) contrast(1.03);
-  }
-
-  .about-photo-placeholder {
-    width: 100%;
-    aspect-ratio: 4/5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 26px;
-    background: linear-gradient(145deg, #19191d, #050505);
-    color: #fff;
-    font-size: 4.5rem;
-    font-weight: 780;
-    letter-spacing: -0.08em;
-  }
-
-  .about-caption {
-    padding: 0.95rem 0.6rem 0.35rem;
-    color: rgba(255,255,255,0.62);
-    font-size: 0.84rem;
-    letter-spacing: -0.01em;
-  }
-
-  .about-copy-card {
-    padding: clamp(1.45rem, 3vw, 2.4rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-
-  .about-text p {
-    color: rgba(255,255,255,0.76);
-    line-height: 1.58;
-    font-size: clamp(1.08rem, 1.6vw, 1.3rem);
-    font-weight: 400;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.05rem;
-  }
-
-  .about-text strong { color: #fff; font-weight: 700; }
-
-  .social-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.62rem;
-    margin: 1.8rem 0 0;
-  }
-
-  .social-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.52rem;
-    min-height: 42px;
-    padding: 0.62rem 0.94rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
-    color: rgba(255,255,255,0.84);
-    background: rgba(255,255,255,0.06);
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 600;
-    transition: background 0.24s ease, color 0.24s ease, transform 0.24s ease, border-color 0.24s ease;
-  }
-
-  .social-btn:hover {
-    color: #fff;
-    background: rgba(0, 113, 227, 0.28);
-    border-color: rgba(0, 113, 227, 0.45);
-    transform: translateY(-1px);
-  }
-
-  .social-btn svg { flex-shrink: 0; }
-
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-  }
-
-  .stat {
-    min-height: 120px;
-    padding: 1.1rem;
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 24px;
-    background: rgba(255,255,255,0.055);
-  }
-
-  .stat-num {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #fff;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 760;
-    line-height: 1;
-    letter-spacing: -0.07em;
-  }
-
-  .stat-label {
-    display: block;
-    color: rgba(255,255,255,0.58);
-    font-size: 0.85rem;
-    line-height: 1.25;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  @media (max-width: 880px) {
-    .about-inner { grid-template-columns: 1fr; }
-    .stats-row { grid-template-columns: 1fr; }
-    .stat { min-height: auto; }
-  }
-
-  /* ── CTA ── */
-  .final-cta {
-    padding: 6.5rem 1.4rem;
-    background: var(--surface);
-  }
-
-  .final-cta-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: clamp(2rem, 5vw, 4rem);
-    border-radius: 42px;
-    text-align: center;
-    background:
-      radial-gradient(circle at 50% 0%, rgba(0,113,227,0.22), transparent 42%),
-      #fff;
-    box-shadow: var(--shadow);
-  }
-
-  .final-cta h2 {
-    max-width: 760px;
-    margin: 0 auto 1rem;
-    font-size: clamp(2.3rem, 5.6vw, 5rem);
-    font-weight: 780;
-    line-height: 0.98;
-    letter-spacing: -0.07em;
-    color: var(--black);
-  }
-
-  .final-cta p {
-    max-width: 620px;
-    margin: 0 auto 1.8rem;
-    color: var(--ink-soft);
-    font-size: 1.15rem;
-    line-height: 1.5;
-    letter-spacing: -0.02em;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 2rem 1.4rem;
-    background: var(--surface);
-    border-top: 1px solid var(--line-soft);
-  }
-
-  .footer-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.2rem;
-  }
-
-  .footer-left { display: flex; flex-direction: column; gap: 0.25rem; }
-  .footer-name { color: var(--black); font-size: 0.98rem; font-weight: 650; letter-spacing: -0.02em; }
-  .footer-meta { color: var(--muted); font-size: 0.82rem; letter-spacing: -0.01em; }
-
-  .footer-links {
-    display: flex;
-    gap: 1.1rem;
-    flex-wrap: wrap;
-  }
-
-  .footer-links a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    transition: color 0.2s ease;
-  }
-
-  .footer-links a:hover { color: var(--blue); }
-
-  .footer-social { display: flex; gap: 0.4rem; }
-
-  .footer-icon {
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--ink-soft);
-    background: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-  }
-
-  .footer-icon:hover { color: var(--blue); background: #fff; transform: translateY(-1px); }
-
-  @media (max-width: 760px) {
-    .footer-inner { flex-direction: column; align-items: flex-start; }
-  }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible { opacity: 1; transform: none; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rai Garcia Torres — professor de Física, mestre e doutorando pela Unicamp. curso ITA/IME, acompanhamento pedagógico e plataformas de estudo." />
+  <title>Rai Garcia Torres · Física com método</title>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      color-scheme: light;
+      --bg: #ffffff;
+      --bg-soft: #f5f5f7;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-solid: #ffffff;
+      --text: #050505;
+      --text-soft: #4b5563;
+      --text-muted: #6e6e73;
+      --line: rgba(0, 0, 0, 0.10);
+      --blue: #0071e3;
+      --blue-hover: #0077ed;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.08);
+      --radius-lg: 32px;
+      --radius-md: 22px;
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #000000;
+      --bg-soft: #101010;
+      --surface: rgba(28, 28, 30, 0.72);
+      --surface-solid: #161617;
+      --text: #f5f5f7;
+      --text-soft: #d2d2d7;
+      --text-muted: #a1a1a6;
+      --line: rgba(255, 255, 255, 0.14);
+      --blue: #2997ff;
+      --blue-hover: #5eb0ff;
+      --shadow: 0 24px 90px rgba(0, 0, 0, 0.42);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(0, 113, 227, 0.12), transparent 32rem),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ::selection {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+      backdrop-filter: saturate(180%) blur(22px);
+      -webkit-backdrop-filter: saturate(180%) blur(22px);
+    }
+
+    .nav {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      font-size: 0.96rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-soft);
+    }
+
+    .nav-link,
+    .icon-link,
+    .theme-toggle {
+      height: 36px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-soft);
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav-link {
+      padding: 0 0.9rem;
+      font-size: 0.84rem;
+      font-weight: 560;
+    }
+
+    .icon-link,
+    .theme-toggle {
+      width: 36px;
+      cursor: pointer;
+    }
+
+    .nav-link:hover,
+    .icon-link:hover,
+    .theme-toggle:hover {
+      color: var(--text);
+      background: var(--bg-soft);
+      border-color: var(--line);
+    }
+
+    .theme-toggle:active,
+    .primary:active,
+    .secondary:active {
+      transform: scale(0.98);
+    }
+
+    .icon-link svg,
+    .theme-toggle svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .theme-toggle .moon { display: block; }
+    .theme-toggle .sun { display: none; }
+    html[data-theme="dark"] .theme-toggle .moon { display: none; }
+    html[data-theme="dark"] .theme-toggle .sun { display: block; }
+
+    /* Hero */
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 9rem 0 5rem;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.62fr);
+      align-items: center;
+      gap: clamp(2rem, 6vw, 5rem);
+    }
+
+    .hero-copy {
+      text-align: left;
+    }
+
+    .hero-copy h1,
+    .hero-copy .hero-subtitle {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-photo-card {
+      position: relative;
+      width: min(100%, 380px);
+      aspect-ratio: 4 / 5;
+      border: 1px solid var(--line);
+      border-radius: 38px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(0, 113, 227, 0.22), transparent 44%),
+        var(--bg-soft);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-photo-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.22));
+      pointer-events: none;
+    }
+
+    .hero-photo {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center top;
+      filter: grayscale(8%) contrast(1.02);
+    }
+
+    .photo-fallback {
+      width: 100%;
+      height: 100%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+      font-size: 5rem;
+      font-weight: 760;
+      letter-spacing: -0.08em;
+    }
+
+    .photo-caption {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.8rem 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 22px;
+      background: rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 560;
+    }
+
+    .photo-caption span:last-child {
+      color: #8fc7ff;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.15rem;
+      padding: 0.42rem 0.82rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 550;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 5px rgba(0, 113, 227, 0.12);
+    }
+
+    h1 {
+      max-width: 940px;
+      margin: 0 auto;
+      font-size: clamp(3.3rem, 8.8vw, 7.1rem);
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+      font-weight: 760;
+    }
+
+    .hero h1 span {
+      display: inline-block;
+      background: linear-gradient(105deg, var(--text) 15%, var(--blue) 92%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      max-width: 680px;
+      margin: 1.7rem auto 0;
+      color: var(--text-soft);
+      font-size: clamp(1.08rem, 2.2vw, 1.45rem);
+      line-height: 1.45;
+      letter-spacing: -0.025em;
+      font-weight: 430;
+    }
+
+    .hero-actions {
+      margin-top: 2.3rem;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .primary,
+    .secondary {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0 1.18rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 620;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .primary:hover {
+      background: var(--blue-hover);
+    }
+
+    .secondary {
+      background: var(--surface-solid);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .secondary:hover {
+      border-color: rgba(0, 113, 227, 0.35);
+      color: var(--blue);
+    }
+
+    /* Sections */
+    section {
+      padding: 4.4rem 0;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4.5vw, 3.7rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+      font-weight: 740;
+      text-align: center;
+    }
+
+    .section-lead {
+      max-width: 610px;
+      margin: 1rem auto 2.4rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 1.03rem;
+      line-height: 1.55;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.55rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface-solid);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto -24% -42% auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(0, 113, 227, 0.11);
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 113, 227, 0.38);
+    }
+
+    .card small {
+      color: var(--blue);
+      font-size: 0.77rem;
+      font-weight: 700;
+      letter-spacing: 0.045em;
+      text-transform: uppercase;
+    }
+
+    .card h3 {
+      max-width: 310px;
+      margin-top: 0.65rem;
+      font-size: 1.55rem;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      font-weight: 720;
+    }
+
+    .card p {
+      margin-top: 0.78rem;
+      max-width: 310px;
+      color: var(--text-muted);
+      font-size: 0.96rem;
+      line-height: 1.55;
+    }
+
+    .card .card-link {
+      z-index: 1;
+      margin-top: 1.4rem;
+      color: var(--blue);
+      font-size: 0.92rem;
+      font-weight: 640;
+    }
+
+    .institution-logos {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .logo-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(0, 113, 227, 0.06);
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(0, 113, 227, 0.18), rgba(0, 113, 227, 0.08));
+      border: 1px solid rgba(0, 113, 227, 0.18);
+      color: var(--blue);
+      font-size: 0.8rem;
+      font-weight: 760;
+      letter-spacing: -0.03em;
+      flex-shrink: 0;
+    }
+
+    .logo-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 0.28rem;
+      background: #fff;
+    }
+
+    .logo-chip strong {
+      display: block;
+      font-size: 0.82rem;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-chip span {
+      display: block;
+      margin-top: 0.18rem;
+      color: var(--text-muted);
+      font-size: 0.67rem;
+      line-height: 1.2;
+      font-weight: 560;
+    }
+
+    .method-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--line);
+    }
+
+    .method-item {
+      min-height: 180px;
+      padding: 1.45rem;
+      background: var(--surface-solid);
+    }
+
+    .method-item span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 1rem;
+      border-radius: 50%;
+      background: rgba(0, 113, 227, 0.12);
+      color: var(--blue);
+      font-size: 0.9rem;
+      font-weight: 720;
+    }
+
+    .method-item h3 {
+      font-size: 1.08rem;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.45rem;
+    }
+
+    .method-item p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.52;
+    }
+
+    .about-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+      padding: 2rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+    }
+
+    .about-box h2 {
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+      margin-bottom: 0.8rem;
+    }
+
+    .about-box p {
+      max-width: 750px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 0.75rem;
+    }
+
+    .stat {
+      min-width: 120px;
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      background: var(--surface-solid);
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--blue);
+      font-size: 1.8rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat span {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 560;
+    }
+
+    footer {
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--line);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-soft);
+    }
+
+    .footer-links a:hover {
+      color: var(--blue);
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner,
+      .cards,
+      .method-strip,
+      .about-box,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-copy h1,
+      .hero-copy .hero-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-photo-card {
+        width: min(78vw, 340px);
+      }
+
+      .about-box {
+        align-items: stretch;
+      }
+
+      .stat {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .nav {
+        height: 60px;
+      }
+
+      .brand {
+        font-size: 0.9rem;
+      }
+
+      .nav-actions {
+        gap: 0.2rem;
+      }
+
+      .nav-link {
+        padding: 0 0.62rem;
+        font-size: 0.78rem;
+      }
+
+      .icon-link:nth-of-type(1),
+      .icon-link:nth-of-type(2) {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 7.8rem;
+        place-items: start;
+        align-content: center;
+      }
+
+      .hero-copy {
+        text-align: left;
+      }
+
+      .hero-copy h1,
+      .hero-copy .hero-subtitle {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      h1 {
+        font-size: clamp(3.1rem, 17vw, 4.9rem);
+      }
+
+      .hero-actions {
+        justify-content: flex-start;
+      }
+
+      .hero-visual {
+        justify-content: flex-start;
+      }
+
+      .hero-photo-card {
+        width: min(100%, 320px);
+        border-radius: 30px;
+      }
+
+      .section-title,
+      .section-lead {
+        text-align: left;
+      }
+
+      .card {
+        min-height: 230px;
+        border-radius: 26px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#">Rai Garcia Torres</a>
 
-<div class="background-glow"></div>
-<div class="wrap">
+      <div class="nav-actions" aria-label="Links principais">
+        <a class="nav-link" href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener">Currículo</a>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-shell">
-      <a href="#" class="nav-logo">Rai Garcia Torres<span class="dot">.</span></a>
-      <div class="nav-right">
-        <div class="nav-socials">
-          <a href="https://www.instagram.com/prof.raitorres" target="_blank" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/raigarciatorres" target="_blank" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zm7.5 0h3.8v2h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.66 4.78 6.12V23h-4v-6.62c0-1.58-.03-3.6-2.2-3.6-2.2 0-2.54 1.72-2.54 3.5V23h-4V8.5z"/></svg>
-          </a>
-          <a href="https://wa.me/5515997693102" target="_blank" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.01 2C6.49 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.1-1.33A9.96 9.96 0 0 0 12.01 22C17.52 22 22 17.52 22 12S17.52 2 12.01 2zm0 18.1c-1.66 0-3.2-.49-4.5-1.32l-.32-.2-3.02.79.81-2.94-.21-.3A8.07 8.07 0 0 1 3.9 12c0-4.47 3.64-8.1 8.11-8.1 4.47 0 8.1 3.63 8.1 8.1 0 4.47-3.63 8.1-8.1 8.1zm4.45-6.07c-.24-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.24-.63.8-.78.97-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.95-1.2-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42-.14-.01-.3-.01-.46-.01s-.43.06-.65.3c-.22.24-.86.84-.86 2.04s.88 2.37 1 2.53c.12.16 1.73 2.64 4.19 3.7.59.25 1.04.4 1.4.51.59.19 1.12.16 1.54.1.47-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
-          </a>
-        </div>
-        <a href="https://wa.me/5515997693102" class="nav-cta" target="_blank">Contato</a>
-      </div>
-    </div>
-  </nav>
+        <a class="icon-link" href="https://www.instagram.com/prof.raitorres" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-inner">
-      <p class="hero-eyebrow">Doutorando · Mestre em Ensino de Ciências · Unicamp</p>
-      <h1>Física com método.<em>Aprendizagem com tecnologia.</em></h1>
-      <p class="hero-sub">
-        Uma central elegante para reunir currículo, aulas particulares, plataformas educacionais
-        e projetos de acompanhamento em Física.
-      </p>
-      <div class="hero-actions">
-        <a class="btn-primary" href="#projetos">Explorar projetos</a>
-        <a class="btn-secondary" href="https://wa.me/5515997693102" target="_blank">Falar comigo</a>
-      </div>
-      <div class="hero-badges">
-        <span class="badge">Física</span>
-        <span class="badge">Metodologias Ativas</span>
-        <span class="badge">Inteligência Artificial</span>
-        <span class="badge">Vestibulares</span>
-        <span class="badge">Aulas Particulares</span>
-      </div>
+        <a class="icon-link" href="https://www.linkedin.com/in/raigarciatorres" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zm7.5 0h3.8v2h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.66 4.78 6.12V23h-4v-6.62c0-1.58-.03-3.6-2.2-3.6-2.2 0-2.54 1.72-2.54 3.5V23h-4V8.5z"/></svg>
+        </a>
 
-      <div class="hero-device reveal">
-        <div class="device-screen">
-          <div class="device-main">
-            <span>Ensino, pesquisa e plataformas digitais</span>
-            <h2>Tudo em um só lugar.</h2>
-          </div>
-          <div class="device-panel">
-            <div>
-              <strong>10+</strong>
-              <p>anos de experiência em sala de aula, preparação para provas e desenvolvimento de projetos educacionais.</p>
-            </div>
-            <a class="btn-secondary" href="#sobre">Conhecer perfil</a>
-          </div>
-        </div>
+        <a class="icon-link" href="https://wa.me/5515997693102" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.01 2C6.49 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.1-1.33A9.96 9.96 0 0 0 12.01 22C17.52 22 22 17.52 22 12S17.52 2 12.01 2zm0 18.1c-1.66 0-3.2-.49-4.5-1.32l-.32-.2-3.02.79.81-2.94-.21-.3A8.07 8.07 0 0 1 3.9 12c0-4.47 3.64-8.1 8.11-8.1 4.47 0 8.1 3.63 8.1 8.1 0 4.47-3.63 8.1-8.1 8.1zm4.45-6.07c-.24-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.24-.63.8-.78.97-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.95-1.2-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42-.14-.01-.3-.01-.46-.01s-.43.06-.65.3c-.22.24-.86.84-.86 2.04s.88 2.37 1 2.53c.12.16 1.73 2.64 4.19 3.7.59.25 1.04.4 1.4.51.59.19 1.12.16 1.54.1.47-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+        </a>
+
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M21 14.2A8.7 8.7 0 0 1 9.8 3 8.9 8.9 0 1 0 21 14.2Z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2 12h2.2M19.8 12H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- PROJECTS -->
-  <section id="projetos">
-    <div class="projects-grid">
-      <div class="section-head reveal">
-        <div>
-          <span class="section-num">01 · Trabalhos</span>
-          <h2 class="section-title">Onde você me encontra.</h2>
-        </div>
-        <p class="section-desc">Quatro caminhos para acessar minha trajetória, minhas aulas e minhas plataformas de acompanhamento.</p>
-      </div>
-
-      <div class="grid reveal">
-
-        <a class="card" href="https://raigarciatorres.github.io/curriculo/" target="_blank">
-          <div class="card-top">
-            <span class="card-index">I</span>
-            <span class="card-tag">Apresentação profissional</span>
-            <h3>Currículo Acadêmico</h3>
-            <p>Trajetória completa: formação pela Unicamp, experiências em instituições como SENAC, publicações e competências técnicas.</p>
-          </div>
-          <div class="card-arrow">
-            Ver currículo
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </div>
-        </a>
-
-        <a class="card" href="https://raigarciatorres.github.io/aulas/" target="_blank">
-          <div class="card-top">
-            <span class="card-index">II</span>
-            <span class="card-tag">Aulas personalizadas</span>
-            <h3>Aulas Particulares de Física</h3>
-            <p>Aulas individuais e em pequenos grupos, adaptadas ao ritmo e à necessidade de cada aluno — do básico ao avançado.</p>
-          </div>
-          <div class="card-arrow">
-            Saber mais
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </div>
-        </a>
-
-        <a class="card" href="https://raitorres.lovable.app" target="_blank">
-          <div class="card-top">
-            <span class="card-index">III</span>
-            <span class="card-tag">Plataforma digital · Alunos particulares</span>
-            <h3>Portal do Aluno</h3>
-            <p>Plataforma online exclusiva para os alunos acompanharem seu progresso, acessarem materiais e manterem contato direto com o professor.</p>
-          </div>
-          <div class="card-arrow">
-            Acessar plataforma
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </div>
-        </a>
-
-        <a class="card" href="https://fisica2fase.lovable.app" target="_blank">
-          <div class="card-top">
-            <span class="card-index">IV</span>
-            <span class="card-tag">Vestibulares · 2ª fase</span>
-            <h3>Física para 2ª Fase</h3>
-            <p>Plataforma focada nas provas discursivas de FUVEST, Unicamp e afins. Resolução detalhada, estratégia e prática intensiva.</p>
-          </div>
-          <div class="card-arrow">
-            Acessar plataforma
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </div>
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- METHOD -->
-  <section id="metodo">
-    <div class="section-head reveal">
-      <div>
-        <span class="section-num">02 · Metodologia</span>
-        <h2 class="section-title">Como ensino física.</h2>
-      </div>
-      <p class="section-desc">Teoria, prática e tecnologia combinadas para tornar a aprendizagem mais clara, ativa e duradoura.</p>
-    </div>
-
-    <div class="method-grid reveal">
-      <div class="method-item">
-        <span class="method-num">01</span>
-        <div>
-          <h3>Metodologias ativas</h3>
-          <p>O aluno no centro do processo: resolução de problemas, discussões guiadas e construção coletiva do conhecimento.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <span class="method-num">02</span>
-        <div>
-          <h3>Experimentação prática</h3>
-          <p>Experimentos de baixo custo e demonstrações que tornam conceitos abstratos visíveis, manipuláveis e memoráveis.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <span class="method-num">03</span>
-        <div>
-          <h3>Simuladores e tecnologia</h3>
-          <p>Uso de simuladores interativos e ferramentas digitais para visualizar fenômenos, testar hipóteses e explorar variáveis.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <span class="method-num">04</span>
-        <div>
-          <h3>Eletrônica e programação</h3>
-          <p>Integração de eletrônica básica e lógica de programação para investigar sensores, circuitos e automação.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <span class="method-num">05</span>
-        <div>
-          <h3>Inteligência artificial aplicada</h3>
-          <p>IA como apoio ao estudo individualizado, geração de exercícios personalizados e acompanhamento do progresso.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <span class="method-num">06</span>
-        <div>
-          <h3>Foco em resultado</h3>
-          <p>Estratégias para provas discursivas e objetivas de vestibulares, com ênfase na construção do raciocínio físico.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="sobre">
-    <div class="section-head reveal">
-      <div>
-        <span class="section-num">03 · Perfil</span>
-        <h2 class="section-title">Sobre mim.</h2>
-      </div>
-      <p class="section-desc">Professor, pesquisador e desenvolvedor de experiências educacionais com tecnologia.</p>
-    </div>
-
-    <div class="about-inner">
-      <div class="about-photo-card reveal">
-        <div class="about-photo-wrap">
-          <img
-            src="../img/rai.png"
-            alt="Rai Garcia Torres"
-            class="about-photo"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          >
-          <div class="about-photo-placeholder" style="display:none;">RT</div>
-        </div>
-        <p class="about-caption">Rai Garcia Torres — Ribeirão Preto/Campinas, SP</p>
-      </div>
-
-      <div class="about-copy-card reveal about-text">
-        <div>
-          <p>
-            <strong>Doutorando</strong> e <strong>Mestre em Ensino de Ciências e Matemática</strong> pela <strong>Unicamp</strong>,
-            e <strong>licenciado em Física</strong> também pela <strong>Unicamp</strong>.
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Física · Vestibulares · Acompanhamento individual</p>
+          <h1>Física com método, clareza e <span>resultado.</span></h1>
+          <p class="hero-subtitle">
+            Aulas e plataformas para quem quer entender física de verdade — com estratégia, prática e acompanhamento próximo.
           </p>
-          <p>
-            Com mais de 10 anos de sala de aula e pesquisa em metodologias ativas, inteligência artificial
-            e educação científica, desenvolvo projetos que conectam física, tecnologia e aprendizagem significativa.
-          </p>
-
-          <div class="social-bar">
-            <a class="social-btn" href="https://www.instagram.com/prof.raitorres" target="_blank">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
-              @prof.raitorres
-            </a>
-            <a class="social-btn" href="https://www.linkedin.com/in/raigarciatorres" target="_blank">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zm7.5 0h3.8v2h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.66 4.78 6.12V23h-4v-6.62c0-1.58-.03-3.6-2.2-3.6-2.2 0-2.54 1.72-2.54 3.5V23h-4V8.5z"/></svg>
-              raigarciatorres
-            </a>
-            <a class="social-btn" href="https://wa.me/5515997693102" target="_blank">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.01 2C6.49 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.1-1.33A9.96 9.96 0 0 0 12.01 22C17.52 22 22 17.52 22 12S17.52 2 12.01 2zm0 18.1c-1.66 0-3.2-.49-4.5-1.32l-.32-.2-3.02.79.81-2.94-.21-.3A8.07 8.07 0 0 1 3.9 12c0-4.47 3.64-8.1 8.11-8.1 4.47 0 8.1 3.63 8.1 8.1 0 4.47-3.63 8.1-8.1 8.1zm4.45-6.07c-.24-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.24-.63.8-.78.97-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.95-1.2-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42-.14-.01-.3-.01-.46-.01s-.43.06-.65.3c-.22.24-.86.84-.86 2.04s.88 2.37 1 2.53c.12.16 1.73 2.64 4.19 3.7.59.25 1.04.4 1.4.51.59.19 1.12.16 1.54.1.47-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
-              WhatsApp
-            </a>
+          <div class="hero-actions">
+            <a class="primary" href="https://wa.me/5515997693102" target="_blank" rel="noopener">Falar no WhatsApp</a>
+            <a class="secondary" href="#servicos">Ver opções de estudo</a>
           </div>
         </div>
 
-        <div class="stats-row">
-          <div class="stat">
-            <span class="stat-num">10+</span>
-            <span class="stat-label">Anos de docência</span>
-          </div>
-          <div class="stat">
-            <span class="stat-num">4</span>
-            <span class="stat-label">Plataformas ativas</span>
-          </div>
-          <div class="stat">
-            <span class="stat-num">3</span>
-            <span class="stat-label">Conferências internacionais</span>
+        <div class="hero-visual" aria-label="Foto de Rai Garcia Torres">
+          <div class="hero-photo-card">
+            <img
+              src="../img/rai.png"
+              alt="Rai Garcia Torres"
+              class="hero-photo"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="photo-fallback">RT</div>
+            <div class="photo-caption">
+              <span>Rai Garcia Torres</span>
+              <span>Professor de Física</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FINAL CTA -->
-  <section class="final-cta">
-    <div class="final-cta-inner reveal">
-      <h2>Quer estudar física com acompanhamento?</h2>
-      <p>Entre em contato para aulas particulares, orientação de estudos ou preparação para vestibulares.</p>
-      <a class="btn-primary" href="https://wa.me/5515997693102" target="_blank">Enviar mensagem</a>
-    </div>
-  </section>
+    <section id="servicos">
+      <div class="container">
+        <h2 class="section-title">Escolha seu caminho</h2>
+        <p class="section-lead">Poucas opções, objetivos claros: acompanhamento de perto e um novo curso voltado para quem mira alto.</p>
 
-  <!-- FOOTER -->
+        <div class="cards">
+          <a class="card" href="https://raitorres.lovable.app" target="_blank" rel="noopener">
+            <div>
+              <small>Portal do aluno</small>
+              <h3>Acompanhamento de perto.</h3>
+              <p>Ambiente para organizar estudos, materiais, dificuldades e evolução ao longo do processo.</p>
+            </div>
+            <span class="card-link">Acessar portal →</span>
+          </a>
+
+          <a class="card" href="#" rel="noopener">
+            <div>
+              <small>Novo curso</small>
+              <h3>Curso ITA/IME.</h3>
+              <p>Um curso em desenvolvimento para alunos que buscam preparação de alto nível, com foco em profundidade, estratégia e resolução refinada.</p>
+              <div class="institution-logos" aria-label="Instituições foco do curso">
+                <div class="logo-chip">
+                  <div class="logo-mark">
+                    <!--
+                      LOGO DO ITA:
+                      1. Salve a imagem na pasta do seu site, por exemplo: /img/ita.png
+                      2. Troque o valor de src abaixo para o caminho correto da imagem.
+                      3. Se ainda não tiver a imagem, remova a linha <img> e deixe apenas o texto ITA.
+                    -->
+                    <img src="img/ita.png" alt="Logo do ITA" onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend', 'ITA');">
+                  </div>
+                  <div>
+                    <strong>ITA</strong>
+                    <span>Instituto Tecnológico de Aeronáutica</span>
+                  </div>
+                </div>
+                <div class="logo-chip">
+                  <div class="logo-mark">
+                    <!--
+                      LOGO DO IME:
+                      1. Salve a imagem na pasta do seu site, por exemplo: /img/ime.png
+                      2. Troque o valor de src abaixo para o caminho correto da imagem.
+                      3. Se ainda não tiver a imagem, remova a linha <img> e deixe apenas o texto IME.
+                    -->
+                    <img src="img/ime.png" alt="Logo do IME" onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend', 'IME');">
+                  </div>
+                  <div>
+                    <strong>IME</strong>
+                    <span>Instituto Militar de Engenharia</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="card-link">Em breve →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="metodo">
+      <div class="container">
+        <h2 class="section-title">Como eu ensino</h2>
+        <p class="section-lead">Uma abordagem direta, mas profunda: entender o conceito, praticar com intenção e corrigir a rota.</p>
+
+        <div class="method-strip">
+          <div class="method-item">
+            <span>1</span>
+            <h3>Diagnóstico</h3>
+            <p>Identifico lacunas reais antes de acelerar o conteúdo.</p>
+          </div>
+          <div class="method-item">
+            <span>2</span>
+            <h3>Explicação clara</h3>
+            <p>Conceitos difíceis traduzidos em raciocínio compreensível.</p>
+          </div>
+          <div class="method-item">
+            <span>3</span>
+            <h3>Prática guiada</h3>
+            <p>Exercícios, experimentos, simuladores e tecnologia quando fazem sentido.</p>
+          </div>
+          <div class="method-item">
+            <span>4</span>
+            <h3>Acompanhamento</h3>
+            <p>Plano de estudo ajustado conforme desempenho e objetivo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="container">
+        <div class="about-box">
+          <div>
+            <h2>Professor de Física, mestre e doutorando pela Unicamp.</h2>
+            <p>
+              Sou Rai Garcia Torres. Trabalho com ensino de Física, metodologias ativas, tecnologia educacional e preparação para vestibulares. Minha proposta é unir profundidade acadêmica com uma linguagem simples, objetiva e aplicável aos estudos.
+            </p>
+          </div>
+          <div class="stats" aria-label="Indicadores profissionais">
+            <div class="stat"><strong>10+</strong><span>anos de docência</span></div>
+            <div class="stat"><strong>4</strong><span>plataformas ativas</span></div>
+            <div class="stat"><strong>3</strong><span>conferências internacionais</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <footer>
-    <div class="footer-inner">
-      <div class="footer-left">
-        <span class="footer-name">Rai Garcia Torres</span>
-        <span class="footer-meta">© 2026 · Professor de Física</span>
-      </div>
+    <div class="container footer-inner">
+      <span>© 2026 · Rai Garcia Torres</span>
       <div class="footer-links">
-        <a href="https://raigarciatorres.github.io/curriculo/" target="_blank">Currículo</a>
-        <a href="https://raigarciatorres.github.io/aulas/" target="_blank">Aulas</a>
-        <a href="https://raitorres.lovable.app" target="_blank">Portal do Aluno</a>
-        <a href="https://fisica2fase.lovable.app" target="_blank">2ª Fase</a>
-      </div>
-      <div class="footer-social">
-        <a class="footer-icon" href="https://www.instagram.com/prof.raitorres" target="_blank" aria-label="Instagram">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
-        </a>
-        <a class="footer-icon" href="https://www.linkedin.com/in/raigarciatorres" target="_blank" aria-label="LinkedIn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zm7.5 0h3.8v2h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.66 4.78 6.12V23h-4v-6.62c0-1.58-.03-3.6-2.2-3.6-2.2 0-2.54 1.72-2.54 3.5V23h-4V8.5z"/></svg>
-        </a>
-        <a class="footer-icon" href="https://wa.me/5515997693102" target="_blank" aria-label="WhatsApp">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.01 2C6.49 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.1-1.33A9.96 9.96 0 0 0 12.01 22C17.52 22 22 17.52 22 12S17.52 2 12.01 2zm0 18.1c-1.66 0-3.2-.49-4.5-1.32l-.32-.2-3.02.79.81-2.94-.21-.3A8.07 8.07 0 0 1 3.9 12c0-4.47 3.64-8.1 8.11-8.1 4.47 0 8.1 3.63 8.1 8.1 0 4.47-3.63 8.1-8.1 8.1zm4.45-6.07c-.24-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.24-.63.8-.78.97-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.95-1.2-.72-.64-1.21-1.44-1.35-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42-.14-.01-.3-.01-.46-.01s-.43.06-.65.3c-.22.24-.86.84-.86 2.04s.88 2.37 1 2.53c.12.16 1.73 2.64 4.19 3.7.59.25 1.04.4 1.4.51.59.19 1.12.16 1.54.1.47-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
-        </a>
+        <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener">Currículo</a>
+        <a href="https://www.instagram.com/prof.raitorres" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.linkedin.com/in/raigarciatorres" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://wa.me/5515997693102" target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
   </footer>
 
-</div>
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-<script>
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-  });
-}, { threshold: 0.12 });
-reveals.forEach(el => io.observe(el));
-</script>
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      root.setAttribute('data-theme', 'dark');
+    }
+
+    toggle.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      const nextTheme = isDark ? 'light' : 'dark';
+      root.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('theme', nextTheme);
+    });
+  </script>
 </body>
 </html>
