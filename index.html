@@ -6,487 +6,751 @@
   <title>Prof. Rai Torres | Aulas Particulares de Matemática e Física</title>
   <style>
     :root {
-      --primary: #1e3a8a;
-      --primary-light: #2563eb;
-      --accent: #0d9488;
-      --accent-hover: #0f766e;
-      --bg-light: #f8fafc;
-      --bg-white: #ffffff;
-      --text-dark: #0f172a;
-      --text-muted: #475569;
-      --border: #e2e8f0;
-      --radius: 12px;
-      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+      --apple-bg: #f5f5f7;
+      --apple-card-bg: rgba(255, 255, 255, 0.82);
+      --apple-card-solid: #ffffff;
+      --apple-text-primary: #1d1d1f;
+      --apple-text-secondary: #86868b;
+      --apple-blue: #0071e3;
+      --apple-blue-hover: #0077ed;
+      --apple-green: #34c759;
+      --apple-border: rgba(0, 0, 0, 0.08);
+      --apple-border-light: rgba(255, 255, 255, 0.7);
+      --apple-shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
+      --apple-shadow-hover: 0 14px 34px rgba(0, 0, 0, 0.08);
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      --transition-apple: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     html {
       scroll-behavior: smooth;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text-dark);
-      background-color: var(--bg-light);
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--apple-text-primary);
+      background-color: var(--apple-bg);
+      line-height: 1.5;
     }
 
-    /* Cabeçalho */
+    /* Cabeçalho estilo Apple */
     header {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--apple-border);
     }
 
     .nav-container {
-      max-width: 1140px;
+      max-width: 1080px;
       margin: 0 auto;
-      padding: 1rem 1.5rem;
+      padding: 0.9rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .brand {
-      font-weight: 800;
-      font-size: 1.25rem;
-      color: var(--primary);
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: var(--apple-text-primary);
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+      letter-spacing: -0.02em;
     }
 
     .brand span {
-      color: var(--accent);
+      color: var(--apple-blue);
     }
 
     .nav-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 1.75rem;
       list-style: none;
       align-items: center;
     }
 
     .nav-links a {
       text-decoration: none;
-      color: var(--text-muted);
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: color 0.2s;
+      color: var(--apple-text-secondary);
+      font-size: 0.88rem;
+      font-weight: 400;
+      transition: var(--transition-apple);
     }
 
     .nav-links a:hover {
-      color: var(--primary-light);
+      color: var(--apple-blue);
     }
 
+    /* Botões Padrão Apple */
     .btn {
-      display: inline-block;
-      background-color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--apple-blue);
       color: #fff !important;
-      padding: 0.7rem 1.4rem;
-      border-radius: 8px;
-      font-weight: 600;
+      padding: 0.65rem 1.35rem;
+      border-radius: var(--radius-full);
+      font-weight: 500;
+      font-size: 0.92rem;
       text-decoration: none;
-      border: none;
+      border: 1px solid transparent;
       cursor: pointer;
-      transition: transform 0.15s ease, background-color 0.2s ease;
-      font-size: 0.95rem;
+      transition: var(--transition-apple);
     }
 
     .btn:hover {
-      background-color: var(--accent-hover);
-      transform: translateY(-2px);
+      background-color: var(--apple-blue-hover);
+      transform: scale(1.01);
+    }
+
+    .btn-secondary {
+      background-color: #e8e8ed;
+      color: var(--apple-text-primary) !important;
+    }
+
+    .btn-secondary:hover {
+      background-color: #dedee3;
+      transform: scale(1.01);
     }
 
     .btn-outline {
       background-color: transparent;
-      color: var(--primary) !important;
-      border: 2px solid var(--primary);
+      color: var(--apple-blue) !important;
+      border: 1px solid var(--apple-blue);
     }
 
     .btn-outline:hover {
-      background-color: var(--primary);
+      background-color: var(--apple-blue);
       color: #fff !important;
     }
 
-    /* Seções Gerais */
+    /* Seções */
     section {
-      padding: 4.5rem 1.5rem;
-      max-width: 1140px;
+      padding: 5.5rem 1.5rem;
+      max-width: 1080px;
       margin: 0 auto;
     }
 
     .section-header {
       text-align: center;
-      max-width: 700px;
-      margin: 0 auto 3rem auto;
+      max-width: 760px;
+      margin: 0 auto 3.5rem auto;
     }
 
     .badge {
       display: inline-block;
-      background: #e0f2fe;
-      color: var(--primary-light);
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      margin-bottom: 0.75rem;
+      color: var(--apple-blue);
+      margin-bottom: 0.8rem;
+    }
+
+    .badge-green {
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.04em;
     }
 
     .section-header h2 {
-      font-size: 2rem;
-      color: var(--text-dark);
-      margin-bottom: 0.75rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--apple-text-primary);
+      margin-bottom: 0.8rem;
     }
 
     .section-header p {
-      color: var(--text-muted);
-      font-size: 1.05rem;
+      color: var(--apple-text-secondary);
+      font-size: 1.15rem;
+      font-weight: 400;
+      line-height: 1.5;
     }
 
-    /* Hero */
+    /* Hero Section */
     .hero {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 3rem;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
       align-items: center;
-      padding-top: 3.5rem;
-      padding-bottom: 4rem;
+      padding-top: 4.5rem;
+      padding-bottom: 5rem;
     }
 
     .hero h1 {
-      font-size: 2.6rem;
-      line-height: 1.2;
-      margin-bottom: 1.25rem;
-      color: var(--text-dark);
+      font-size: 3.1rem;
+      line-height: 1.08;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.4rem;
+      color: var(--apple-text-primary);
     }
 
-    .hero h1 strong {
-      color: var(--primary-light);
+    .hero h1 span.gradient-text {
+      background: linear-gradient(135deg, #1d1d1f 30%, #0071e3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero p {
-      font-size: 1.125rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
+      font-size: 1.2rem;
+      color: var(--apple-text-secondary);
+      line-height: 1.55;
+      margin-bottom: 2.2rem;
+      font-weight: 400;
     }
 
     .hero-actions {
       display: flex;
       gap: 1rem;
+      align-items: center;
       flex-wrap: wrap;
     }
 
     .hero-card {
-      background: var(--bg-white);
-      padding: 2rem;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
+      background: var(--apple-card-solid);
+      padding: 2.25rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--apple-shadow-subtle);
+      border: 1px solid var(--apple-border);
     }
 
     .hero-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      color: var(--apple-text-primary);
+    }
+
+    .free-session-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .free-session-box strong {
+      display: block;
+      color: #166534;
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .free-session-box p {
+      color: #15803d;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      margin-bottom: 0;
     }
 
     .check-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 1rem;
     }
 
     .check-list li {
       display: flex;
       align-items: flex-start;
-      gap: 0.75rem;
+      gap: 0.85rem;
       font-size: 0.95rem;
-      color: var(--text-muted);
+      color: var(--apple-text-secondary);
+      line-height: 1.45;
     }
 
-    .check-icon {
-      color: var(--accent);
-      font-weight: bold;
-      font-size: 1.1rem;
+    .check-list strong {
+      color: var(--apple-text-primary);
     }
 
-    /* Seletor de Segmentos (Tabs) */
+    .check-bullet {
+      color: var(--apple-blue);
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    /* Tabs Segmentos */
     .tabs-header {
       display: flex;
       justify-content: center;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+      background: #e5e5ea;
+      padding: 4px;
+      border-radius: var(--radius-full);
+      max-width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .tab-btn {
-      padding: 0.85rem 1.5rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--bg-white);
-      color: var(--text-muted);
-      font-weight: 600;
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: transparent;
+      color: var(--apple-text-secondary);
+      font-weight: 500;
+      font-size: 0.9rem;
       cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.95rem;
+      transition: var(--transition-apple);
     }
 
     .tab-btn.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+      background: #ffffff;
+      color: var(--apple-text-primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .tab-panel {
-      background: var(--bg-white);
-      border-radius: var(--radius);
-      padding: 2.5rem;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
+      background: var(--apple-card-solid);
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: var(--apple-shadow-subtle);
+      border: 1px solid var(--apple-border);
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3rem;
       align-items: center;
-      animation: fadeIn 0.3s ease;
+      animation: fadeIn 0.35s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .segment-info h3 {
-      font-size: 1.6rem;
-      color: var(--primary);
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
       margin-bottom: 0.75rem;
+      color: var(--apple-text-primary);
     }
 
     .segment-info p {
-      color: var(--text-muted);
+      color: var(--apple-text-secondary);
       margin-bottom: 1.5rem;
     }
 
     .segment-box {
-      background: var(--bg-light);
-      padding: 1.5rem;
-      border-radius: 10px;
-      border-left: 4px solid var(--accent);
+      background: var(--apple-bg);
+      padding: 2rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--apple-border);
     }
 
     .segment-box h4 {
       margin-bottom: 0.75rem;
-      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 1.1rem;
     }
 
-    /* Método em 4 Etapas */
+    /* Etapas */
     .steps-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 1.5rem;
     }
 
     .step-card {
-      background: var(--bg-white);
-      padding: 1.75rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      position: relative;
+      background: var(--apple-card-solid);
+      padding: 2.2rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--apple-border);
+      box-shadow: var(--apple-shadow-subtle);
+      transition: var(--transition-apple);
+    }
+
+    .step-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--apple-shadow-hover);
     }
 
     .step-number {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      background: #e0f2fe;
-      color: var(--primary-light);
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--apple-blue);
       margin-bottom: 1rem;
+      letter-spacing: 0.05em;
     }
 
     .step-card h3 {
-      font-size: 1.15rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
     }
 
     .step-card p {
       font-size: 0.92rem;
-      color: var(--text-muted);
+      color: var(--apple-text-secondary);
+      line-height: 1.5;
     }
 
-    /* Modalidades Presencial e Remoto */
+    /* Modalidades */
     .modality-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.75rem;
     }
 
     .modality-card {
-      background: var(--bg-white);
-      padding: 2.25rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+      background: var(--apple-card-solid);
+      padding: 2.75rem 2.25rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--apple-border);
+      box-shadow: var(--apple-shadow-subtle);
     }
 
     .modality-card h3 {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
       margin-bottom: 0.75rem;
-      color: var(--primary);
+    }
+
+    /* SEÇÃO DE PREÇOS E PACOTES */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      align-items: stretch;
+      margin-bottom: 2.5rem;
+    }
+
+    .price-card {
+      background: var(--apple-card-solid);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--apple-border);
+      padding: 2.25rem 2rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: var(--apple-shadow-subtle);
+      transition: var(--transition-apple);
+    }
+
+    .price-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--apple-shadow-hover);
+    }
+
+    .price-card.featured {
+      border: 2px solid var(--apple-blue);
+      background: #ffffff;
+    }
+
+    .featured-tag {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--apple-blue);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.8rem;
+      border-radius: var(--radius-full);
+    }
+
+    .discount-pill {
+      display: inline-block;
+      align-self: flex-start;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.8rem;
+    }
+
+    .discount-pill.max {
+      background: #e0f2fe;
+      color: #0284c7;
+    }
+
+    .price-card h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+
+    .price-card .plan-subtitle {
+      font-size: 0.88rem;
+      color: var(--apple-text-secondary);
+      margin-bottom: 1.25rem;
+      min-height: 40px;
+    }
+
+    .rate-wrapper {
+      margin-bottom: 0.5rem;
+    }
+
+    .rate-amount {
+      font-size: 2.35rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--apple-text-primary);
+    }
+
+    .rate-unit {
+      font-size: 0.95rem;
+      color: var(--apple-text-secondary);
+      font-weight: 400;
+    }
+
+    .total-calculation {
+      display: inline-block;
+      background: var(--apple-bg);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.88rem;
+      color: var(--apple-text-primary);
+      font-weight: 500;
+      margin-bottom: 1.75rem;
+      border: 1px solid var(--apple-border);
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--apple-text-secondary);
+      margin-bottom: 2rem;
+      flex-grow: 1;
+    }
+
+    .plan-features li {
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    /* Sobre o Professor e Links Externos */
+    .plan-features li span {
+      color: var(--apple-blue);
+      font-weight: bold;
+    }
+
+    /* CARD DE FORMAS DE PAGAMENTO */
+    .payment-methods-card {
+      background: var(--apple-card-solid);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--apple-border);
+      padding: 2.2rem 2.5rem;
+      box-shadow: var(--apple-shadow-subtle);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .payment-header h4 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+      color: var(--apple-text-primary);
+    }
+
+    .payment-header p {
+      color: var(--apple-text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .payment-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .payment-badge {
+      background: var(--apple-bg);
+      border: 1px solid var(--apple-border);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .payment-badge-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+      color: var(--apple-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .payment-badge-desc {
+      font-size: 0.82rem;
+      color: var(--apple-text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Seção Sobre */
     .about-container {
-      background: var(--bg-white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2.75rem;
-      box-shadow: var(--shadow);
+      background: var(--apple-card-solid);
+      border: 1px solid var(--apple-border);
+      border-radius: var(--radius-lg);
+      padding: 3.5rem;
+      box-shadow: var(--apple-shadow-subtle);
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
-      gap: 2.5rem;
+      gap: 3rem;
       align-items: center;
     }
 
     .about-text h3 {
-      font-size: 1.75rem;
-      color: var(--primary);
-      margin-bottom: 0.75rem;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
     }
 
     .about-text p {
-      color: var(--text-muted);
+      color: var(--apple-text-secondary);
       margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
     }
 
     .social-cards {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.85rem;
     }
 
     .social-card {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 1.1rem 1.25rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg-light);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--apple-border);
+      background: var(--apple-bg);
       text-decoration: none;
-      color: var(--text-dark);
-      transition: all 0.2s ease;
+      color: var(--apple-text-primary);
+      transition: var(--transition-apple);
     }
 
     .social-card:hover {
-      border-color: var(--primary-light);
-      background: #f0f9ff;
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.15);
       transform: translateX(4px);
     }
 
     .social-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
       color: #fff;
     }
 
-    .icon-cv { background: var(--primary); }
+    .icon-cv { background: #1d1d1f; }
     .icon-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
     .icon-li { background: #0a66c2; }
 
-    .social-info {
-      flex: 1;
-    }
-
     .social-info strong {
       display: block;
-      font-size: 0.98rem;
-      color: var(--text-dark);
+      font-size: 0.95rem;
+      font-weight: 600;
     }
 
     .social-info span {
-      font-size: 0.85rem;
-      color: var(--text-muted);
+      font-size: 0.82rem;
+      color: var(--apple-text-secondary);
     }
 
-    .external-arrow {
-      font-weight: bold;
-      color: var(--primary-light);
-      font-size: 1.1rem;
-    }
-
-    /* Simulador / Agendamento Rápido */
+    /* Agendamento / Contato */
     .booking-section {
-      background: var(--primary);
-      color: #fff;
-      border-radius: 16px;
-      padding: 3.5rem 2.5rem;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 3.5rem;
       margin: 2rem auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
+      gap: 3.5rem;
       align-items: center;
+      border: 1px solid var(--apple-border);
+      box-shadow: var(--apple-shadow-subtle);
     }
 
     .booking-text h2 {
-      font-size: 2rem;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
       margin-bottom: 1rem;
     }
 
     .booking-text p {
-      color: #cbd5e1;
+      color: var(--apple-text-secondary);
       margin-bottom: 1.5rem;
+      font-size: 1.05rem;
     }
 
     .booking-form {
-      background: var(--bg-white);
-      color: var(--text-dark);
-      padding: 2rem;
-      border-radius: var(--radius);
-    }
-
-    .form-group {
-      margin-bottom: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
     }
 
     .form-group label {
       display: block;
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
       margin-bottom: 0.4rem;
-      color: var(--text-dark);
+      color: var(--apple-text-secondary);
     }
 
     .form-group select,
     .form-group input {
       width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--apple-border);
+      border-radius: var(--radius-sm);
       font-size: 0.95rem;
-      background: var(--bg-light);
+      background: var(--apple-bg);
+      color: var(--apple-text-primary);
+      transition: var(--transition-apple);
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--apple-blue);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
     }
 
     /* FAQ */
@@ -495,88 +759,105 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .faq-item {
-      background: var(--bg-white);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      background: var(--apple-card-solid);
+      border: 1px solid var(--apple-border);
+      border-radius: var(--radius-md);
       overflow: hidden;
+      transition: var(--transition-apple);
     }
 
     .faq-question {
       width: 100%;
       text-align: left;
-      padding: 1.25rem 1.5rem;
+      padding: 1.35rem 1.75rem;
       background: none;
       border: none;
       font-weight: 600;
-      font-size: 1rem;
-      color: var(--text-dark);
+      font-size: 1.05rem;
+      color: var(--apple-text-primary);
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    .faq-question span {
+      font-size: 1.2rem;
+      color: var(--apple-text-secondary);
+      transition: transform 0.25s ease;
+    }
+
     .faq-answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.25s ease;
-      padding: 0 1.5rem;
-      color: var(--text-muted);
-      font-size: 0.95rem;
+      transition: max-height 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      padding: 0 1.75rem;
+      color: var(--apple-text-secondary);
+      font-size: 0.98rem;
+      line-height: 1.55;
     }
 
     .faq-item.open .faq-answer {
-      max-height: 220px;
-      padding-bottom: 1.25rem;
+      max-height: 250px;
+      padding-bottom: 1.5rem;
+    }
+
+    .faq-item.open .faq-question span {
+      transform: rotate(45deg);
     }
 
     /* Rodapé */
     footer {
       text-align: center;
-      padding: 3rem 1.5rem;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      border-top: 1px solid var(--border);
-      margin-top: 3rem;
-      background: var(--bg-white);
+      padding: 3.5rem 1.5rem;
+      color: var(--apple-text-secondary);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--apple-border);
+      background: #ffffff;
     }
 
     .footer-links {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
-      margin-bottom: 1.25rem;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
       flex-wrap: wrap;
     }
 
     .footer-links a {
-      color: var(--primary);
+      color: var(--apple-text-primary);
       text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s;
+      font-weight: 500;
+      transition: var(--transition-apple);
     }
 
     .footer-links a:hover {
-      color: var(--accent);
-      text-decoration: underline;
+      color: var(--apple-blue);
     }
 
     /* Responsividade */
-    @media (max-width: 820px) {
+    @media (max-width: 860px) {
       .hero,
       .tab-panel,
       .about-container,
-      .booking-section {
+      .booking-section,
+      .payment-methods-card {
+        grid-template-columns: 1fr;
+      }
+      .payment-options-grid {
         grid-template-columns: 1fr;
       }
       .nav-links {
         display: none;
       }
       .hero h1 {
+        font-size: 2.3rem;
+      }
+      .section-header h2 {
         font-size: 2rem;
       }
     }
@@ -586,360 +867,497 @@
 
   <!-- Navegação -->
   <header>
-    <div class="nav-container">
+    <nav class="nav-container">
       <a href="#" class="brand">Prof. Rai <span>Torres</span></a>
       <ul class="nav-links">
-        <li><a href="#perfis">Para Quem É</a></li>
-        <li><a href="#metodo">O Método</a></li>
+        <li><a href="#perfis">Público</a></li>
+        <li><a href="#metodo">Metodologia</a></li>
         <li><a href="#modalidades">Modalidades</a></li>
-        <li><a href="#sobre">Sobre o Professor</a></li>
+        <li><a href="#planos">Planos</a></li>
+        <li><a href="#sobre">Sobre</a></li>
         <li><a href="#duvidas">Dúvidas</a></li>
-        <li><a href="#agendar" class="btn">Agendar Diagnóstico</a></li>
+        <li><a href="#agendar" class="btn">Agendar 30 Minutos Grátis</a></li>
       </ul>
-    </div>
+    </nav>
   </header>
 
   <!-- Hero Section -->
   <section class="hero">
     <div>
-      <span class="badge">Ensino Fundamental II • Ensino Médio • Cursinho</span>
-      <h1>Transforme a dificuldade em <strong>autonomia e resultado</strong> nos estudos.</h1>
+      <span class="badge">Fundamental II • Ensino Médio • Pré-Vestibular</span>
+      <h1>
+        Raciocínio lógico, <br />
+        <span class="gradient-text">clareza e autonomia</span> em Exatas.
+      </h1>
       <p>
-        Mais do que resolver tarefas de casa: um acompanhamento individualizado que identifica lacunas na base do aluno, reconstrói o raciocínio lógico e devolve a confiança para provas e vestibulares.
+        Acompanhamento individualizado para diagnosticar lacunas conceituais, recuperar a autoconfiança e alcançar resultados consistentes nas avaliações.
       </p>
       <div class="hero-actions">
-        <a href="#agendar" class="btn">Solicitar Avaliação Diagnóstica</a>
-        <a href="#sobre" class="btn btn-outline">Conhecer o Professor</a>
+        <a href="#agendar" class="btn">Conversa Inicial Gratuita (30 min)</a>
+        <a href="#planos" class="btn btn-secondary">Ver Planos e Valores</a>
       </div>
     </div>
 
     <div class="hero-card">
-      <h3>Por que as aulas comuns de reforço falham?</h3>
+      <div class="free-session-box">
+        <strong>🤝 Sessão Inicial Gratuita de 30 Minutos</strong>
+        <p>Agende uma conversa sem custo para tirarmos dúvidas, analisarmos o boletim/caderno e entendermos as necessidades exatas do estudante.</p>
+      </div>
+
+      <h3>Por que aulas pontuais costumam falhar?</h3>
       <ul class="check-list">
         <li>
-          <span class="check-icon">✓</span>
-          <div><strong>Foco na causa, não no sintoma:</strong> Não adianta decorar fórmulas para a prova de amanhã se a dúvida vem de conceitos anteriores não consolidados.</div>
+          <span class="check-bullet">•</span>
+          <div><strong>Foco na raiz:</strong> Memorizar fórmulas na véspera não sana deficiências estruturais de anos anteriores.</div>
         </li>
         <li>
-          <span class="check-icon">✓</span>
-          <div><strong>Aprendizagem com significado:</strong> O conteúdo novo é conectado ao que o estudante já sabe, evitando o famoso "deu branco na hora da prova".</div>
+          <span class="check-bullet">•</span>
+          <div><strong>Aprendizagem Significativa:</strong> Novos conceitos são ancorados em conhecimentos prévios, evitando o "branco" no exame.</div>
         </li>
         <li>
-          <span class="check-icon">✓</span>
-          <div><strong>Previsibilidade para a família:</strong> Relatórios periódicos de evolução e suporte entre aulas para que o aluno não trave sozinho em casa.</div>
+          <span class="check-bullet">•</span>
+          <div><strong>Continuidade:</strong> Acompanhamento frequente com feedback aos pais e suporte semanal a dúvidas.</div>
         </li>
       </ul>
     </div>
   </section>
 
-  <!-- Seletor Dinâmico de Público -->
+  <!-- Segmentos -->
   <section id="perfis">
     <div class="section-header">
-      <span class="badge">Acompanhamento Sob Medida</span>
-      <h2>Selecione a etapa de ensino</h2>
-      <p>Cada fase exige uma estratégia pedagógica diferente. Clique abaixo para ver como funciona o trabalho em cada nível:</p>
+      <span class="badge">Atendimento Específico</span>
+      <h2>Uma abordagem para cada momento.</h2>
+      <p>Estratégias sob medida para a maturidade acadêmica e as metas de cada aluno.</p>
     </div>
 
     <div class="tabs-header">
-      <button class="tab-btn active" onclick="changeSegment('fund2', this)">Ensino Fundamental II (6º ao 9º)</button>
-      <button class="tab-btn" onclick="changeSegment('medio', this)">Ensino Médio (1ª à 3ª série)</button>
-      <button class="tab-btn" onclick="changeSegment('cursinho', this)">Cursinho e Pré-Vestibular</button>
+      <button class="tab-btn active" onclick="changeSegment('fund2', this)">Fundamental II</button>
+      <button class="tab-btn" onclick="changeSegment('medio', this)">Ensino Médio</button>
+      <button class="tab-btn" onclick="changeSegment('cursinho', this)">Pré-Vestibular</button>
     </div>
 
     <div id="segment-content" class="tab-panel">
-      <!-- Preenchido via JavaScript -->
+      <!-- Dinâmico via JS -->
     </div>
   </section>
 
   <!-- Metodologia -->
   <section id="metodo">
     <div class="section-header">
-      <span class="badge">Como Funciona</span>
-      <h2>Método de Trabalho em 4 Etapas</h2>
-      <p>Um processo estruturado para garantir que o estudante evolua de forma consistente e ganhe independência.</p>
+      <span class="badge">Processo Didático</span>
+      <h2>Como construímos a autonomia.</h2>
+      <p>Um método em 4 etapas contínuas com foco em entendimento definitivo.</p>
     </div>
 
     <div class="steps-grid">
       <div class="step-card">
-        <div class="step-number">1</div>
-        <h3>Sessão de Diagnóstico</h3>
-        <p>Conversa inicial e mapeamento prático para identificar exatamente onde o raciocínio travou (base matemática, interpretação de enunciados ou organização).</p>
+        <div class="step-number">01</div>
+        <h3>Conversa Diagnóstica (Grátis)</h3>
+        <p>30 minutos gratuitos para alinhar expectativas, mapear dificuldades prévias e planejar a rotina.</p>
       </div>
       <div class="step-card">
-        <div class="step-number">2</div>
-        <h3>Plano de Ação Individual</h3>
-        <p>Definição de um cronograma personalizado alinhado ao calendário de provas da escola ou às metas de aprovação no vestibular.</p>
+        <div class="step-number">02</div>
+        <h3>Plano Individual</h3>
+        <p>Cronograma personalizado alinhado com o calendário escolar da instituição ou edital pretendido.</p>
       </div>
       <div class="step-card">
-        <div class="step-number">3</div>
+        <div class="step-number">03</div>
         <h3>Resolução Guiada</h3>
-        <p>Durante a aula, o aluno é estimulado a pensar e construir a solução passo a passo, desenvolvendo segurança em vez de apenas copiar respostas.</p>
+        <p>O aluno conduz o raciocínio e resolve problemas na prática, sem respostas prontas ou atalhos mecânicos.</p>
       </div>
       <div class="step-card">
-        <div class="step-number">4</div>
-        <h3>Suporte e Feedback</h3>
-        <p>Acompanhamento de listas de exercícios, canal via WhatsApp para dúvidas pontuais da semana e retorno transparente aos responsáveis.</p>
+        <div class="step-number">04</div>
+        <h3>Suporte e Rotina</h3>
+        <p>Envio de material em PDF após cada aula e canal direto de dúvidas via WhatsApp durante a semana.</p>
       </div>
     </div>
   </section>
 
-  <!-- Modalidades Presencial e Online -->
+  <!-- Modalidades -->
   <section id="modalidades">
     <div class="section-header">
-      <span class="badge">Flexibilidade</span>
-      <h2>Modalidades Presencial e Remota</h2>
-      <p>A mesma qualidade didática adaptada à rotina da família ou do estudante.</p>
+      <span class="badge">Formato de Aula</span>
+      <h2>Presencial ou Online. A mesma precisão.</h2>
+      <p>Flexibilidade para se ajustar à dinâmica da família ou à rotina pré-vestibular.</p>
     </div>
 
     <div class="modality-grid">
       <div class="modality-card">
         <h3>📍 Atendimento Presencial</h3>
-        <p style="color: var(--text-muted); margin-bottom: 1.25rem;">
-          Ideal para estudantes que precisam de supervisão próxima de caderno, foco longe de telas e organização física do material de estudo.
+        <p style="color: var(--apple-text-secondary); margin-bottom: 1.5rem;">
+          Foco na organização de caderno, rotina física e correção direta na resolução dos problemas.
         </p>
         <ul class="check-list">
-          <li><span class="check-icon">✓</span> Acompanhamento olho no olho e correção imediata da escrita matemática.</li>
-          <li><span class="check-icon">✓</span> Criação de rotina de estudos no ambiente do aluno.</li>
-          <li><span class="check-icon">✓</span> Comodidade e segurança sem tempo perdido no trânsito pelos pais.</li>
+          <li><span class="check-bullet">•</span> Intervenção imediata na escrita e notação matemática.</li>
+          <li><span class="check-bullet">•</span> Construção de disciplina no ambiente domiciliar do aluno.</li>
+          <li><span class="check-bullet">•</span> Comodidade para os pais sem deslocamentos no trânsito.</li>
         </ul>
       </div>
 
       <div class="modality-card">
         <h3>💻 Atendimento Online Interativo</h3>
-        <p style="color: var(--text-muted); margin-bottom: 1.25rem;">
-          Nada de aulas passivas: utilizamos mesa digitalizadora e lousa virtual compartilhada em tempo real para máxima agilidade.
+        <p style="color: var(--apple-text-secondary); margin-bottom: 1.5rem;">
+          Lousa digital compartilhada em tempo real e mesa digitalizadora para interação dinâmica.
         </p>
         <ul class="check-list">
-          <li><span class="check-icon">✓</span> Quadro branco digital onde professor e aluno resolvem questões juntos.</li>
-          <li><span class="check-icon">✓</span> Envio do PDF completo com todas as anotações da lousa após cada aula.</li>
-          <li><span class="check-icon">✓</span> Flexibilidade de horários para revisões pré-prova e rotina de cursinho.</li>
+          <li><span class="check-bullet">•</span> Resolução mútua e colaborativa no mesmo quadro branco.</li>
+          <li><span class="check-bullet">•</span> Envio das anotações em PDF de alta qualidade ao fim da aula.</li>
+          <li><span class="check-bullet">•</span> Agilidade para agendamento de reforços e plantões rápidos.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- NOVA SEÇÃO: Sobre o Professor e Links Externos -->
+  <!-- SEÇÃO DE PLANOS E PACOTES -->
+  <section id="planos">
+    <div class="section-header">
+      <span class="badge">Transparência e Investimento</span>
+      <h2>Planos e Pacotes de Acompanhamento</h2>
+      <p>Carga horária estruturada para resultados duradouros, com economia progressiva em relação à aula avulsa.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Aula Avulsa -->
+      <div class="price-card">
+        <span class="discount-pill" style="background: transparent; color: var(--apple-text-secondary); padding: 0.2rem 0;">Valor Base</span>
+        <h3>Aula Avulsa</h3>
+        <p class="plan-subtitle">Ideal para tirar dúvidas pontuais ou revisões na véspera de provas.</p>
+        <div class="rate-wrapper">
+          <span class="rate-amount">R$ 149<small style="font-size: 1.2rem;">,90</small></span>
+          <span class="rate-unit">/ hora</span>
+        </div>
+        <div class="total-calculation">Investimento: <strong>R$ 149,90</strong></div>
+        <ul class="plan-features">
+          <li><span>✓</span> 1 hora de aula focada</li>
+          <li><span>✓</span> Material da aula em PDF</li>
+          <li><span>✓</span> Pagamento via PIX ou Cartão</li>
+        </ul>
+        <button class="btn btn-secondary" onclick="hirePackage('Aula Avulsa', 'R$ 149,90', 'R$ 149,90', '0%')">
+          Escolher Avulsa →
+        </button>
+      </div>
+
+      <!-- 1 Mês (2x por semana) -->
+      <div class="price-card">
+        <span class="discount-pill">Economize 13%</span>
+        <h3>Mensal Intensivo</h3>
+        <p class="plan-subtitle">2 vezes por semana (8 horas/mês) para recuperação e ritmo de estudo.</p>
+        <div class="rate-wrapper">
+          <span class="rate-amount">R$ 129<small style="font-size: 1.2rem;">,90</small></span>
+          <span class="rate-unit">/ hora</span>
+        </div>
+        <div class="total-calculation">Total mensal (8h): <strong>R$ 1.039,20</strong></div>
+        <ul class="plan-features">
+          <li><span>✓</span> 8 horas de acompanhamento</li>
+          <li><span>✓</span> 13% de desconto por hora</li>
+          <li><span>✓</span> Suporte de dúvidas no WhatsApp</li>
+          <li><span>✓</span> PIX ou Crédito Parcelado*</li>
+        </ul>
+        <button class="btn btn-secondary" onclick="hirePackage('Mensal (2x por semana - 8h)', 'R$ 129,90/h', 'R$ 1.039,20', '13%')">
+          Contratar Mês →
+        </button>
+      </div>
+
+      <!-- 1 Bimestre -->
+      <div class="price-card">
+        <span class="discount-pill">Economize 20%</span>
+        <h3>1 Bimestre</h3>
+        <p class="plan-subtitle">2 meses de ciclo completo de provas escolares (16 horas no total).</p>
+        <div class="rate-wrapper">
+          <span class="rate-amount">R$ 119<small style="font-size: 1.2rem;">,90</small></span>
+          <span class="rate-unit">/ hora</span>
+        </div>
+        <div class="total-calculation">Total 2 meses (16h): <strong>R$ 1.918,40</strong></div>
+        <ul class="plan-features">
+          <li><span>✓</span> 16 horas estruturadas</li>
+          <li><span>✓</span> 20% de economia por aula</li>
+          <li><span>✓</span> Acompanhamento avaliativo e relatórios</li>
+          <li><span>✓</span> PIX ou Crédito Parcelado*</li>
+        </ul>
+        <button class="btn btn-secondary" onclick="hirePackage('1 Bimestre (2 meses - 16h)', 'R$ 119,90/h', 'R$ 1.918,40', '20%')">
+          Contratar Bimestre →
+        </button>
+      </div>
+
+      <!-- 2 Bimestres -->
+      <div class="price-card">
+        <span class="discount-pill">Economize 33%</span>
+        <h3>2 Bimestres</h3>
+        <p class="plan-subtitle">4 meses de consolidação semestral contínua (32 horas no total).</p>
+        <div class="rate-wrapper">
+          <span class="rate-amount">R$ 99<small style="font-size: 1.2rem;">,90</small></span>
+          <span class="rate-unit">/ hora</span>
+        </div>
+        <div class="total-calculation">Total 4 meses (32h): <strong>R$ 3.196,80</strong></div>
+        <ul class="plan-features">
+          <li><span>✓</span> 32 horas de acompanhamento</li>
+          <li><span>✓</span> 33% de desconto por hora</li>
+          <li><span>✓</span> Resolução de deficiências antigas</li>
+          <li><span>✓</span> PIX ou Crédito Parcelado*</li>
+        </ul>
+        <button class="btn btn-secondary" onclick="hirePackage('2 Bimestres (4 meses - 32h)', 'R$ 99,90/h', 'R$ 3.196,80', '33%')">
+          Contratar Semestre →
+        </button>
+      </div>
+
+      <!-- 4 Bimestres (Destaque) -->
+      <div class="price-card featured">
+        <span class="featured-tag">Melhor Custo-Benefício</span>
+        <span class="discount-pill max">Economize 53%</span>
+        <h3>4 Bimestres (Ano Letivo)</h3>
+        <p class="plan-subtitle">8 meses completos de formação sólida (64 horas no total).</p>
+        <div class="rate-wrapper">
+          <span class="rate-amount">R$ 69<small style="font-size: 1.2rem;">,90</small></span>
+          <span class="rate-unit">/ hora</span>
+        </div>
+        <div class="total-calculation">Total 8 meses (64h): <strong>R$ 4.473,60</strong></div>
+        <ul class="plan-features">
+          <li><span>✓</span> 64 horas de formação integral</li>
+          <li><span>✓</span> Mais de 50% de economia por hora</li>
+          <li><span>✓</span> Prioridade na escolha de agenda</li>
+          <li><span>✓</span> PIX ou Crédito Parcelado*</li>
+        </ul>
+        <button class="btn" onclick="hirePackage('4 Bimestres (8 meses - 64h)', 'R$ 69,90/h', 'R$ 4.473,60', '53%')">
+          Garantir Vaga Anual →
+        </button>
+      </div>
+    </div>
+
+    <!-- CARD INFORMATIVO DE FORMAS DE PAGAMENTO -->
+    <div class="payment-methods-card">
+      <div class="payment-header">
+        <span class="badge" style="margin-bottom: 0.35rem;">Facilidade</span>
+        <h4>Formas de Pagamento Aceitas</h4>
+        <p>Flexibilidade para que a família escolha a melhor maneira de organizar o investimento no ano letivo.</p>
+      </div>
+
+      <div class="payment-options-grid">
+        <div class="payment-badge">
+          <div class="payment-badge-title">
+            <span>⚡</span> PIX (À Vista)
+          </div>
+          <div class="payment-badge-desc">
+            Transferência imediata sem custos adicionais ou taxas bancárias.
+          </div>
+        </div>
+
+        <div class="payment-badge">
+          <div class="payment-badge-title">
+            <span>💳</span> Cartão de Crédito
+          </div>
+          <div class="payment-badge-desc">
+            Possibilidade de parcelamento do pacote com a taxa da maquininha repassada ao contratante.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre o Professor -->
   <section id="sobre">
     <div class="section-header">
-      <span class="badge">Quem Ensina</span>
+      <span class="badge">Trajetória Acadêmica</span>
       <h2>Sobre o Prof. Rai Garcia Torres</h2>
-      <p>Formação acadêmica sólida e metodologia voltada para a Aprendizagem Significativa.</p>
+      <p>Formação de excelência na UNICAMP e compromisso com o ensino autêntico.</p>
     </div>
 
     <div class="about-container">
       <div class="about-text">
-        <h3>Didática baseada em investigação e construção de sentido</h3>
+        <h3>Compreensão conceitual sem decoreba.</h3>
         <p>
-          Licenciado em Física e Mestre em Ensino de Ciências e Matemática pela <strong>UNICAMP</strong>, com experiência docente no Ensino Fundamental, Ensino Médio e ensino técnico/profissionalizante.
-        </p>
-        <p>
-          Meu trabalho parte do princípio de que nenhum aluno "é ruim em Exatas" por natureza: na maioria das vezes, faltou conectar os conceitos novos aos conhecimentos prévios de maneira estruturada e intencional.
+          Licenciado em Física e Mestre em Ensino de Ciências e Matemática pela <strong>UNICAMP</strong>. Atuação com foco em aprendizagem significativa: nenhum estudante tem incapacidade inata para Exatas quando o conteúdo é conectado a bases bem estruturadas.
         </p>
         <ul class="check-list">
-          <li><span class="check-icon">✓</span> <strong>Formação Acadêmica:</strong> Física e Mestrado em Ensino de Ciências e Matemática (UNICAMP).</li>
-          <li><span class="check-icon">✓</span> <strong>Metodologia:</strong> Foco em compreensão conceitual profunda, evitando a memorização mecânica.</li>
-          <li><span class="check-icon">✓</span> <strong>Transparência:</strong> Consulte meu histórico completo e acompanhe dicas de estudo nos links ao lado.</li>
+          <li><span class="check-bullet">•</span> <strong>Formação:</strong> Física e Mestrado em Ensino (UNICAMP).</li>
+          <li><span class="check-bullet">•</span> <strong>Metodologia:</strong> Diagnóstico e resolução investigativa.</li>
+          <li><span class="check-bullet">•</span> <strong>Transparência:</strong> Histórico e publicações verificáveis abaixo.</li>
         </ul>
       </div>
 
       <div class="social-cards">
-        <!-- Link Currículo -->
         <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener noreferrer" class="social-card">
-          <div class="social-icon icon-cv" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-          </div>
+          <div class="social-icon icon-cv">📄</div>
           <div class="social-info">
-            <strong>Currículo Acadêmico e Profissional</strong>
+            <strong>Currículo Acadêmico</strong>
             <span>raigarciatorres.github.io/curriculo</span>
           </div>
-          <span class="external-arrow">↗</span>
+          <span>↗</span>
         </a>
 
-        <!-- Link Instagram -->
         <a href="https://www.instagram.com/prof.raitorres/" target="_blank" rel="noopener noreferrer" class="social-card">
-          <div class="social-icon icon-ig" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </div>
+          <div class="social-icon icon-ig">📸</div>
           <div class="social-info">
             <strong>Instagram Profissional</strong>
-            <span>@prof.raitorres • Conteúdos e contato direto</span>
+            <span>@prof.raitorres</span>
           </div>
-          <span class="external-arrow">↗</span>
+          <span>↗</span>
         </a>
 
-        <!-- Link LinkedIn -->
         <a href="https://www.linkedin.com/in/raigarciatorres/" target="_blank" rel="noopener noreferrer" class="social-card">
-          <div class="social-icon icon-li" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-              <rect x="2" y="9" width="4" height="12"></rect>
-              <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-          </div>
+          <div class="social-icon icon-li">💼</div>
           <div class="social-info">
             <strong>LinkedIn</strong>
-            <span>/in/raigarciatorres • Trajetória e publicações</span>
+            <span>/in/raigarciatorres</span>
           </div>
-          <span class="external-arrow">↗</span>
+          <span>↗</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Formulário Gerador de WhatsApp -->
+  <!-- Agendamento Diagnóstico -->
   <section id="agendar">
     <div class="booking-section">
       <div class="booking-text">
-        <span class="badge" style="background: rgba(255,255,255,0.15); color: #fff;">Primeiro Passo</span>
-        <h2>Agende uma Conversa Diagnóstica</h2>
+        <span class="badge badge-green">100% Gratuito</span>
+        <h2>Agende uma conversa de 30 minutos</h2>
         <p>
-          Preencha os dados ao lado em menos de 1 minuto. Você será direcionado para o WhatsApp com um resumo pronto para avaliarmos o caso e combinarmos o melhor horário.
+          Uma sessão inicial gratuita para tirarmos dúvidas, entendermos a rotina do estudante e definirmos a carga horária recomendada sem nenhum compromisso prévio.
         </p>
-        <ul class="check-list" style="color: #e2e8f0;">
-          <li style="color: #e2e8f0;"><span class="check-icon" style="color: #2dd4bf;">✓</span> Entendimento sem compromisso da necessidade do aluno</li>
-          <li style="color: #e2e8f0;"><span class="check-icon" style="color: #2dd4bf;">✓</span> Indicação sincera da carga horária semanal ideal</li>
-          <li style="color: #e2e8f0;"><span class="check-icon" style="color: #2dd4bf;">✓</span> Resposta rápida via WhatsApp ou Direct</li>
+        <ul class="check-list">
+          <li><span class="check-bullet">•</span> Encontro online de 30 minutos sem nenhum custo</li>
+          <li><span class="check-bullet">•</span> Espaço aberto para os pais compartilharem preocupações</li>
+          <li><span class="check-bullet">•</span> Análise de avaliações passadas e mapeamento da base</li>
         </ul>
       </div>
 
       <form class="booking-form" onsubmit="sendToWhatsApp(event)">
         <div class="form-group">
-          <label for="nome">Seu Nome (Pai, Mãe ou Estudante)</label>
+          <label for="nome">Nome do responsável ou estudante</label>
           <input type="text" id="nome" placeholder="Ex.: Mariana Silva" required />
         </div>
 
         <div class="form-group">
-          <label for="etapa">Etapa de Ensino do Aluno</label>
+          <label for="etapa">Etapa Escolar</label>
           <select id="etapa" required>
             <option value="Ensino Fundamental II (6º ao 9º ano)">Ensino Fundamental II (6º ao 9º ano)</option>
-            <option value="Ensino Médio">Ensino Médio (1ª à 3ª série)</option>
+            <option value="Ensino Médio (1ª à 3ª série)">Ensino Médio (1ª à 3ª série)</option>
             <option value="Cursinho / Pré-Vestibular">Cursinho / Pré-Vestibular</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="modalidade">Modalidade de Preferência</label>
+          <label for="modalidade">Modalidade Preferida para as Aulas</label>
           <select id="modalidade" required>
-            <option value="Presencial">Presencial</option>
             <option value="Online (Ao vivo)">Online (Ao vivo)</option>
-            <option value="Híbrido / A definir">Híbrido / A definir</option>
+            <option value="Presencial">Presencial</option>
+            <option value="A definir na conversa">A definir na conversa</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="desafio">Principal Objetivo no Momento</label>
+          <label for="desafio">Objetivo da Conversa</label>
           <select id="desafio" required>
-            <option value="Recuperar notas e corrigir base acumulada">Recuperar notas e corrigir base acumulada</option>
-            <option value="Acompanhamento semanal e ganho de confiança">Acompanhamento semanal e ganho de confiança</option>
-            <option value="Preparação focada em Vestibulares / ENEM">Preparação focada em Vestibulares / ENEM</option>
+            <option value="Conversa gratuita de 30 min para entender as necessidades">Conversa gratuita de 30 min para entender as necessidades</option>
+            <option value="Recuperação de notas e reconstrução de base">Recuperação de notas e reconstrução de base</option>
+            <option value="Acompanhamento semanal contínuo">Acompanhamento semanal contínuo</option>
+            <option value="Preparação para Vestibulares / ENEM">Preparação para Vestibulares / ENEM</option>
           </select>
         </div>
 
-        <button type="submit" class="btn" style="width: 100%; text-align: center; margin-top: 0.5rem;">
-          Enviar Resumo pelo WhatsApp →
+        <button type="submit" class="btn" style="width: 100%; padding: 0.85rem;">
+          Agendar Conversa Gratuita pelo WhatsApp →
         </button>
       </form>
     </div>
   </section>
 
-  <!-- Perguntas Frequentes -->
+  <!-- FAQ -->
   <section id="duvidas">
     <div class="section-header">
-      <span class="badge">Transparência</span>
+      <span class="badge">Esclarecimentos</span>
       <h2>Perguntas Frequentes</h2>
     </div>
 
     <div class="faq-list">
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Como funciona a sessão de diagnóstico inicial?
+          Como funciona a conversa gratuita de 30 minutos?
           <span>+</span>
         </button>
         <div class="faq-answer">
-          É um encontro focado em entender o histórico do estudante, analisar suas últimas avaliações ou materiais escolares e identificar onde estão as lacunas conceituais. Com base nisso, definimos um plano de estudos realista em conjunto com a família.
+          É um bate-papo de 30 minutos totalmente gratuito, realizado prioritariamente por chamada de vídeo, pensado para que você e o estudante possam tirar dúvidas, me contar sobre os desafios atuais nas matérias e analisar juntos o melhor plano de ação, sem obrigatoriedade de contratação.
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          As aulas são cobradas por hora avulsa ou pacote mensal?
+          Quais são as formas de pagamento disponíveis?
           <span>+</span>
         </button>
         <div class="faq-answer">
-          Trabalhamos prioritariamente com planos de acompanhamento mensal ou pacotes de horas. Isso evita que o aluno estude apenas na véspera da prova sob estresse, garantindo evolução real, reserva de horário fixo na agenda e suporte a dúvidas via WhatsApp durante a semana.
+          Aceitamos pagamento à vista via <strong>PIX</strong> ou parcelamento no <strong>Cartão de Crédito</strong>. No cartão, os encargos e taxas de processamento da operadora são arcados pelo contratante no ato do pagamento.
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Como garantir que meu filho preste atenção na modalidade online?
+          Qual é a vantagem dos pacotes em relação à aula avulsa?
           <span>+</span>
         </button>
         <div class="faq-answer">
-          A aula online particular não é uma videoaula gravada. É um diálogo ativo em que o aluno participa da resolução na lousa digital em tempo real. Além disso, todo o registro escrito na aula é exportado em PDF e enviado ao aluno e aos responsáveis ao término do encontro.
+          Os pacotes garantem horário fixo reservado na agenda, suporte contínuo para dúvidas e economia progressiva (de 13% até 53% de desconto por hora em relação ao valor da aula avulsa de R$ 149,90).
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Como é a interação nas aulas online?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          O formato não é passivo: professor e estudante interagem em tempo real na lousa digital compartilhada, com correção imediata e envio de todo o conteúdo em PDF ao final.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Rodapé com Links Externos -->
+  <!-- Rodapé -->
   <footer>
     <div class="footer-links">
-      <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener noreferrer">📄 Currículo Online</a>
-      <a href="https://www.instagram.com/prof.raitorres/" target="_blank" rel="noopener noreferrer">📸 Instagram (@prof.raitorres)</a>
-      <a href="https://www.linkedin.com/in/raigarciatorres/" target="_blank" rel="noopener noreferrer">💼 LinkedIn</a>
+      <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener noreferrer">Currículo Acadêmico</a>
+      <a href="https://www.instagram.com/prof.raitorres/" target="_blank" rel="noopener noreferrer">Instagram (@prof.raitorres)</a>
+      <a href="https://www.linkedin.com/in/raigarciatorres/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
-    <p>© 2026 Prof. Rai Garcia Torres • Acompanhamento Particular em Exatas (Presencial e Online)</p>
+    <p>© 2026 Prof. Rai Garcia Torres • Acompanhamento Especializado em Exatas</p>
   </footer>
 
-  <!-- Script de Interatividade -->
   <script>
-    // IMPORTANTE: Substitua pelo seu número com DDD (apenas números, incluindo 55 do Brasil)
     const WHATSAPP_NUMBER = "5515997693102";
 
     const segmentsData = {
       fund2: {
         title: "Ensino Fundamental II (6º ao 9º ano)",
-        description: "Fase em que surgem as primeiras abstrações na Matemática e nas Ciências. Pequenas dúvidas não resolvidas em frações, equações ou leitura de problemas viram uma bola de neve nas séries seguintes.",
+        description: "Fase de transição crítica com a introdução do pensamento abstrato e das equações. Lacunas em frações ou operações travam anos inteiros à frente.",
         pains: [
-          "Insegurança, bloqueio emocional ou frustração ao fazer lição de casa",
-          "Queda repentina nas notas do boletim e medo de recuperação",
-          "Falta de hábito de estudo e desorganização com o caderno"
+          "Insegurança ou sofrimento na hora de fazer os deveres de casa",
+          "Notas baixas inesperadas nas primeiras avaliações de álgebra",
+          "Dificuldade em organizar cadernos e rotinas de revisão"
         ],
-        solutionTitle: "Como atuamos nesta fase:",
-        solutionText: "Paciência e didática passo a passo para reconstruir os pré-requisitos sem julgamentos. O foco é devolver a autoestima do adolescente e aliviar o desgaste familiar na hora dos estudos. Recomendamos planos semanais contínuos com feedback direto aos pais."
+        solutionTitle: "Abordagem Pedagógica:",
+        solutionText: "Reconstrução paciente de pré-requisitos sem pressão ou julgamentos. O objetivo central é devolver a autoconfiança e a clareza do aluno."
       },
       medio: {
         title: "Ensino Médio (1ª à 3ª série)",
-        description: "O volume de matérias cresce drasticamente em Física e Matemática. O estudante precisa aprender a raciocinar de forma estruturada para dar conta das provas escolares e já construir base para os vestibulares.",
+        description: "Exigência de alto volume de conteúdo de Física e Matemática, cobrando interpretação de texto e modelagem de problemas reais.",
         pains: [
-          "Sensação de entender a explicação na escola, mas travar sozinho na lista de exercícios",
-          "Acúmulo de matérias e falta de método para interpretar questões complexas",
-          "Ansiedade em semanas de provas bimestrais ou simulados"
+          "Sensação de compreender a matéria em sala, mas travar nos exercícios",
+          "Ansiedade em véspera de provas bimestrais ou simulados",
+          "Sobrecarga de matérias sem um método claro de priorização"
         ],
-        solutionTitle: "Como atuamos nesta fase:",
-        solutionText: "Trabalhamos com resolução guiada de problemas e conexão entre teoria e prática. O aluno aprende a extrair os dados do enunciado e selecionar a ferramenta certa sem depender de decoreba. Formato disponível em planos mensais (1x ou 2x por semana)."
+        solutionTitle: "Abordagem Pedagógica:",
+        solutionText: "Desenvolvimento de técnicas de interpretação de enunciado e resolução guiada para evitar a dependência de fórmulas decoradas."
       },
       cursinho: {
         title: "Cursinho e Pré-Vestibular",
-        description: "Para quem busca aprovação em processos seletivos concorridos (ENEM, Fuvest, Unicamp, Unesp e particulares), cada questão de Exatas faz diferença decisiva na classificação.",
+        description: "Foco total em alta performance nos vestibulares concorridos (Fuvest, Unicamp, Unesp, ENEM e bancas de Medicina).",
         pains: [
-          "Estagnação no número de acertos nos simulados de Matemática e Física",
-          "Ritmo acelerado do cursinho que não permite tirar dúvidas de base",
-          "Falta de tempo e estratégia de prova para questões de segunda fase"
+          "Platô de acertos nos simulados de Física e Matemática",
+          "Falta de velocidade de resolução para a primeira fase",
+          "Insegurança na fundamentação e clareza discursiva para as segundas fases"
         ],
-        solutionTitle: "Como atuamos nesta fase:",
-        solutionText: "Intervenção cirúrgica nos tópicos de maior recorrência da banca desejada. Foco em resolução comentada de provas anteriores, ganho de velocidade de cálculo e escrita rigorosa para questões discursivas em pacotes modulares."
+        solutionTitle: "Abordagem Pedagógica:",
+        solutionText: "Análise estratégica de questões recorrentes das bancas, correção da redação matemática de segunda fase e ganho de velocidade."
       }
     };
 
@@ -951,22 +1369,22 @@
       const container = document.getElementById('segment-content');
 
       const painsList = data.pains
-        .map(item => `<li><span class="check-icon">✓</span><div>${item}</div></li>`)
+        .map(item => `<li><span class="check-bullet">•</span><div>${item}</div></li>`)
         .join('');
 
       container.innerHTML = `
         <div class="segment-info">
           <h3>${data.title}</h3>
           <p>${data.description}</p>
-          <h4 style="margin-bottom: 0.75rem;">Sinais de que o acompanhamento é indicado:</h4>
+          <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem; font-weight: 600;">Sinais frequentes nesta fase:</h4>
           <ul class="check-list">
             ${painsList}
           </ul>
         </div>
         <div class="segment-box">
-          <h4>🎯 ${data.solutionTitle}</h4>
-          <p style="color: var(--text-muted); margin-bottom: 1.25rem;">${data.solutionText}</p>
-          <a href="#agendar" class="btn">Agendar Diagnóstico para este Perfil</a>
+          <h4>${data.solutionTitle}</h4>
+          <p style="color: var(--apple-text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">${data.solutionText}</p>
+          <a href="#agendar" class="btn">Agendar Conversa Gratuita (30 min)</a>
         </div>
       `;
     }
@@ -980,6 +1398,14 @@
       }
     }
 
+    // Redirecionamento informando também as opções de pagamento
+    function hirePackage(nomePlano, valorHora, valorTotal, desconto) {
+      const infoDesconto = desconto !== '0%' ? `\n• *Economia:* ${desconto} em relação à aula avulsa` : '';
+      const mensagem = `Olá, Prof. Rai! Estive no seu site e tenho interesse no plano:\n\n• *Pacote:* ${nomePlano}\n• *Valor Hora-Aula:* ${valorHora}${infoDesconto}\n• *Total Calculado:* ${valorTotal}\n• *Opções de Pagamento:* PIX ou Cartão de Crédito parcelado (taxa pelo contratante)\n\nGostaria de verificar a disponibilidade de horários na sua agenda para iniciarmos.`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
+    }
+
     function sendToWhatsApp(event) {
       event.preventDefault();
       const nome = document.getElementById('nome').value.trim();
@@ -987,13 +1413,12 @@
       const modalidade = document.getElementById('modalidade').value;
       const desafio = document.getElementById('desafio').value;
 
-      const mensagem = `Olá, Prof. Rai! Meu nome é *${nome}*.\n\nVi o seu site e gostaria de agendar uma conversa diagnóstica:\n• *Etapa:* ${etapa}\n• *Modalidade:* ${modalidade}\n• *Objetivo principal:* ${desafio}\n\nComo funciona a sua disponibilidade de horários?`;
+      const mensagem = `Olá, Prof. Rai! Meu nome é *${nome}*.\n\nGostaria de agendar a *conversa gratuita de 30 minutos* para entender as necessidades e alinhar os próximos passos:\n• *Etapa:* ${etapa}\n• *Modalidade de interesse:* ${modalidade}\n• *Foco inicial:* ${desafio}\n\nQual é o seu melhor dia e horário disponível?`;
 
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
     }
 
-    // Inicializa a primeira aba ao carregar a página
     window.addEventListener('DOMContentLoaded', () => {
       changeSegment('fund2', document.querySelector('.tab-btn'));
     });
