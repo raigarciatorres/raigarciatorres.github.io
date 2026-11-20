@@ -860,6 +860,96 @@
       .section-header h2 {
         font-size: 2rem;
       }
+      .metodologia-faq {
+  padding: 60px 20px;
+  background-color: #f8fafc;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1e293b;
+}
+
+.faq-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.faq-titulo {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.faq-subtitulo {
+  text-align: center;
+  font-size: 1.05rem;
+  color: #475569;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.faq-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-item {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.faq-item[open] {
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  border-color: #cbd5e1;
+}
+
+.faq-pergunta {
+  list-style: none; /* Remove a seta padrão */
+  padding: 20px 24px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Remove a seta padrão no Safari */
+.faq-pergunta::-webkit-details-marker {
+  display: none;
+}
+
+/* Ícone de "+" e "-" feito com CSS */
+.faq-pergunta::after {
+  content: "+";
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #2563eb; /* Cor de destaque - pode trocar pela cor da sua marca */
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.faq-item[open] .faq-pergunta::after {
+  content: "−";
+}
+
+.faq-resposta {
+  padding: 0 24px 20px 24px;
+  color: #334155;
+  line-height: 1.65;
+  font-size: 0.98rem;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 16px;
+}
+
+.faq-resposta p {
+  margin: 0;
+}
     }
   </style>
 </head>
@@ -972,6 +1062,83 @@
       </div>
     </div>
   </section>
+
+  <section class="metodologia-faq" id="metodologia">
+  <div class="faq-container">
+    <h2 class="faq-titulo">Como funciona o acompanhamento?</h2>
+    <p class="faq-subtitulo">
+      Entenda como ajudamos seu filho a superar bloqueios em Física e Matemática, recuperando a base e a confiança nos estudos.
+    </p>
+
+    <div class="faq-lista">
+      <details class="faq-item">
+        <summary class="faq-pergunta">
+          Qual é a diferença dessas aulas para um reforço escolar comum?
+        </summary>
+        <div class="faq-resposta">
+          <p>
+            O reforço tradicional costuma focar apenas em decorar fórmulas para a prova da semana seguinte. Aqui, o foco é entender <strong>por que</strong> o aluno está travando. Combinando formação em Física e Mestrado em Ensino, identificamos a raiz da dificuldade e construímos o raciocínio do zero, de forma visual e conectada ao dia a dia, para que o aprendizado seja definitivo.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-pergunta">
+          Meu filho tem prova semana que vem, mas falta base de anos anteriores. Como vocês equilibram isso?
+        </summary>
+        <div class="faq-resposta">
+          <p>
+            Trabalhamos com duas frentes ao mesmo tempo: uma parte da aula é dedicada às demandas atuais da escola (dúvidas da semana e preparação para provas) para manter as notas sob controle; a outra parte é dedicada a resgatar as lacunas antigas que impedem o aluno de avançar. Assim, cuidamos do presente sem deixar o problema estrutural de lado.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-pergunta">
+          Como é o primeiro encontro? Ele vai precisar fazer uma prova?
+        </summary>
+        <div class="faq-resposta">
+          <p>
+            Não! Sabemos que provas costumam gerar ansiedade. Primeiro, faço uma conversa com os pais para entender o histórico e a rotina do estudante. Depois, faço um encontro leve e investigativo com o aluno, onde resolvemos alguns desafios juntos, conversando. Isso permite mapear exatamente onde está a dificuldade sem nenhuma pressão.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-pergunta">
+          Meu filho acha que "não nasceu para exatas" e tem medo de errar. Como lidar com isso?
+        </summary>
+        <div class="faq-resposta">
+          <p>
+            Na nossa aula, o erro nunca é punido — ele é a nossa melhor pista. Em vez de apenas dizer "está errado", analisamos juntos como o aluno pensou para chegar naquele resultado. Quando ele percebe que está em um ambiente seguro para perguntar e testar ideias, o bloqueio diminui e a confiança volta aos poucos.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-pergunta">
+          Como vou saber se meu filho está realmente evoluindo?
+        </summary>
+        <div class="faq-resposta">
+          <p>
+            A família participa do processo de perto. Após o diagnóstico inicial, vocês recebem um plano simples com as metas dos próximos meses. Além disso, ao final de cada mês, envio um breve retorno destacando os avanços conquistados, o comportamento nas aulas e os próximos passos.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-pergunta">
+          Ele vai precisar de aulas particulares para sempre?
+        </summary>
+        <div class="faq-resposta">
+          <p>
+            Nosso objetivo é exatamente o contrário: gerar autonomia. Além do conteúdo de Física e Matemática, ensinamos o aluno a ler enunciados com calma, organizar o próprio rascunho e identificar onde travou. A meta é que ele ganhe ferramentas para estudar sozinho e precise cada vez menos de acompanhamento.
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
 
   <!-- Modalidades -->
   <section id="modalidades">
