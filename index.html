@@ -1,1701 +1,1870 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prof. Rai Torres | Aulas Particulares de Matemática e Física</title>
+
+  <!-- Anti-FOUC: aplica o tema salvo ou do sistema antes de renderizar -->
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <!-- Fonte Inter (complementa a pilha SF Pro / Apple System) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"SF Pro Text"',
+              '"SF Pro Display"',
+              'Inter',
+              'Helvetica Neue',
+              'Arial',
+              'sans-serif'
+            ]
+          },
+          colors: {
+            apple: {
+              bg: '#f5f5f7',
+              ink: '#1d1d1f',
+              muted: '#6e6e73',
+              blue: '#0071e3',
+              blueHover: '#0077ed',
+              darkBg: '#09090b',
+              darkSurface: '#16161a',
+              darkBlue: '#2997ff'
+            }
+          },
+          boxShadow: {
+            glass: '0 8px 32px rgba(15, 23, 42, 0.05)',
+            'glass-hover': '0 20px 44px rgba(15, 23, 42, 0.09)',
+            glow: '0 0 0 1px rgba(0, 113, 227, 0.25), 0 16px 40px -10px rgba(0, 113, 227, 0.22)',
+            'glow-dark': '0 0 0 1px rgba(41, 151, 255, 0.45), 0 18px 46px -12px rgba(41, 151, 255, 0.28)'
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
+              '50%': { transform: 'translate3d(18px, -22px, 0) scale(1.06)' }
+            },
+            floatReverse: {
+              '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
+              '50%': { transform: 'translate3d(-20px, 18px, 0) scale(1.05)' }
+            }
+          },
+          animation: {
+            'float-slow': 'floatSlow 14s ease-in-out infinite',
+            'float-reverse': 'floatReverse 18s ease-in-out infinite'
+          }
+        }
+      }
+    };
+  </script>
+
   <style>
-    :root {
-      --apple-bg: #f5f5f7;
-      --apple-card-bg: rgba(255, 255, 255, 0.82);
-      --apple-card-solid: #ffffff;
-      --apple-text-primary: #1d1d1f;
-      --apple-text-secondary: #86868b;
-      --apple-blue: #0071e3;
-      --apple-blue-hover: #0077ed;
-      --apple-green: #34c759;
-      --apple-border: rgba(0, 0, 0, 0.08);
-      --apple-border-light: rgba(255, 255, 255, 0.7);
-      --apple-shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
-      --apple-shadow-hover: 0 14px 34px rgba(0, 0, 0, 0.08);
-      --radius-sm: 10px;
-      --radius-md: 18px;
-      --radius-lg: 24px;
-      --radius-full: 9999px;
-      --transition-apple: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    /* Esquema de cores nativo (scrollbars e dropdowns acompanham o modo) */
+    html {
+      color-scheme: light;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    html.dark {
+      color-scheme: dark;
+    }
+
+    /* Base e transição suave entre claro e escuro */
+    body {
+      background-color: #f5f5f7;
+      color: #1d1d1f;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      transition: background-color 0.35s ease, color 0.35s ease;
     }
 
-    html {
-      scroll-behavior: smooth;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      color: var(--apple-text-primary);
-      background-color: var(--apple-bg);
-      line-height: 1.5;
+    html.dark body {
+      background-color: #09090b;
+      color: #f5f5f7;
     }
 
-    /* Cabeçalho estilo Apple */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid var(--apple-border);
+    /* Entrada suave da página */
+    .page-enter {
+      animation: pageFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    .nav-container {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0.9rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    @keyframes pageFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    .brand {
-      font-weight: 600;
-      font-size: 1.15rem;
-      color: var(--apple-text-primary);
-      text-decoration: none;
-      letter-spacing: -0.02em;
+    /* Superfície Glassmorphism (Claro e Escuro) */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .brand span {
-      color: var(--apple-blue);
+    html.dark .glass-card {
+      background: rgba(24, 24, 29, 0.72);
+      border-color: rgba(255, 255, 255, 0.09);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
-    .nav-links {
-      display: flex;
-      gap: 1.75rem;
-      list-style: none;
-      align-items: center;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--apple-text-secondary);
-      font-size: 0.88rem;
-      font-weight: 400;
-      transition: var(--transition-apple);
-    }
-
-    .nav-links a:hover {
-      color: var(--apple-blue);
-    }
-
-    /* Botões Padrão Apple */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--apple-blue);
-      color: #fff !important;
-      padding: 0.65rem 1.35rem;
-      border-radius: var(--radius-full);
-      font-weight: 500;
-      font-size: 0.92rem;
-      text-decoration: none;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: var(--transition-apple);
-    }
-
-    .btn:hover {
-      background-color: var(--apple-blue-hover);
-      transform: scale(1.01);
-    }
-
-    .btn-secondary {
-      background-color: #e8e8ed;
-      color: var(--apple-text-primary) !important;
-    }
-
-    .btn-secondary:hover {
-      background-color: #dedee3;
-      transform: scale(1.01);
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      color: var(--apple-blue) !important;
-      border: 1px solid var(--apple-blue);
-    }
-
-    .btn-outline:hover {
-      background-color: var(--apple-blue);
-      color: #fff !important;
-    }
-
-    /* Seções */
-    section {
-      padding: 5.5rem 1.5rem;
-      max-width: 1080px;
-      margin: 0 auto;
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 760px;
-      margin: 0 auto 3.5rem auto;
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--apple-blue);
-      margin-bottom: 0.8rem;
-    }
-
-    .badge-green {
-      background: #e8f5e9;
-      color: #2e7d32;
-      padding: 0.35rem 0.85rem;
-      border-radius: var(--radius-full);
-      letter-spacing: 0.04em;
-    }
-
-    .section-header h2 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: var(--apple-text-primary);
-      margin-bottom: 0.8rem;
-    }
-
-    .section-header p {
-      color: var(--apple-text-secondary);
-      font-size: 1.15rem;
-      font-weight: 400;
-      line-height: 1.5;
-    }
-
-    /* Hero Section */
-    .hero {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 3.5rem;
-      align-items: center;
-      padding-top: 4.5rem;
-      padding-bottom: 5rem;
-    }
-
-    .hero h1 {
-      font-size: 3.1rem;
-      line-height: 1.08;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.4rem;
-      color: var(--apple-text-primary);
-    }
-
-    .hero h1 span.gradient-text {
-      background: linear-gradient(135deg, #1d1d1f 30%, #0071e3 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--apple-text-secondary);
-      line-height: 1.55;
-      margin-bottom: 2.2rem;
-      font-weight: 400;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .hero-card {
-      background: var(--apple-card-solid);
-      padding: 2.25rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--apple-shadow-subtle);
-      border: 1px solid var(--apple-border);
-    }
-
-    .hero-card h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.25rem;
-      color: var(--apple-text-primary);
-    }
-
-    .free-session-box {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: var(--radius-md);
-      padding: 1.2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .free-session-box strong {
-      display: block;
-      color: #166534;
-      font-size: 0.95rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .free-session-box p {
-      color: #15803d;
-      font-size: 0.88rem;
-      line-height: 1.45;
-      margin-bottom: 0;
-    }
-
-    .check-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .check-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-      font-size: 0.95rem;
-      color: var(--apple-text-secondary);
-      line-height: 1.45;
-    }
-
-    .check-list strong {
-      color: var(--apple-text-primary);
-    }
-
-    .check-bullet {
-      color: var(--apple-blue);
-      font-weight: 700;
-      font-size: 1.05rem;
-      line-height: 1.2;
-    }
-
-    /* Tabs Segmentos */
-    .tabs-header {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 2.5rem;
-      background: #e5e5ea;
-      padding: 4px;
-      border-radius: var(--radius-full);
-      max-width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .tab-btn {
-      padding: 0.6rem 1.4rem;
-      border-radius: var(--radius-full);
-      border: none;
-      background: transparent;
-      color: var(--apple-text-secondary);
-      font-weight: 500;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: var(--transition-apple);
-    }
-
-    .tab-btn.active {
-      background: #ffffff;
-      color: var(--apple-text-primary);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .tab-panel {
-      background: var(--apple-card-solid);
-      border-radius: var(--radius-lg);
-      padding: 3rem;
-      box-shadow: var(--apple-shadow-subtle);
-      border: 1px solid var(--apple-border);
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 3rem;
-      align-items: center;
-      animation: fadeIn 0.35s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .segment-info h3 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-      color: var(--apple-text-primary);
-    }
-
-    .segment-info p {
-      color: var(--apple-text-secondary);
-      margin-bottom: 1.5rem;
-    }
-
-    .segment-box {
-      background: var(--apple-bg);
-      padding: 2rem;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--apple-border);
-    }
-
-    .segment-box h4 {
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    /* Etapas */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .step-card {
-      background: var(--apple-card-solid);
-      padding: 2.2rem;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--apple-border);
-      box-shadow: var(--apple-shadow-subtle);
-      transition: var(--transition-apple);
-    }
-
-    .step-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--apple-shadow-hover);
-    }
-
-    .step-number {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--apple-blue);
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
-    }
-
-    .step-card h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.6rem;
-    }
-
-    .step-card p {
-      font-size: 0.92rem;
-      color: var(--apple-text-secondary);
-      line-height: 1.5;
-    }
-
-    /* Modalidades */
-    .modality-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.75rem;
-    }
-
-    .modality-card {
-      background: var(--apple-card-solid);
-      padding: 2.75rem 2.25rem;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--apple-border);
-      box-shadow: var(--apple-shadow-subtle);
-    }
-
-    .modality-card h3 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-    }
-
-    /* SEÇÃO DE PREÇOS E PACOTES */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      align-items: stretch;
-      margin-bottom: 2.5rem;
-    }
-
-    .price-card {
-      background: var(--apple-card-solid);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--apple-border);
-      padding: 2.25rem 2rem;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      box-shadow: var(--apple-shadow-subtle);
-      transition: var(--transition-apple);
-    }
-
-    .price-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--apple-shadow-hover);
-    }
-
-    .price-card.featured {
-      border: 2px solid var(--apple-blue);
-      background: #ffffff;
-    }
-
-    .featured-tag {
-      position: absolute;
-      top: -12px;
-      right: 20px;
-      background: var(--apple-blue);
-      color: #fff;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 0.25rem 0.8rem;
-      border-radius: var(--radius-full);
-    }
-
-    .discount-pill {
-      display: inline-block;
-      align-self: flex-start;
-      background: #e8f5e9;
-      color: #2e7d32;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      padding: 0.2rem 0.65rem;
-      border-radius: var(--radius-full);
-      margin-bottom: 0.8rem;
-    }
-
-    .discount-pill.max {
-      background: #e0f2fe;
-      color: #0284c7;
-    }
-
-    .price-card h3 {
-      font-size: 1.35rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.35rem;
-    }
-
-    .price-card .plan-subtitle {
-      font-size: 0.88rem;
-      color: var(--apple-text-secondary);
-      margin-bottom: 1.25rem;
-      min-height: 40px;
-    }
-
-    .rate-wrapper {
-      margin-bottom: 0.5rem;
-    }
-
-    .rate-amount {
-      font-size: 2.35rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      color: var(--apple-text-primary);
-    }
-
-    .rate-unit {
-      font-size: 0.95rem;
-      color: var(--apple-text-secondary);
-      font-weight: 400;
-    }
-
-    .total-calculation {
-      display: inline-block;
-      background: var(--apple-bg);
-      border-radius: var(--radius-sm);
-      padding: 0.5rem 0.75rem;
-      font-size: 0.88rem;
-      color: var(--apple-text-primary);
-      font-weight: 500;
-      margin-bottom: 1.75rem;
-      border: 1px solid var(--apple-border);
-    }
-
-    .plan-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-      color: var(--apple-text-secondary);
-      margin-bottom: 2rem;
-      flex-grow: 1;
-    }
-
-    .plan-features li {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .plan-features li span {
-      color: var(--apple-blue);
-      font-weight: bold;
-    }
-
-    /* CARD DE FORMAS DE PAGAMENTO */
-    .payment-methods-card {
-      background: var(--apple-card-solid);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--apple-border);
-      padding: 2.2rem 2.5rem;
-      box-shadow: var(--apple-shadow-subtle);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .payment-header h4 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.4rem;
-      color: var(--apple-text-primary);
-    }
-
-    .payment-header p {
-      color: var(--apple-text-secondary);
-      font-size: 0.92rem;
-      line-height: 1.45;
-    }
-
-    .payment-options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-    }
-
-    .payment-badge {
-      background: var(--apple-bg);
-      border: 1px solid var(--apple-border);
-      border-radius: var(--radius-md);
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .payment-badge-title {
-      font-weight: 600;
-      font-size: 0.98rem;
-      color: var(--apple-text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-
-    .payment-badge-desc {
-      font-size: 0.82rem;
-      color: var(--apple-text-secondary);
-      line-height: 1.4;
-    }
-
-    /* Seção Sobre */
-    .about-container {
-      background: var(--apple-card-solid);
-      border: 1px solid var(--apple-border);
-      border-radius: var(--radius-lg);
-      padding: 3.5rem;
-      box-shadow: var(--apple-shadow-subtle);
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .about-text h3 {
-      font-size: 2rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .about-text p {
-      color: var(--apple-text-secondary);
-      margin-bottom: 1.25rem;
-      font-size: 1.05rem;
-      line-height: 1.6;
-    }
-
-    .social-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .social-card {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--apple-border);
-      background: var(--apple-bg);
-      text-decoration: none;
-      color: var(--apple-text-primary);
-      transition: var(--transition-apple);
-    }
-
-    .social-card:hover {
-      background: #ffffff;
-      border-color: rgba(0, 0, 0, 0.15);
-      transform: translateX(4px);
-    }
-
-    .social-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
-
-    .icon-cv { background: #1d1d1f; }
-    .icon-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-    .icon-li { background: #0a66c2; }
-
-    .social-info strong {
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .social-info span {
-      font-size: 0.82rem;
-      color: var(--apple-text-secondary);
-    }
-
-    /* Agendamento / Contato */
-    .booking-section {
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      padding: 3.5rem;
-      margin: 2rem auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3.5rem;
-      align-items: center;
-      border: 1px solid var(--apple-border);
-      box-shadow: var(--apple-shadow-subtle);
-    }
-
-    .booking-text h2 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-    }
-
-    .booking-text p {
-      color: var(--apple-text-secondary);
-      margin-bottom: 1.5rem;
-      font-size: 1.05rem;
-    }
-
-    .booking-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.15rem;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.4rem;
-      color: var(--apple-text-secondary);
-    }
-
-    .form-group select,
-    .form-group input {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      border: 1px solid var(--apple-border);
-      border-radius: var(--radius-sm);
-      font-size: 0.95rem;
-      background: var(--apple-bg);
-      color: var(--apple-text-primary);
-      transition: var(--transition-apple);
-    }
-
-    .form-group select:focus,
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--apple-blue);
-      background: #fff;
-      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
-    }
-
-    /* FAQ */
-    .faq-list {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .faq-item {
-      background: var(--apple-card-solid);
-      border: 1px solid var(--apple-border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      transition: var(--transition-apple);
-    }
-
-    .faq-question {
-      width: 100%;
-      text-align: left;
-      padding: 1.35rem 1.75rem;
-      background: none;
-      border: none;
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: var(--apple-text-primary);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq-question span {
-      font-size: 1.2rem;
-      color: var(--apple-text-secondary);
-      transition: transform 0.25s ease;
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-      padding: 0 1.75rem;
-      color: var(--apple-text-secondary);
-      font-size: 0.98rem;
-      line-height: 1.55;
-    }
-
-    .faq-item.open .faq-answer {
-      max-height: 250px;
-      padding-bottom: 1.5rem;
-    }
-
-    .faq-item.open .faq-question span {
-      transform: rotate(45deg);
-    }
-
-    /* Rodapé */
-    footer {
-      text-align: center;
-      padding: 3.5rem 1.5rem;
-      color: var(--apple-text-secondary);
-      font-size: 0.85rem;
-      border-top: 1px solid var(--apple-border);
-      background: #ffffff;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: var(--apple-text-primary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition-apple);
-    }
-
-    .footer-links a:hover {
-      color: var(--apple-blue);
-    }
-
-    /* Responsividade */
-    @media (max-width: 860px) {
-      .hero,
-      .tab-panel,
-      .about-container,
-      .booking-section,
-      .payment-methods-card {
-        grid-template-columns: 1fr;
-      }
-      .payment-options-grid {
-        grid-template-columns: 1fr;
-      }
-      .nav-links {
-        display: none;
-      }
-      .hero h1 {
-        font-size: 2.3rem;
-      }
-      .section-header h2 {
-        font-size: 2rem;
-      }
-
-    }
-
-    /* Metodologia: perguntas expansíveis */
-    .metodologia-faq {
-      max-width: none;
-      padding: 5rem 1.5rem;
-      background:
-        radial-gradient(circle at 12% 8%, rgba(0, 113, 227, 0.055), transparent 28rem),
-        #f5f5f7;
-      color: var(--apple-text-primary);
-    }
-
-    .faq-container {
-      max-width: 860px;
-      margin: 0 auto;
-    }
-
-    .faq-titulo {
-      max-width: 680px;
-      margin: 0 auto 0.85rem;
-      color: var(--apple-text-primary);
-      font-size: clamp(1.8rem, 3vw, 2.35rem);
-      font-weight: 700;
-      letter-spacing: -0.035em;
-      line-height: 1.15;
-      text-align: center;
-    }
-
-    .faq-subtitulo {
-      max-width: 680px;
-      margin: 0 auto 2.75rem;
-      color: var(--apple-text-secondary);
-      font-size: 1.05rem;
-      line-height: 1.65;
-      text-align: center;
-    }
-
-    .faq-lista {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .metodologia-faq .faq-item {
+    /* Efeito Spotlight que acompanha o mouse nos cards */
+    .spotlight-card {
       position: relative;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(0, 0, 0, 0.075);
-      border-radius: 18px;
-      box-shadow: 0 3px 14px rgba(0, 0, 0, 0.025);
-      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     }
 
-    .metodologia-faq .faq-item:hover {
-      border-color: rgba(0, 113, 227, 0.22);
-      box-shadow: 0 7px 22px rgba(0, 0, 0, 0.055);
-      transform: translateY(-1px);
-    }
-
-    .metodologia-faq .faq-item[open] {
-      background: #ffffff;
-      border-color: rgba(0, 113, 227, 0.28);
-      box-shadow: 0 10px 28px rgba(0, 75, 150, 0.075);
-    }
-
-    .faq-pergunta {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.25rem;
-      min-height: 76px;
-      padding: 1.25rem 1.5rem 1.25rem 1.65rem;
-      color: var(--apple-text-primary);
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.45;
-      list-style: none;
-      outline: none;
-    }
-
-    .faq-pergunta::-webkit-details-marker {
-      display: none;
-    }
-
-    .faq-pergunta::before {
+    .spotlight-card::before {
       content: "";
       position: absolute;
-      left: 0;
-      top: 18px;
-      bottom: 18px;
-      width: 3px;
-      border-radius: 0 4px 4px 0;
-      background: transparent;
-      transition: background 0.25s ease;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      background: radial-gradient(
+        520px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(0, 113, 227, 0.08),
+        transparent 55%
+      );
+      z-index: 0;
     }
 
-    .metodologia-faq .faq-item[open] .faq-pergunta::before {
-      background: var(--apple-blue);
+    html.dark .spotlight-card::before {
+      background: radial-gradient(
+        520px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(41, 151, 255, 0.14),
+        transparent 58%
+      );
     }
 
-    .faq-pergunta::after {
-      content: "+";
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+
+    .spotlight-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Transições de Scroll Reveal (GPU-accelerated: apenas transform e opacity) */
+    .reveal {
+      opacity: 0;
+      transform: translate3d(0, 26px, 0);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.reveal-left {
+      transform: translate3d(-28px, 0, 0);
+    }
+
+    .reveal.reveal-right {
+      transform: translate3d(28px, 0, 0);
+    }
+
+    .reveal.reveal-scale {
+      transform: scale(0.95) translate3d(0, 18px, 0);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    /* Brilho direcional (Shimmer) nos botões de CTA */
+    .cta-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-shimmer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-120%) skewX(-18deg);
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.28),
+        transparent
+      );
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    .cta-shimmer:hover::after {
+      transform: translateX(120%) skewX(-18deg);
+    }
+
+    /* Pulso de orientação quando o visitante chega ao formulário de CTA */
+    @keyframes ctaFocusPulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.45); }
+      70% { box-shadow: 0 0 0 14px rgba(0, 113, 227, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 113, 227, 0); }
+    }
+
+    .cta-arrived {
+      animation: ctaFocusPulse 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Acordeão suave usando CSS Grid */
+    .accordion-content {
       display: grid;
-      place-items: center;
-      flex: 0 0 34px;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: #f1f5f9;
-      color: var(--apple-blue);
-      font-size: 1.35rem;
-      font-weight: 400;
-      line-height: 1;
-      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.34s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .metodologia-faq .faq-item[open] .faq-pergunta::after {
-      content: "−";
-      background: var(--apple-blue);
+    .accordion-item[data-open="true"] {
+      background: rgba(255, 255, 255, 0.94);
+      border-color: rgba(0, 113, 227, 0.3);
+    }
+
+    html.dark .accordion-item[data-open="true"] {
+      background: rgba(30, 32, 40, 0.92);
+      border-color: rgba(41, 151, 255, 0.4);
+    }
+
+    .accordion-item[data-open="true"] .accordion-content {
+      grid-template-rows: 1fr;
+    }
+
+    .accordion-inner {
+      overflow: hidden;
+    }
+
+    .accordion-item[data-open="true"] .accordion-icon {
+      transform: rotate(45deg);
+      background-color: #0071e3;
       color: #ffffff;
-      transform: rotate(180deg);
     }
 
-    .faq-pergunta:focus-visible {
-      outline: 3px solid rgba(0, 113, 227, 0.25);
-      outline-offset: -4px;
-      border-radius: 18px;
+    html.dark .accordion-item[data-open="true"] .accordion-icon {
+      background-color: #2997ff;
+      color: #09090b;
     }
 
-    .faq-resposta {
-      padding: 0 1.65rem 1.5rem;
-      color: #626269;
-      font-size: 0.97rem;
-      line-height: 1.75;
-      animation: metodologiaReveal 0.25s ease;
+    /* Link ativo do ScrollSpy */
+    .nav-link-active {
+      color: #0071e3 !important;
+      font-weight: 600 !important;
     }
 
-    .faq-resposta p {
-      margin: 0;
+    html.dark .nav-link-active {
+      color: #2997ff !important;
     }
 
-    .faq-resposta strong {
-      color: var(--apple-text-primary);
-      font-weight: 650;
+    /* Transição do conteúdo das abas */
+    .tab-fade {
+      transition: opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    @keyframes metodologiaReveal {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
+    .tab-fade.is-switching {
+      opacity: 0;
+      transform: translate3d(0, 10px, 0);
     }
 
-    @media (max-width: 860px) {
-      .metodologia-faq {
-        padding: 4rem 1.25rem;
-      }
+    /* Transição suave do menu mobile */
+    .mobile-drawer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    @media (max-width: 600px) {
-      .faq-titulo {
-        font-size: 1.8rem;
-      }
+    .mobile-drawer[data-open="true"] {
+      grid-template-rows: 1fr;
+    }
 
-      .faq-subtitulo {
-        margin-bottom: 2rem;
-        font-size: 0.98rem;
-      }
+    .mobile-drawer-inner {
+      overflow: hidden;
+    }
 
-      .faq-lista {
-        gap: 0.65rem;
+    /* Respeito à preferência de movimento reduzido */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
       }
-
-      .metodologia-faq .faq-item {
-        border-radius: 15px;
+      .page-enter {
+        animation: none;
       }
-
-      .faq-pergunta {
-        min-height: 68px;
-        padding: 1rem 1rem 1rem 1.15rem;
-        gap: 0.8rem;
-        font-size: 0.94rem;
+      .reveal,
+      .reveal.reveal-left,
+      .reveal.reveal-right,
+      .reveal.reveal-scale {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        will-change: auto;
       }
-
-      .faq-pergunta::after {
-        flex-basis: 30px;
-        width: 30px;
-        height: 30px;
-        font-size: 1.2rem;
+      .animate-float-slow,
+      .animate-float-reverse,
+      .cta-arrived {
+        animation: none;
       }
-
-      .faq-resposta {
-        padding: 0 1.15rem 1.25rem;
-        font-size: 0.93rem;
-        line-height: 1.7;
+      .cta-shimmer::after {
+        display: none;
       }
     }
   </style>
 </head>
-<body>
 
-  <!-- Navegação -->
-  <header>
-    <nav class="nav-container">
-      <a href="#" class="brand">Prof. Rai <span>Torres</span></a>
-      <ul class="nav-links">
-        <li><a href="#perfis">Público</a></li>
-        <li><a href="#metodo">Metodologia</a></li>
-        <li><a href="#modalidades">Modalidades</a></li>
-        <li><a href="#planos">Planos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#duvidas">Dúvidas</a></li>
-        <li><a href="#agendar" class="btn">Agendar 30 Minutos Grátis</a></li>
-      </ul>
-    </nav>
-  </header>
+<body class="relative selection:bg-apple-blue/15 selection:text-apple-blue dark:selection:bg-apple-darkBlue/25 dark:selection:text-apple-darkBlue">
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div>
-      <span class="badge">Fundamental II • Ensino Médio • Pré-Vestibular</span>
-      <h1>
-        Raciocínio lógico, <br />
-        <span class="gradient-text">clareza e autonomia</span> em Exatas.
-      </h1>
-      <p>
-        Acompanhamento individualizado para diagnosticar lacunas conceituais, recuperar a autoconfiança e alcançar resultados consistentes nas avaliações.
-      </p>
-      <div class="hero-actions">
-        <a href="#agendar" class="btn">Conversa Inicial Gratuita (30 min)</a>
-        <a href="#planos" class="btn btn-secondary">Ver Planos e Valores</a>
-      </div>
+  <!-- Luzes ambientes de fundo com parallax leve -->
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+    <div data-parallax="0.06" class="absolute -top-32 -left-24 h-[34rem] w-[34rem] will-change-transform">
+      <div class="h-full w-full rounded-full bg-sky-300/25 blur-3xl animate-float-slow dark:bg-sky-500/15"></div>
     </div>
-
-    <div class="hero-card">
-      <div class="free-session-box">
-        <strong>🤝 Sessão Inicial Gratuita de 30 Minutos</strong>
-        <p>Agende uma conversa sem custo para tirarmos dúvidas, analisarmos o boletim/caderno e entendermos as necessidades exatas do estudante.</p>
-      </div>
-
-      <h3>Por que aulas pontuais costumam falhar?</h3>
-      <ul class="check-list">
-        <li>
-          <span class="check-bullet">•</span>
-          <div><strong>Foco na raiz:</strong> Memorizar fórmulas na véspera não sana deficiências estruturais de anos anteriores.</div>
-        </li>
-        <li>
-          <span class="check-bullet">•</span>
-          <div><strong>Aprendizagem Significativa:</strong> Novos conceitos são ancorados em conhecimentos prévios, evitando o "branco" no exame.</div>
-        </li>
-        <li>
-          <span class="check-bullet">•</span>
-          <div><strong>Continuidade:</strong> Acompanhamento frequente com feedback aos pais e suporte semanal a dúvidas.</div>
-        </li>
-      </ul>
+    <div data-parallax="-0.05" class="absolute top-[28%] -right-28 h-[30rem] w-[30rem] will-change-transform">
+      <div class="h-full w-full rounded-full bg-blue-400/20 blur-3xl animate-float-reverse dark:bg-blue-600/15"></div>
     </div>
-  </section>
-
-  <!-- Segmentos -->
-  <section id="perfis">
-    <div class="section-header">
-      <span class="badge">Atendimento Específico</span>
-      <h2>Uma abordagem para cada momento.</h2>
-      <p>Estratégias sob medida para a maturidade acadêmica e as metas de cada aluno.</p>
-    </div>
-
-    <div class="tabs-header">
-      <button class="tab-btn active" onclick="changeSegment('fund2', this)">Fundamental II</button>
-      <button class="tab-btn" onclick="changeSegment('medio', this)">Ensino Médio</button>
-      <button class="tab-btn" onclick="changeSegment('cursinho', this)">Pré-Vestibular</button>
-    </div>
-
-    <div id="segment-content" class="tab-panel">
-      <!-- Dinâmico via JS -->
-    </div>
-  </section>
-
-  <!-- Metodologia -->
-  <section id="metodo">
-    <div class="section-header">
-      <span class="badge">Processo Didático</span>
-      <h2>Como construímos a autonomia.</h2>
-      <p>Um método em 4 etapas contínuas com foco em entendimento definitivo.</p>
-    </div>
-
-    <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-number">01</div>
-        <h3>Conversa Diagnóstica (Grátis)</h3>
-        <p>30 minutos gratuitos para alinhar expectativas, mapear dificuldades prévias e planejar a rotina.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">02</div>
-        <h3>Plano Individual</h3>
-        <p>Cronograma personalizado alinhado com o calendário escolar da instituição ou edital pretendido.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">03</div>
-        <h3>Resolução Guiada</h3>
-        <p>O aluno conduz o raciocínio e resolve problemas na prática, sem respostas prontas ou atalhos mecânicos.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">04</div>
-        <h3>Suporte e Rotina</h3>
-        <p>Envio de material em PDF após cada aula e canal direto de dúvidas via WhatsApp durante a semana.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="metodologia-faq" id="metodologia">
-  <div class="faq-container">
-    <span class="badge" style="display:block; text-align:center; margin-bottom:0.75rem;">Detalhes do acompanhamento</span>
-    <h2 class="faq-titulo">Como funciona o acompanhamento?</h2>
-    <p class="faq-subtitulo">
-      Entenda como ajudamos seu filho a superar bloqueios em Física e Matemática, recuperando a base e a confiança nos estudos.
-    </p>
-
-    <div class="faq-lista">
-      <details class="faq-item">
-        <summary class="faq-pergunta">
-          Qual é a diferença dessas aulas para um reforço escolar comum?
-        </summary>
-        <div class="faq-resposta">
-          <p>
-            O reforço tradicional costuma focar apenas em decorar fórmulas para a prova da semana seguinte. Aqui, o foco é entender <strong>por que</strong> o aluno está travando. Combinando formação em Física e Mestrado em Ensino, identificamos a raiz da dificuldade e construímos o raciocínio do zero, de forma visual e conectada ao dia a dia, para que o aprendizado seja definitivo.
-          </p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-pergunta">
-          Meu filho tem prova semana que vem, mas falta base de anos anteriores. Como vocês equilibram isso?
-        </summary>
-        <div class="faq-resposta">
-          <p>
-            Trabalhamos com duas frentes ao mesmo tempo: uma parte da aula é dedicada às demandas atuais da escola (dúvidas da semana e preparação para provas) para manter as notas sob controle; a outra parte é dedicada a resgatar as lacunas antigas que impedem o aluno de avançar. Assim, cuidamos do presente sem deixar o problema estrutural de lado.
-          </p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-pergunta">
-          Como é o primeiro encontro? Ele vai precisar fazer uma prova?
-        </summary>
-        <div class="faq-resposta">
-          <p>
-            Não! Sabemos que provas costumam gerar ansiedade. Primeiro, faço uma conversa com os pais para entender o histórico e a rotina do estudante. Depois, faço um encontro leve e investigativo com o aluno, onde resolvemos alguns desafios juntos, conversando. Isso permite mapear exatamente onde está a dificuldade sem nenhuma pressão.
-          </p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-pergunta">
-          Meu filho acha que "não nasceu para exatas" e tem medo de errar. Como lidar com isso?
-        </summary>
-        <div class="faq-resposta">
-          <p>
-            Na nossa aula, o erro nunca é punido — ele é a nossa melhor pista. Em vez de apenas dizer "está errado", analisamos juntos como o aluno pensou para chegar naquele resultado. Quando ele percebe que está em um ambiente seguro para perguntar e testar ideias, o bloqueio diminui e a confiança volta aos poucos.
-          </p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-pergunta">
-          Como vou saber se meu filho está realmente evoluindo?
-        </summary>
-        <div class="faq-resposta">
-          <p>
-            A família participa do processo de perto. Após o diagnóstico inicial, vocês recebem um plano simples com as metas dos próximos meses. Além disso, ao final de cada mês, envio um breve retorno destacando os avanços conquistados, o comportamento nas aulas e os próximos passos.
-          </p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-pergunta">
-          Ele vai precisar de aulas particulares para sempre?
-        </summary>
-        <div class="faq-resposta">
-          <p>
-            Nosso objetivo é exatamente o contrário: gerar autonomia. Além do conteúdo de Física e Matemática, ensinamos o aluno a ler enunciados com calma, organizar o próprio rascunho e identificar onde travou. A meta é que ele ganhe ferramentas para estudar sozinho e precise cada vez menos de acompanhamento.
-          </p>
-        </div>
-      </details>
+    <div data-parallax="0.04" class="absolute bottom-[-10%] left-[25%] h-[28rem] w-[28rem] will-change-transform">
+      <div class="h-full w-full rounded-full bg-emerald-200/25 blur-3xl animate-float-slow dark:bg-emerald-500/10"></div>
     </div>
   </div>
-</section>
 
-  <!-- Modalidades -->
-  <section id="modalidades">
-    <div class="section-header">
-      <span class="badge">Formato de Aula</span>
-      <h2>Presencial ou Online. A mesma precisão.</h2>
-      <p>Flexibilidade para se ajustar à dinâmica da família ou à rotina pré-vestibular.</p>
-    </div>
+  <!-- Cabeçalho Fixo com Glassmorphism, Modo Noturno e Barra de Progresso -->
+  <header id="site-header" class="sticky top-0 z-50 border-b border-black/[0.06] bg-white/65 backdrop-blur-xl transition-all duration-300 dark:border-white/[0.08] dark:bg-zinc-950/70">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+      <a href="#topo" class="group flex items-center gap-2 text-lg font-semibold tracking-tight text-apple-ink dark:text-white">
+        <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-apple-ink to-apple-blue text-xs font-bold text-white shadow-sm transition-transform duration-300 group-hover:scale-105 dark:from-apple-darkBlue dark:to-sky-400 dark:text-zinc-950">
+          RT
+        </span>
+        <span>Prof. Rai <span class="text-apple-blue dark:text-apple-darkBlue">Torres</span></span>
+      </a>
 
-    <div class="modality-grid">
-      <div class="modality-card">
-        <h3>📍 Atendimento Presencial</h3>
-        <p style="color: var(--apple-text-secondary); margin-bottom: 1.5rem;">
-          Foco na organização de caderno, rotina física e correção direta na resolução dos problemas.
-        </p>
-        <ul class="check-list">
-          <li><span class="check-bullet">•</span> Intervenção imediata na escrita e notação matemática.</li>
-          <li><span class="check-bullet">•</span> Construção de disciplina no ambiente domiciliar do aluno.</li>
-          <li><span class="check-bullet">•</span> Comodidade para os pais sem deslocamentos no trânsito.</li>
-        </ul>
-      </div>
+      <!-- Links Desktop -->
+      <ul class="hidden items-center gap-6 lg:flex">
+        <li><a href="#perfis" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Público</a></li>
+        <li><a href="#metodo" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Metodologia</a></li>
+        <li><a href="#modalidades" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Modalidades</a></li>
+        <li><a href="#planos" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Planos</a></li>
+        <li><a href="#sobre" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Sobre</a></li>
+        <li><a href="#duvidas" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Dúvidas</a></li>
+      </ul>
 
-      <div class="modality-card">
-        <h3>💻 Atendimento Online Interativo</h3>
-        <p style="color: var(--apple-text-secondary); margin-bottom: 1.5rem;">
-          Lousa digital compartilhada em tempo real e mesa digitalizadora para interação dinâmica.
-        </p>
-        <ul class="check-list">
-          <li><span class="check-bullet">•</span> Resolução mútua e colaborativa no mesmo quadro branco.</li>
-          <li><span class="check-bullet">•</span> Envio das anotações em PDF de alta qualidade ao fim da aula.</li>
-          <li><span class="check-bullet">•</span> Agilidade para agendamento de reforços e plantões rápidos.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEÇÃO DE PLANOS E PACOTES -->
-  <section id="planos">
-    <div class="section-header">
-      <span class="badge">Transparência e Investimento</span>
-      <h2>Planos e Pacotes de Acompanhamento</h2>
-      <p>Carga horária estruturada para resultados duradouros, com economia progressiva em relação à aula avulsa.</p>
-    </div>
-
-    <div class="pricing-grid">
-      <!-- Aula Avulsa -->
-      <div class="price-card">
-        <span class="discount-pill" style="background: transparent; color: var(--apple-text-secondary); padding: 0.2rem 0;">Valor Base</span>
-        <h3>Aula Avulsa</h3>
-        <p class="plan-subtitle">Ideal para tirar dúvidas pontuais ou revisões na véspera de provas.</p>
-        <div class="rate-wrapper">
-          <span class="rate-amount">R$ 149<small style="font-size: 1.2rem;">,90</small></span>
-          <span class="rate-unit">/ hora</span>
-        </div>
-        <div class="total-calculation">Investimento: <strong>R$ 149,90</strong></div>
-        <ul class="plan-features">
-          <li><span>✓</span> 1 hora de aula focada</li>
-          <li><span>✓</span> Material da aula em PDF</li>
-          <li><span>✓</span> Pagamento via PIX ou Cartão</li>
-        </ul>
-        <button class="btn btn-secondary" onclick="hirePackage('Aula Avulsa', 'R$ 149,90', 'R$ 149,90', '0%')">
-          Escolher Avulsa →
+      <!-- Ações do Topo (Modo Noturno + CTA Desktop + Menu Mobile) -->
+      <div class="flex items-center gap-2.5">
+        <!-- Botão de Modo Noturno -->
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Alternar modo noturno"
+          title="Alternar modo claro / noturno"
+          class="group relative inline-flex h-10 items-center gap-2 rounded-full border border-black/[0.08] bg-white/75 px-3 text-xs font-medium text-apple-ink shadow-sm backdrop-blur-md transition-all duration-300 hover:border-apple-blue/30 hover:bg-white dark:border-white/[0.12] dark:bg-zinc-900/80 dark:text-zinc-100 dark:hover:border-apple-darkBlue/40 dark:hover:bg-zinc-800"
+        >
+          <span class="relative flex h-4 w-4 items-center justify-center">
+            <!-- Ícone Lua (visível no modo claro) -->
+            <svg class="h-4 w-4 rotate-0 scale-100 text-apple-ink transition-all duration-300 dark:-rotate-90 dark:scale-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+            <!-- Ícone Sol (visível no modo noturno) -->
+            <svg class="absolute h-4 w-4 rotate-90 scale-0 text-amber-400 transition-all duration-300 dark:rotate-0 dark:scale-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </span>
+          <span id="theme-toggle-label" class="hidden sm:inline">Escuro</span>
         </button>
-      </div>
 
-      <!-- 1 Mês (2x por semana) -->
-      <div class="price-card">
-        <span class="discount-pill">Economize 13%</span>
-        <h3>Mensal Intensivo</h3>
-        <p class="plan-subtitle">2 vezes por semana (8 horas/mês) para recuperação e ritmo de estudo.</p>
-        <div class="rate-wrapper">
-          <span class="rate-amount">R$ 129<small style="font-size: 1.2rem;">,90</small></span>
-          <span class="rate-unit">/ hora</span>
-        </div>
-        <div class="total-calculation">Total mensal (8h): <strong>R$ 1.039,20</strong></div>
-        <ul class="plan-features">
-          <li><span>✓</span> 8 horas de acompanhamento</li>
-          <li><span>✓</span> 13% de desconto por hora</li>
-          <li><span>✓</span> Suporte de dúvidas no WhatsApp</li>
-          <li><span>✓</span> PIX ou Crédito Parcelado*</li>
-        </ul>
-        <button class="btn btn-secondary" onclick="hirePackage('Mensal (2x por semana - 8h)', 'R$ 129,90/h', 'R$ 1.039,20', '13%')">
-          Contratar Mês →
-        </button>
-      </div>
-
-      <!-- 1 Bimestre -->
-      <div class="price-card">
-        <span class="discount-pill">Economize 20%</span>
-        <h3>1 Bimestre</h3>
-        <p class="plan-subtitle">2 meses de ciclo completo de provas escolares (16 horas no total).</p>
-        <div class="rate-wrapper">
-          <span class="rate-amount">R$ 119<small style="font-size: 1.2rem;">,90</small></span>
-          <span class="rate-unit">/ hora</span>
-        </div>
-        <div class="total-calculation">Total 2 meses (16h): <strong>R$ 1.918,40</strong></div>
-        <ul class="plan-features">
-          <li><span>✓</span> 16 horas estruturadas</li>
-          <li><span>✓</span> 20% de economia por aula</li>
-          <li><span>✓</span> Acompanhamento avaliativo e relatórios</li>
-          <li><span>✓</span> PIX ou Crédito Parcelado*</li>
-        </ul>
-        <button class="btn btn-secondary" onclick="hirePackage('1 Bimestre (2 meses - 16h)', 'R$ 119,90/h', 'R$ 1.918,40', '20%')">
-          Contratar Bimestre →
-        </button>
-      </div>
-
-      <!-- 2 Bimestres -->
-      <div class="price-card">
-        <span class="discount-pill">Economize 33%</span>
-        <h3>2 Bimestres</h3>
-        <p class="plan-subtitle">4 meses de consolidação semestral contínua (32 horas no total).</p>
-        <div class="rate-wrapper">
-          <span class="rate-amount">R$ 99<small style="font-size: 1.2rem;">,90</small></span>
-          <span class="rate-unit">/ hora</span>
-        </div>
-        <div class="total-calculation">Total 4 meses (32h): <strong>R$ 3.196,80</strong></div>
-        <ul class="plan-features">
-          <li><span>✓</span> 32 horas de acompanhamento</li>
-          <li><span>✓</span> 33% de desconto por hora</li>
-          <li><span>✓</span> Resolução de deficiências antigas</li>
-          <li><span>✓</span> PIX ou Crédito Parcelado*</li>
-        </ul>
-        <button class="btn btn-secondary" onclick="hirePackage('2 Bimestres (4 meses - 32h)', 'R$ 99,90/h', 'R$ 3.196,80', '33%')">
-          Contratar Semestre →
-        </button>
-      </div>
-
-      <!-- 4 Bimestres (Destaque) -->
-      <div class="price-card featured">
-        <span class="featured-tag">Melhor Custo-Benefício</span>
-        <span class="discount-pill max">Economize 53%</span>
-        <h3>4 Bimestres (Ano Letivo)</h3>
-        <p class="plan-subtitle">8 meses completos de formação sólida (64 horas no total).</p>
-        <div class="rate-wrapper">
-          <span class="rate-amount">R$ 69<small style="font-size: 1.2rem;">,90</small></span>
-          <span class="rate-unit">/ hora</span>
-        </div>
-        <div class="total-calculation">Total 8 meses (64h): <strong>R$ 4.473,60</strong></div>
-        <ul class="plan-features">
-          <li><span>✓</span> 64 horas de formação integral</li>
-          <li><span>✓</span> Mais de 50% de economia por hora</li>
-          <li><span>✓</span> Prioridade na escolha de agenda</li>
-          <li><span>✓</span> PIX ou Crédito Parcelado*</li>
-        </ul>
-        <button class="btn" onclick="hirePackage('4 Bimestres (8 meses - 64h)', 'R$ 69,90/h', 'R$ 4.473,60', '53%')">
-          Garantir Vaga Anual →
-        </button>
-      </div>
-    </div>
-
-    <!-- CARD INFORMATIVO DE FORMAS DE PAGAMENTO -->
-    <div class="payment-methods-card">
-      <div class="payment-header">
-        <span class="badge" style="margin-bottom: 0.35rem;">Facilidade</span>
-        <h4>Formas de Pagamento Aceitas</h4>
-        <p>Flexibilidade para que a família escolha a melhor maneira de organizar o investimento no ano letivo.</p>
-      </div>
-
-      <div class="payment-options-grid">
-        <div class="payment-badge">
-          <div class="payment-badge-title">
-            <span>⚡</span> PIX (À Vista)
-          </div>
-          <div class="payment-badge-desc">
-            Transferência imediata sem custos adicionais ou taxas bancárias.
-          </div>
-        </div>
-
-        <div class="payment-badge">
-          <div class="payment-badge-title">
-            <span>💳</span> Cartão de Crédito
-          </div>
-          <div class="payment-badge-desc">
-            Possibilidade de parcelamento do pacote com a taxa da maquininha repassada ao contratante.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sobre o Professor -->
-  <section id="sobre">
-    <div class="section-header">
-      <span class="badge">Trajetória Acadêmica</span>
-      <h2>Sobre o Prof. Rai Garcia Torres</h2>
-      <p>Formação de excelência na UNICAMP e compromisso com o ensino autêntico.</p>
-    </div>
-
-    <div class="about-container">
-      <div class="about-text">
-        <h3>Compreensão conceitual sem decoreba.</h3>
-        <p>
-          Licenciado em Física e Mestre em Ensino de Ciências e Matemática pela <strong>UNICAMP</strong>. Atuação com foco em aprendizagem significativa: nenhum estudante tem incapacidade inata para Exatas quando o conteúdo é conectado a bases bem estruturadas.
-        </p>
-        <ul class="check-list">
-          <li><span class="check-bullet">•</span> <strong>Formação:</strong> Física e Mestrado em Ensino (UNICAMP).</li>
-          <li><span class="check-bullet">•</span> <strong>Metodologia:</strong> Diagnóstico e resolução investigativa.</li>
-          <li><span class="check-bullet">•</span> <strong>Transparência:</strong> Histórico e publicações verificáveis abaixo.</li>
-        </ul>
-      </div>
-
-      <div class="social-cards">
-        <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener noreferrer" class="social-card">
-          <div class="social-icon icon-cv">📄</div>
-          <div class="social-info">
-            <strong>Currículo Acadêmico</strong>
-            <span>raigarciatorres.github.io/curriculo</span>
-          </div>
-          <span>↗</span>
+        <!-- CTA Header Desktop -->
+        <a
+          href="#agendar"
+          class="cta-shimmer hidden items-center gap-2 rounded-full bg-apple-blue px-4 py-2 text-sm font-medium text-white shadow-sm shadow-apple-blue/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-apple-blueHover hover:shadow-md hover:shadow-apple-blue/30 dark:bg-apple-darkBlue dark:text-zinc-950 dark:font-semibold dark:hover:bg-sky-400 lg:inline-flex"
+        >
+          Agendar 30 Minutos Grátis
         </a>
 
-        <a href="https://www.instagram.com/prof.raitorres/" target="_blank" rel="noopener noreferrer" class="social-card">
-          <div class="social-icon icon-ig">📸</div>
-          <div class="social-info">
-            <strong>Instagram Profissional</strong>
-            <span>@prof.raitorres</span>
-          </div>
-          <span>↗</span>
-        </a>
+        <!-- Botão Menu Mobile -->
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          aria-label="Abrir menu de navegação"
+          aria-expanded="false"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/[0.05] text-apple-ink transition hover:bg-black/[0.1] dark:bg-white/[0.08] dark:text-white dark:hover:bg-white/[0.14] lg:hidden"
+        >
+          <svg id="menu-icon-open" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg id="menu-icon-close" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </nav>
 
-        <a href="https://www.linkedin.com/in/raigarciatorres/" target="_blank" rel="noopener noreferrer" class="social-card">
-          <div class="social-icon icon-li">💼</div>
-          <div class="social-info">
-            <strong>LinkedIn</strong>
-            <span>/in/raigarciatorres</span>
-          </div>
-          <span>↗</span>
-        </a>
+    <!-- Menu Mobile Suspenso com Transição Suave -->
+    <div id="mobile-menu" data-open="false" class="mobile-drawer border-t border-transparent bg-white/90 backdrop-blur-2xl transition-colors dark:bg-zinc-950/95 lg:hidden">
+      <div class="mobile-drawer-inner">
+        <div class="mx-auto flex max-w-6xl flex-col gap-1 border-t border-black/[0.06] px-4 py-4 dark:border-white/[0.08] sm:px-6">
+          <a href="#perfis" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Público</a>
+          <a href="#metodo" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Metodologia</a>
+          <a href="#modalidades" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Modalidades</a>
+          <a href="#planos" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Planos</a>
+          <a href="#sobre" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Sobre</a>
+          <a href="#duvidas" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Dúvidas</a>
+          <a href="#agendar" class="mobile-nav-link cta-shimmer mt-2 inline-flex items-center justify-center rounded-full bg-apple-blue px-5 py-3 text-sm font-semibold text-white shadow-sm dark:bg-apple-darkBlue dark:text-zinc-950">
+            Agendar 30 Minutos Grátis →
+          </a>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- Agendamento Diagnóstico -->
-  <section id="agendar">
-    <div class="booking-section">
-      <div class="booking-text">
-        <span class="badge badge-green">100% Gratuito</span>
-        <h2>Agende uma conversa de 30 minutos</h2>
-        <p>
-          Uma sessão inicial gratuita para tirarmos dúvidas, entendermos a rotina do estudante e definirmos a carga horária recomendada sem nenhum compromisso prévio.
+    <!-- Barra de Progresso de Leitura -->
+    <div class="h-[2px] w-full bg-transparent">
+      <div id="scroll-progress" class="h-full w-0 bg-gradient-to-r from-apple-blue via-sky-500 to-emerald-500 transition-[width] duration-75 dark:from-apple-darkBlue dark:via-sky-400 dark:to-emerald-400"></div>
+    </div>
+  </header>
+
+  <main id="topo" class="page-enter">
+    <!-- Hero Section -->
+    <section class="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 lg:pb-24 lg:pt-20">
+      <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+        <!-- Texto Principal (entrada escalonada guiando ao CTA) -->
+        <div class="lg:col-span-7">
+          <div class="reveal reveal-left mb-5 inline-flex items-center gap-2 rounded-full border border-apple-blue/15 bg-white/75 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-apple-blue shadow-sm backdrop-blur-md dark:border-apple-darkBlue/25 dark:bg-zinc-900/75 dark:text-apple-darkBlue">
+            <span class="h-2 w-2 rounded-full bg-apple-blue animate-pulse dark:bg-apple-darkBlue"></span>
+            Fundamental II • Ensino Médio • Pré-Vestibular
+          </div>
+
+          <h1 class="reveal reveal-left text-4xl font-bold leading-[1.07] tracking-[-0.04em] text-apple-ink dark:text-white sm:text-5xl lg:text-[3.4rem]" style="transition-delay: 70ms;">
+            Raciocínio lógico, <br class="hidden sm:inline" />
+            <span class="bg-gradient-to-r from-apple-ink via-apple-blue to-sky-500 bg-clip-text text-transparent dark:from-white dark:via-apple-darkBlue dark:to-sky-300">
+              clareza e autonomia
+            </span> em Exatas.
+          </h1>
+
+          <p class="reveal reveal-left mt-6 max-w-xl text-lg leading-relaxed text-apple-muted dark:text-zinc-400 sm:text-xl" style="transition-delay: 140ms;">
+            Acompanhamento individualizado para diagnosticar lacunas conceituais, recuperar a autoconfiança e alcançar resultados consistentes nas avaliações.
+          </p>
+
+          <div class="reveal mt-8 flex flex-wrap items-center gap-3.5" style="transition-delay: 210ms;">
+            <a href="#agendar" class="cta-shimmer inline-flex items-center justify-center gap-2 rounded-full bg-apple-blue px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-apple-blue/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-apple-blueHover hover:shadow-xl hover:shadow-apple-blue/30 dark:bg-apple-darkBlue dark:text-zinc-950 dark:shadow-apple-darkBlue/20 dark:hover:bg-sky-400">
+              <span>Conversa Inicial Gratuita (30 min)</span>
+              <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+            <a href="#planos" class="inline-flex items-center justify-center rounded-full border border-black/10 bg-white/75 px-6 py-3.5 text-sm font-semibold text-apple-ink backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-900/75 dark:text-zinc-100 dark:hover:bg-zinc-800">
+              Ver Planos e Valores
+            </a>
+          </div>
+        </div>
+
+        <!-- Card Lateral Hero -->
+        <div class="reveal reveal-right lg:col-span-5" style="transition-delay: 160ms;">
+          <div class="glass-card spotlight-card rounded-3xl p-6 transition-all duration-300 hover:shadow-glass-hover sm:p-8">
+            <div class="mb-6 rounded-2xl border border-emerald-200/80 bg-emerald-50/85 p-4 backdrop-blur-sm dark:border-emerald-500/25 dark:bg-emerald-950/45">
+              <div class="flex items-start gap-3">
+                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm dark:bg-emerald-500 dark:text-zinc-950">
+                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </span>
+                <div>
+                  <strong class="block text-sm font-semibold text-emerald-900 dark:text-emerald-300">Sessão Inicial Gratuita de 30 Minutos</strong>
+                  <p class="mt-1 text-xs leading-relaxed text-emerald-800/90 dark:text-emerald-200/80 sm:text-sm">
+                    Agende uma conversa sem custo para tirarmos dúvidas, analisarmos o boletim/caderno e entendermos as necessidades exatas do estudante.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="mb-4 text-lg font-semibold tracking-tight text-apple-ink dark:text-white">
+              Por que aulas pontuais costumam falhar?
+            </h3>
+
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+                <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-apple-blue/10 text-apple-blue dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue">
+                  <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <div><strong class="font-semibold text-apple-ink dark:text-zinc-100">Foco na raiz:</strong> Memorizar fórmulas na véspera não sana deficiências estruturais de anos anteriores.</div>
+              </li>
+              <li class="flex items-start gap-3 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+                <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-apple-blue/10 text-apple-blue dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue">
+                  <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <div><strong class="font-semibold text-apple-ink dark:text-zinc-100">Aprendizagem Significativa:</strong> Novos conceitos são ancorados em conhecimentos prévios, evitando o "branco" no exame.</div>
+              </li>
+              <li class="flex items-start gap-3 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+                <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-apple-blue/10 text-apple-blue dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue">
+                  <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <div><strong class="font-semibold text-apple-ink dark:text-zinc-100">Continuidade:</strong> Acompanhamento frequente com feedback aos pais e suporte semanal a dúvidas.</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Segmentos -->
+    <section id="perfis" class="scroll-mt-24 mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+      <div class="reveal mx-auto mb-10 max-w-2xl text-center">
+        <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Atendimento Específico</span>
+        <h2 class="mt-2.5 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+          Uma abordagem para cada momento.
+        </h2>
+        <p class="mt-3 text-base text-apple-muted dark:text-zinc-400 sm:text-lg">
+          Estratégias sob medida para a maturidade acadêmica e as metas de cada aluno.
         </p>
-        <ul class="check-list">
-          <li><span class="check-bullet">•</span> Encontro online de 30 minutos sem nenhum custo</li>
-          <li><span class="check-bullet">•</span> Espaço aberto para os pais compartilharem preocupações</li>
-          <li><span class="check-bullet">•</span> Análise de avaliações passadas e mapeamento da base</li>
-        </ul>
       </div>
 
-      <form class="booking-form" onsubmit="sendToWhatsApp(event)">
-        <div class="form-group">
-          <label for="nome">Nome do responsável ou estudante</label>
-          <input type="text" id="nome" placeholder="Ex.: Mariana Silva" required />
-        </div>
-
-        <div class="form-group">
-          <label for="etapa">Etapa Escolar</label>
-          <select id="etapa" required>
-            <option value="Ensino Fundamental II (6º ao 9º ano)">Ensino Fundamental II (6º ao 9º ano)</option>
-            <option value="Ensino Médio (1ª à 3ª série)">Ensino Médio (1ª à 3ª série)</option>
-            <option value="Cursinho / Pré-Vestibular">Cursinho / Pré-Vestibular</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="modalidade">Modalidade Preferida para as Aulas</label>
-          <select id="modalidade" required>
-            <option value="Online (Ao vivo)">Online (Ao vivo)</option>
-            <option value="Presencial">Presencial</option>
-            <option value="A definir na conversa">A definir na conversa</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="desafio">Objetivo da Conversa</label>
-          <select id="desafio" required>
-            <option value="Conversa gratuita de 30 min para entender as necessidades">Conversa gratuita de 30 min para entender as necessidades</option>
-            <option value="Recuperação de notas e reconstrução de base">Recuperação de notas e reconstrução de base</option>
-            <option value="Acompanhamento semanal contínuo">Acompanhamento semanal contínuo</option>
-            <option value="Preparação para Vestibulares / ENEM">Preparação para Vestibulares / ENEM</option>
-          </select>
-        </div>
-
-        <button type="submit" class="btn" style="width: 100%; padding: 0.85rem;">
-          Agendar Conversa Gratuita pelo WhatsApp →
-        </button>
-      </form>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="duvidas">
-    <div class="section-header">
-      <span class="badge">Esclarecimentos</span>
-      <h2>Perguntas Frequentes</h2>
-    </div>
-
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Como funciona a conversa gratuita de 30 minutos?
-          <span>+</span>
-        </button>
-        <div class="faq-answer">
-          É um bate-papo de 30 minutos totalmente gratuito, realizado prioritariamente por chamada de vídeo, pensado para que você e o estudante possam tirar dúvidas, me contar sobre os desafios atuais nas matérias e analisar juntos o melhor plano de ação, sem obrigatoriedade de contratação.
+      <!-- Abas com indicador deslizante -->
+      <div class="reveal mb-8 flex justify-center">
+        <div id="segment-tabs" class="relative inline-flex flex-wrap items-center justify-center rounded-full border border-black/[0.06] bg-black/[0.05] p-1.5 backdrop-blur-md dark:border-white/[0.08] dark:bg-white/[0.06]">
+          <div id="tab-indicator" class="pointer-events-none absolute left-0 top-0 rounded-full bg-white shadow-sm transition-all duration-300 ease-out dark:bg-zinc-800 dark:shadow-md"></div>
+          <button type="button" data-segment="fund2" class="segment-tab relative z-10 rounded-full px-4 py-2 text-xs font-semibold text-apple-ink transition-colors dark:text-white sm:px-6 sm:text-sm">
+            Fundamental II
+          </button>
+          <button type="button" data-segment="medio" class="segment-tab relative z-10 rounded-full px-4 py-2 text-xs font-semibold text-apple-muted transition-colors hover:text-apple-ink dark:text-zinc-400 dark:hover:text-white sm:px-6 sm:text-sm">
+            Ensino Médio
+          </button>
+          <button type="button" data-segment="cursinho" class="segment-tab relative z-10 rounded-full px-4 py-2 text-xs font-semibold text-apple-muted transition-colors hover:text-apple-ink dark:text-zinc-400 dark:hover:text-white sm:px-6 sm:text-sm">
+            Pré-Vestibular
+          </button>
         </div>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Quais são as formas de pagamento disponíveis?
-          <span>+</span>
-        </button>
-        <div class="faq-answer">
-          Aceitamos pagamento à vista via <strong>PIX</strong> ou parcelamento no <strong>Cartão de Crédito</strong>. No cartão, os encargos e taxas de processamento da operadora são arcados pelo contratante no ato do pagamento.
+      <!-- Painel Dinâmico -->
+      <div id="segment-content" class="reveal reveal-scale glass-card spotlight-card tab-fade grid items-center gap-8 rounded-3xl p-6 sm:p-10 lg:grid-cols-12 lg:gap-12">
+        <!-- Preenchido via JS -->
+      </div>
+    </section>
+
+    <!-- Metodologia (4 Etapas) -->
+    <section id="metodo" class="scroll-mt-24 mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+      <div class="reveal mx-auto mb-12 max-w-2xl text-center">
+        <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Processo Didático</span>
+        <h2 class="mt-2.5 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+          Como construímos a autonomia.
+        </h2>
+        <p class="mt-3 text-base text-apple-muted dark:text-zinc-400 sm:text-lg">
+          Um método em 4 etapas contínuas com foco em entendimento definitivo.
+        </p>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <article class="reveal glass-card spotlight-card group rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass-hover">
+          <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-apple-blue/10 text-sm font-bold text-apple-blue transition-colors group-hover:bg-apple-blue group-hover:text-white dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue dark:group-hover:bg-apple-darkBlue dark:group-hover:text-zinc-950">
+            01
+          </div>
+          <h3 class="text-lg font-semibold tracking-tight text-apple-ink dark:text-white">Conversa Diagnóstica (Grátis)</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+            30 minutos gratuitos para alinhar expectativas, mapear dificuldades prévias e planejar a rotina.
+          </p>
+        </article>
+
+        <article class="reveal glass-card spotlight-card group rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass-hover" style="transition-delay: 80ms;">
+          <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-apple-blue/10 text-sm font-bold text-apple-blue transition-colors group-hover:bg-apple-blue group-hover:text-white dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue dark:group-hover:bg-apple-darkBlue dark:group-hover:text-zinc-950">
+            02
+          </div>
+          <h3 class="text-lg font-semibold tracking-tight text-apple-ink dark:text-white">Plano Individual</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+            Cronograma personalizado alinhado com o calendário escolar da instituição ou edital pretendido.
+          </p>
+        </article>
+
+        <article class="reveal glass-card spotlight-card group rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass-hover" style="transition-delay: 160ms;">
+          <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-apple-blue/10 text-sm font-bold text-apple-blue transition-colors group-hover:bg-apple-blue group-hover:text-white dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue dark:group-hover:bg-apple-darkBlue dark:group-hover:text-zinc-950">
+            03
+          </div>
+          <h3 class="text-lg font-semibold tracking-tight text-apple-ink dark:text-white">Resolução Guiada</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+            O aluno conduz o raciocínio e resolve problemas na prática, sem respostas prontas ou atalhos mecânicos.
+          </p>
+        </article>
+
+        <article class="reveal glass-card spotlight-card group rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass-hover" style="transition-delay: 240ms;">
+          <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-apple-blue/10 text-sm font-bold text-apple-blue transition-colors group-hover:bg-apple-blue group-hover:text-white dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue dark:group-hover:bg-apple-darkBlue dark:group-hover:text-zinc-950">
+            04
+          </div>
+          <h3 class="text-lg font-semibold tracking-tight text-apple-ink dark:text-white">Suporte e Rotina</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+            Envio de material em PDF após cada aula e canal direto de dúvidas via WhatsApp durante a semana.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Detalhes do Acompanhamento (Acordeão Pedagógico) -->
+    <section id="metodologia" class="scroll-mt-24 py-16 lg:py-24">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6">
+        <div class="reveal mx-auto mb-10 max-w-2xl text-center">
+          <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Detalhes do acompanhamento</span>
+          <h2 class="mt-2.5 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+            Como funciona o acompanhamento?
+          </h2>
+          <p class="mt-3 text-base text-apple-muted dark:text-zinc-400 sm:text-lg">
+            Entenda como ajudamos seu filho a superar bloqueios em Física e Matemática, recuperando a base e a confiança nos estudos.
+          </p>
+        </div>
+
+        <div class="reveal space-y-3" data-accordion-group="metodologia">
+          <!-- Item 1 -->
+          <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="true">
+            <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+            <button type="button" aria-expanded="true" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+              <span>Qual é a diferença dessas aulas para um reforço escolar comum?</span>
+              <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                  O reforço tradicional costuma focar apenas em decorar fórmulas para a prova da semana seguinte. Aqui, o foco é entender <strong class="font-semibold text-apple-ink dark:text-zinc-100">por que</strong> o aluno está travando. Combinando formação em Física e Mestrado em Ensino, identificamos a raiz da dificuldade e construímos o raciocínio do zero, de forma visual e conectada ao dia a dia, para que o aprendizado seja definitivo.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+            <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+            <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+              <span>Meu filho tem prova semana que vem, mas falta base de anos anteriores. Como vocês equilibram isso?</span>
+              <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                  Trabalhamos com duas frentes ao mesmo tempo: uma parte da aula é dedicada às demandas atuais da escola (dúvidas da semana e preparação para provas) para manter as notas sob controle; a outra parte é dedicada a resgatar as lacunas antigas que impedem o aluno de avançar. Assim, cuidamos do presente sem deixar o problema estrutural de lado.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+            <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+            <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+              <span>Como é o primeiro encontro? Ele vai precisar fazer uma prova?</span>
+              <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                  Não! Sabemos que provas costumam gerar ansiedade. Primeiro, faço uma conversa com os pais para entender o histórico e a rotina do estudante. Depois, faço um encontro leve e investigativo com o aluno, onde resolvemos alguns desafios juntos, conversando. Isso permite mapear exatamente onde está a dificuldade sem nenhuma pressão.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+            <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+            <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+              <span>Meu filho acha que "não nasceu para exatas" e tem medo de errar. Como lidar com isso?</span>
+              <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                  Na nossa aula, o erro nunca é punido — ele é a nossa melhor pista. Em vez de apenas dizer "está errado", analisamos juntos como o aluno pensou para chegar naquele resultado. Quando ele percebe que está em um ambiente seguro para perguntar e testar ideias, o bloqueio diminui e a confiança volta aos poucos.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+            <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+            <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+              <span>Como vou saber se meu filho está realmente evoluindo?</span>
+              <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                  A família participa do processo de perto. Após o diagnóstico inicial, vocês recebem um plano simples com as metas dos próximos meses. Além disso, ao final de cada mês, envio um breve retorno destacando os avanços conquistados, o comportamento nas aulas e os próximos passos.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+            <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+            <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+              <span>Ele vai precisar de aulas particulares para sempre?</span>
+              <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                  Nosso objetivo é exatamente o contrário: gerar autonomia. Além do conteúdo de Física e Matemática, ensinamos o aluno a ler enunciados com calma, organizar o próprio rascunho e identificar onde travou. A meta é que ele ganhe ferramentas para estudar sozinho e precise cada vez menos de acompanhamento.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modalidades -->
+    <section id="modalidades" class="scroll-mt-24 mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+      <div class="reveal mx-auto mb-12 max-w-2xl text-center">
+        <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Formato de Aula</span>
+        <h2 class="mt-2.5 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+          Presencial ou Online. A mesma precisão.
+        </h2>
+        <p class="mt-3 text-base text-apple-muted dark:text-zinc-400 sm:text-lg">
+          Flexibilidade para se ajustar à dinâmica da família ou à rotina pré-vestibular.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <!-- Presencial -->
+        <div class="reveal reveal-left glass-card spotlight-card rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-glass-hover sm:p-10">
+          <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-apple-blue to-sky-500 text-white shadow-md shadow-apple-blue/20">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold tracking-tight text-apple-ink dark:text-white">Atendimento Presencial</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:text-base">
+            Foco na organização de caderno, rotina física e correção direta na resolução dos problemas.
+          </p>
+          <ul class="mt-6 space-y-3.5 text-sm text-apple-muted dark:text-zinc-400">
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span>Intervenção imediata na escrita e notação matemática.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span>Construção de disciplina no ambiente domiciliar do aluno.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span>Comodidade para os pais sem deslocamentos no trânsito.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Online -->
+        <div class="reveal reveal-right glass-card spotlight-card rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-glass-hover sm:p-10" style="transition-delay: 100ms;">
+          <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-apple-ink to-slate-700 text-white shadow-md dark:from-zinc-700 dark:to-zinc-900">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold tracking-tight text-apple-ink dark:text-white">Atendimento Online Interativo</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:text-base">
+            Lousa digital compartilhada em tempo real e mesa digitalizadora para interação dinâmica.
+          </p>
+          <ul class="mt-6 space-y-3.5 text-sm text-apple-muted dark:text-zinc-400">
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span>Resolução mútua e colaborativa no mesmo quadro branco.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span>Envio das anotações em PDF de alta qualidade ao fim da aula.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span>Agilidade para agendamento de reforços e plantões rápidos.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Planos e Pacotes -->
+    <section id="planos" class="scroll-mt-24 mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+      <div class="reveal mx-auto mb-12 max-w-2xl text-center">
+        <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Transparência e Investimento</span>
+        <h2 class="mt-2.5 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+          Planos e Pacotes de Acompanhamento
+        </h2>
+        <p class="mt-3 text-base text-apple-muted dark:text-zinc-400 sm:text-lg">
+          Carga horária estruturada para resultados duradouros, com economia progressiva em relação à aula avulsa.
+        </p>
+      </div>
+
+      <!-- Grid Simétrico de 6 Colunas (3 cards em cima + 2 cards amplos embaixo) -->
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-6">
+        <!-- Aula Avulsa -->
+        <article class="reveal glass-card spotlight-card flex flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass-hover lg:col-span-2">
+          <span class="mb-3 inline-flex w-fit items-center rounded-full bg-black/[0.05] px-3 py-1 text-xs font-semibold text-apple-muted dark:bg-white/[0.08] dark:text-zinc-300">
+            Valor Base
+          </span>
+          <h3 class="text-xl font-semibold tracking-tight text-apple-ink dark:text-white">Aula Avulsa</h3>
+          <p class="mt-1.5 min-h-[42px] text-sm text-apple-muted dark:text-zinc-400">
+            Ideal para tirar dúvidas pontuais ou revisões na véspera de provas.
+          </p>
+
+          <div class="mt-5 flex items-baseline gap-1">
+            <span class="text-4xl font-bold tracking-tight text-apple-ink dark:text-white">R$ 149<small class="text-xl font-semibold">,90</small></span>
+            <span class="text-sm text-apple-muted dark:text-zinc-400">/ hora</span>
+          </div>
+
+          <div class="mt-3 rounded-xl border border-black/[0.06] bg-white/70 px-3.5 py-2 text-xs font-medium text-apple-ink dark:border-white/[0.08] dark:bg-zinc-900/80 dark:text-zinc-200">
+            Investimento: <strong>R$ 149,90</strong>
+          </div>
+
+          <ul class="my-6 flex-1 space-y-2.5 text-sm text-apple-muted dark:text-zinc-400">
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> 1 hora de aula focada</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> Material da aula em PDF</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> Pagamento via PIX ou Cartão</li>
+          </ul>
+
+          <button
+            type="button"
+            onclick="hirePackage('Aula Avulsa', 'R$ 149,90', 'R$ 149,90', '0%')"
+            class="w-full rounded-full bg-black/[0.06] px-5 py-3 text-sm font-semibold text-apple-ink transition-all duration-200 hover:bg-apple-ink hover:text-white dark:bg-white/[0.09] dark:text-zinc-100 dark:hover:bg-white dark:hover:text-zinc-950"
+          >
+            Escolher Avulsa →
+          </button>
+        </article>
+
+        <!-- Mensal Intensivo -->
+        <article class="reveal glass-card spotlight-card flex flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass-hover lg:col-span-2" style="transition-delay: 80ms;">
+          <span class="mb-3 inline-flex w-fit items-center rounded-full bg-emerald-100/90 px-3 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300">
+            Economize 13%
+          </span>
+          <h3 class="text-xl font-semibold tracking-tight text-apple-ink dark:text-white">Mensal Intensivo</h3>
+          <p class="mt-1.5 min-h-[42px] text-sm text-apple-muted dark:text-zinc-400">
+            2 vezes por semana (8 horas/mês) para recuperação e ritmo de estudo.
+          </p>
+
+          <div class="mt-5 flex items-baseline gap-1">
+            <span class="text-4xl font-bold tracking-tight text-apple-ink dark:text-white">R$ 129<small class="text-xl font-semibold">,90</small></span>
+            <span class="text-sm text-apple-muted dark:text-zinc-400">/ hora</span>
+          </div>
+
+          <div class="mt-3 rounded-xl border border-black/[0.06] bg-white/70 px-3.5 py-2 text-xs font-medium text-apple-ink dark:border-white/[0.08] dark:bg-zinc-900/80 dark:text-zinc-200">
+            Total mensal (8h): <strong>R$ 1.039,20</strong>
+          </div>
+
+          <ul class="my-6 flex-1 space-y-2.5 text-sm text-apple-muted dark:text-zinc-400">
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> 8 horas de acompanhamento</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> 13% de desconto por hora</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> Suporte de dúvidas no WhatsApp</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> PIX ou Crédito Parcelado*</li>
+          </ul>
+
+          <button
+            type="button"
+            onclick="hirePackage('Mensal (2x por semana - 8h)', 'R$ 129,90/h', 'R$ 1.039,20', '13%')"
+            class="w-full rounded-full bg-black/[0.06] px-5 py-3 text-sm font-semibold text-apple-ink transition-all duration-200 hover:bg-apple-ink hover:text-white dark:bg-white/[0.09] dark:text-zinc-100 dark:hover:bg-white dark:hover:text-zinc-950"
+          >
+            Contratar Mês →
+          </button>
+        </article>
+
+        <!-- 1 Bimestre -->
+        <article class="reveal glass-card spotlight-card flex flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass-hover lg:col-span-2" style="transition-delay: 160ms;">
+          <span class="mb-3 inline-flex w-fit items-center rounded-full bg-emerald-100/90 px-3 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300">
+            Economize 20%
+          </span>
+          <h3 class="text-xl font-semibold tracking-tight text-apple-ink dark:text-white">1 Bimestre</h3>
+          <p class="mt-1.5 min-h-[42px] text-sm text-apple-muted dark:text-zinc-400">
+            2 meses de ciclo completo de provas escolares (16 horas no total).
+          </p>
+
+          <div class="mt-5 flex items-baseline gap-1">
+            <span class="text-4xl font-bold tracking-tight text-apple-ink dark:text-white">R$ 119<small class="text-xl font-semibold">,90</small></span>
+            <span class="text-sm text-apple-muted dark:text-zinc-400">/ hora</span>
+          </div>
+
+          <div class="mt-3 rounded-xl border border-black/[0.06] bg-white/70 px-3.5 py-2 text-xs font-medium text-apple-ink dark:border-white/[0.08] dark:bg-zinc-900/80 dark:text-zinc-200">
+            Total 2 meses (16h): <strong>R$ 1.918,40</strong>
+          </div>
+
+          <ul class="my-6 flex-1 space-y-2.5 text-sm text-apple-muted dark:text-zinc-400">
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> 16 horas estruturadas</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> 20% de economia por aula</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> Acompanhamento avaliativo e relatórios</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> PIX ou Crédito Parcelado*</li>
+          </ul>
+
+          <button
+            type="button"
+            onclick="hirePackage('1 Bimestre (2 meses - 16h)', 'R$ 119,90/h', 'R$ 1.918,40', '20%')"
+            class="w-full rounded-full bg-black/[0.06] px-5 py-3 text-sm font-semibold text-apple-ink transition-all duration-200 hover:bg-apple-ink hover:text-white dark:bg-white/[0.09] dark:text-zinc-100 dark:hover:bg-white dark:hover:text-zinc-950"
+          >
+            Contratar Bimestre →
+          </button>
+        </article>
+
+        <!-- 2 Bimestres -->
+        <article class="reveal reveal-left glass-card spotlight-card flex flex-col rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glass-hover lg:col-span-3">
+          <span class="mb-3 inline-flex w-fit items-center rounded-full bg-emerald-100/90 px-3 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300">
+            Economize 33%
+          </span>
+          <h3 class="text-2xl font-semibold tracking-tight text-apple-ink dark:text-white">2 Bimestres</h3>
+          <p class="mt-1.5 text-sm text-apple-muted dark:text-zinc-400">
+            4 meses de consolidação semestral contínua (32 horas no total).
+          </p>
+
+          <div class="mt-5 flex flex-wrap items-baseline justify-between gap-3">
+            <div class="flex items-baseline gap-1">
+              <span class="text-4xl font-bold tracking-tight text-apple-ink dark:text-white">R$ 99<small class="text-xl font-semibold">,90</small></span>
+              <span class="text-sm text-apple-muted dark:text-zinc-400">/ hora</span>
+            </div>
+            <div class="rounded-xl border border-black/[0.06] bg-white/75 px-3.5 py-2 text-xs font-medium text-apple-ink dark:border-white/[0.08] dark:bg-zinc-900/80 dark:text-zinc-200">
+              Total 4 meses (32h): <strong>R$ 3.196,80</strong>
+            </div>
+          </div>
+
+          <ul class="my-6 grid flex-1 gap-2.5 text-sm text-apple-muted dark:text-zinc-400 sm:grid-cols-2">
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> 32 horas de acompanhamento</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> 33% de desconto por hora</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> Resolução de deficiências antigas</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> PIX ou Crédito Parcelado*</li>
+          </ul>
+
+          <button
+            type="button"
+            onclick="hirePackage('2 Bimestres (4 meses - 32h)', 'R$ 99,90/h', 'R$ 3.196,80', '33%')"
+            class="w-full rounded-full bg-apple-ink px-5 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-white"
+          >
+            Contratar Semestre →
+          </button>
+        </article>
+
+        <!-- 4 Bimestres (Destaque) -->
+        <article class="reveal reveal-scale spotlight-card relative flex flex-col rounded-3xl border-2 border-apple-blue bg-white/90 p-8 shadow-glow backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 dark:border-apple-darkBlue dark:bg-zinc-900/90 dark:shadow-glow-dark md:col-span-2 lg:col-span-3" style="transition-delay: 80ms;">
+          <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <span class="inline-flex items-center rounded-full bg-sky-100 px-3 py-1 text-xs font-bold text-sky-700 dark:bg-sky-500/20 dark:text-sky-300">
+              Economize 53%
+            </span>
+            <span class="inline-flex items-center gap-1 rounded-full bg-apple-blue px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm dark:bg-apple-darkBlue dark:text-zinc-950">
+              ★ Melhor Custo-Benefício
+            </span>
+          </div>
+
+          <h3 class="text-2xl font-semibold tracking-tight text-apple-ink dark:text-white">4 Bimestres (Ano Letivo)</h3>
+          <p class="mt-1.5 text-sm text-apple-muted dark:text-zinc-400">
+            8 meses completos de formação sólida (64 horas no total).
+          </p>
+
+          <div class="mt-5 flex flex-wrap items-baseline justify-between gap-3">
+            <div class="flex items-baseline gap-1">
+              <span class="text-4xl font-bold tracking-tight text-apple-blue dark:text-apple-darkBlue">R$ 69<small class="text-xl font-semibold">,90</small></span>
+              <span class="text-sm text-apple-muted dark:text-zinc-400">/ hora</span>
+            </div>
+            <div class="rounded-xl border border-apple-blue/15 bg-apple-blue/[0.05] px-3.5 py-2 text-xs font-medium text-apple-ink dark:border-apple-darkBlue/25 dark:bg-apple-darkBlue/10 dark:text-zinc-100">
+              Total 8 meses (64h): <strong>R$ 4.473,60</strong>
+            </div>
+          </div>
+
+          <ul class="my-6 grid flex-1 gap-2.5 text-sm text-apple-muted dark:text-zinc-300 sm:grid-cols-2">
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> 64 horas de formação integral</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> Mais de 50% de economia/hora</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> Prioridade na escolha de agenda</li>
+            <li class="flex items-center gap-2.5"><span class="font-bold text-apple-blue dark:text-apple-darkBlue">✓</span> PIX ou Crédito Parcelado*</li>
+          </ul>
+
+          <button
+            type="button"
+            onclick="hirePackage('4 Bimestres (8 meses - 64h)', 'R$ 69,90/h', 'R$ 4.473,60', '53%')"
+            class="cta-shimmer w-full rounded-full bg-apple-blue px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-apple-blue/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-apple-blueHover hover:shadow-xl dark:bg-apple-darkBlue dark:text-zinc-950 dark:hover:bg-sky-400"
+          >
+            Garantir Vaga Anual →
+          </button>
+        </article>
+      </div>
+
+      <!-- Formas de Pagamento -->
+      <div class="reveal glass-card mt-8 grid items-center gap-6 rounded-3xl p-6 sm:p-8 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Facilidade</span>
+          <h4 class="mt-1 text-xl font-semibold tracking-tight text-apple-ink dark:text-white">Formas de Pagamento Aceitas</h4>
+          <p class="mt-1.5 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+            Flexibilidade para que a família escolha a melhor maneira de organizar o investimento no ano letivo.
+          </p>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 lg:col-span-7">
+          <div class="rounded-2xl border border-black/[0.06] bg-white/75 p-4 backdrop-blur-sm dark:border-white/[0.08] dark:bg-zinc-900/75">
+            <div class="flex items-center gap-2.5 font-semibold text-apple-ink dark:text-white">
+              <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </span>
+              <span>PIX (À Vista)</span>
+            </div>
+            <p class="mt-2 text-xs leading-relaxed text-apple-muted dark:text-zinc-400">
+              Transferência imediata sem custos adicionais ou taxas bancárias.
+            </p>
+          </div>
+
+          <div class="rounded-2xl border border-black/[0.06] bg-white/75 p-4 backdrop-blur-sm dark:border-white/[0.08] dark:bg-zinc-900/75">
+            <div class="flex items-center gap-2.5 font-semibold text-apple-ink dark:text-white">
+              <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-100 text-apple-blue dark:bg-sky-500/20 dark:text-apple-darkBlue">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+              </span>
+              <span>Cartão de Crédito</span>
+            </div>
+            <p class="mt-2 text-xs leading-relaxed text-apple-muted dark:text-zinc-400">
+              Possibilidade de parcelamento do pacote com a taxa da maquininha repassada ao contratante.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre o Professor (Bento Grid com Card de Foto) -->
+    <section id="sobre" class="scroll-mt-24 mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+      <div class="reveal mx-auto mb-12 max-w-2xl text-center">
+        <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Trajetória Acadêmica</span>
+        <h2 class="mt-2.5 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+          Sobre o Prof. Rai Garcia Torres
+        </h2>
+        <p class="mt-3 text-base text-apple-muted dark:text-zinc-400 sm:text-lg">
+          Formação de excelência na UNICAMP e compromisso com o ensino autêntico.
+        </p>
+      </div>
+
+      <!-- Linha Superior: Card da Foto + Card da Biografia -->
+      <div class="grid items-stretch gap-6 lg:grid-cols-12">
+        <!-- Card de Foto do Professor -->
+        <div class="reveal reveal-left glass-card spotlight-card group flex flex-col rounded-3xl p-3.5 transition-all duration-300 hover:shadow-glass-hover lg:col-span-5">
+          <div class="relative flex min-h-[360px] flex-1 overflow-hidden rounded-2xl bg-gradient-to-br from-slate-200/80 via-white/70 to-sky-100/80 dark:from-zinc-800 dark:via-zinc-900 dark:to-sky-950/60 sm:min-h-[420px]">
+            <!-- Substitua o caminho em src pela foto real do professor -->
+            <img
+              id="professor-photo"
+              src="img/rai.png"
+              alt="Foto do Prof. Rai Garcia Torres"
+              class="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+
+            <!-- Placeholder exibido automaticamente se a imagem ainda não estiver na pasta -->
+            <div
+              id="professor-photo-fallback"
+              class="hidden absolute inset-0 flex-col items-center justify-center p-6 pb-24 text-center"
+            >
+              <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-full border border-white/80 bg-white/80 text-apple-blue shadow-sm backdrop-blur-md dark:border-white/15 dark:bg-zinc-800/80 dark:text-apple-darkBlue">
+                <svg class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <span class="text-sm font-semibold text-apple-ink dark:text-zinc-100">Espaço para foto do professor</span>
+              <span class="mt-1.5 max-w-[240px] text-xs leading-relaxed text-apple-muted dark:text-zinc-400">
+                Adicione o arquivo <code class="rounded bg-black/[0.06] px-1.5 py-0.5 text-[11px] font-medium text-apple-ink dark:bg-white/10 dark:text-zinc-200">foto-professor.jpg</code> ou atualize o atributo <code class="rounded bg-black/[0.06] px-1.5 py-0.5 text-[11px] font-medium text-apple-ink dark:bg-white/10 dark:text-zinc-200">src</code>.
+              </span>
+            </div>
+
+            <!-- Gradiente sutil na base para dar contraste ao selo sobre a foto -->
+            <div id="professor-photo-gradient" class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
+
+            <!-- Selo Glass Flutuante -->
+            <div class="absolute inset-x-3 bottom-3 rounded-2xl border border-white/70 bg-white/80 px-4 py-3 shadow-lg backdrop-blur-xl dark:border-white/15 dark:bg-zinc-900/80">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <strong class="block text-sm font-semibold leading-tight text-apple-ink dark:text-white">Prof. Rai Garcia Torres</strong>
+                  <span class="text-xs text-apple-muted dark:text-zinc-400">Física &amp; Mestrado em Ensino • UNICAMP</span>
+                </div>
+                <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20" title="Disponível para agendamento"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card de Biografia -->
+        <div class="reveal reveal-right glass-card spotlight-card flex flex-col justify-center rounded-3xl p-7 sm:p-11 lg:col-span-7" style="transition-delay: 80ms;">
+          <span class="mb-3 inline-flex w-fit items-center rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-semibold text-apple-blue dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue">
+            Ensino Baseado em Evidências
+          </span>
+          <h3 class="text-2xl font-semibold tracking-tight text-apple-ink dark:text-white sm:text-3xl">
+            Compreensão conceitual sem decoreba.
+          </h3>
+          <p class="mt-4 text-base leading-relaxed text-apple-muted dark:text-zinc-400">
+            Licenciado em Física e Mestre em Ensino de Ciências e Matemática pela <strong class="font-semibold text-apple-ink dark:text-zinc-100">UNICAMP</strong>. Atuação com foco em aprendizagem significativa: nenhum estudante tem incapacidade inata para Exatas quando o conteúdo é conectado a bases bem estruturadas.
+          </p>
+
+          <ul class="mt-6 space-y-3.5 text-sm text-apple-muted dark:text-zinc-400 sm:text-base">
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span><strong class="font-semibold text-apple-ink dark:text-zinc-100">Formação:</strong> Física e Mestrado em Ensino (UNICAMP).</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span><strong class="font-semibold text-apple-ink dark:text-zinc-100">Metodologia:</strong> Diagnóstico e resolução investigativa.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span><strong class="font-semibold text-apple-ink dark:text-zinc-100">Transparência:</strong> Histórico e publicações verificáveis abaixo.</span>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Qual é a vantagem dos pacotes em relação à aula avulsa?
-          <span>+</span>
-        </button>
-        <div class="faq-answer">
-          Os pacotes garantem horário fixo reservado na agenda, suporte contínuo para dúvidas e economia progressiva (de 13% até 53% de desconto por hora em relação ao valor da aula avulsa de R$ 149,90).
+      <!-- Linha Inferior: Cards de Links Profissionais -->
+      <div class="reveal mt-6 grid gap-4 sm:grid-cols-3" style="transition-delay: 140ms;">
+        <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener noreferrer" class="glass-card spotlight-card group flex items-center gap-4 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 hover:border-apple-blue/30 hover:shadow-glass-hover dark:hover:border-apple-darkBlue/40">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-apple-ink text-white shadow-sm dark:bg-zinc-800">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </span>
+          <div class="min-w-0 flex-1">
+            <strong class="block text-sm font-semibold text-apple-ink dark:text-white">Currículo Acadêmico</strong>
+            <span class="block truncate text-xs text-apple-muted dark:text-zinc-400">raigarciatorres.github.io/curriculo</span>
+          </div>
+          <span class="text-apple-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-apple-blue dark:text-zinc-400 dark:group-hover:text-apple-darkBlue">↗</span>
+        </a>
+
+        <a href="https://www.instagram.com/prof.raitorres/" target="_blank" rel="noopener noreferrer" class="glass-card spotlight-card group flex items-center gap-4 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 hover:border-apple-blue/30 hover:shadow-glass-hover dark:hover:border-apple-darkBlue/40">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 via-pink-600 to-purple-600 text-white shadow-sm">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </span>
+          <div class="min-w-0 flex-1">
+            <strong class="block text-sm font-semibold text-apple-ink dark:text-white">Instagram Profissional</strong>
+            <span class="block truncate text-xs text-apple-muted dark:text-zinc-400">@prof.raitorres</span>
+          </div>
+          <span class="text-apple-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-apple-blue dark:text-zinc-400 dark:group-hover:text-apple-darkBlue">↗</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/raigarciatorres/" target="_blank" rel="noopener noreferrer" class="glass-card spotlight-card group flex items-center gap-4 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 hover:border-apple-blue/30 hover:shadow-glass-hover dark:hover:border-apple-darkBlue/40">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0a66c2] text-white shadow-sm">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+            </svg>
+          </span>
+          <div class="min-w-0 flex-1">
+            <strong class="block text-sm font-semibold text-apple-ink dark:text-white">LinkedIn</strong>
+            <span class="block truncate text-xs text-apple-muted dark:text-zinc-400">/in/raigarciatorres</span>
+          </div>
+          <span class="text-apple-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-apple-blue dark:text-zinc-400 dark:group-hover:text-apple-darkBlue">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Agendamento Diagnóstico (Destino Principal de Conversão) -->
+    <section id="agendar" class="scroll-mt-24 mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-20">
+      <div class="reveal reveal-scale glass-card relative overflow-hidden rounded-[2rem] p-7 sm:p-12">
+        <!-- Detalhe sutil de luz interna -->
+        <div class="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-apple-blue/10 blur-3xl dark:bg-apple-darkBlue/15"></div>
+
+        <div class="relative z-10 grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+          <div class="reveal reveal-left lg:col-span-6">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+              100% Gratuito
+            </span>
+            <h2 class="mt-4 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+              Agende uma conversa de 30 minutos
+            </h2>
+            <p class="mt-4 text-base leading-relaxed text-apple-muted dark:text-zinc-400">
+              Uma sessão inicial gratuita para tirarmos dúvidas, entendermos a rotina do estudante e definirmos a carga horária recomendada sem nenhum compromisso prévio.
+            </p>
+
+            <ul class="mt-6 space-y-3.5 text-sm text-apple-muted dark:text-zinc-300 sm:text-base">
+              <li class="flex items-center gap-3">
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">✓</span>
+                <span>Encontro online de 30 minutos sem nenhum custo</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">✓</span>
+                <span>Espaço aberto para os pais compartilharem preocupações</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">✓</span>
+                <span>Análise de avaliações passadas e mapeamento da base</span>
+              </li>
+            </ul>
+          </div>
+
+          <form id="booking-form" class="reveal reveal-right space-y-4 rounded-2xl border border-black/[0.06] bg-white/80 p-6 shadow-sm backdrop-blur-md transition-all dark:border-white/[0.1] dark:bg-zinc-900/80 lg:col-span-6" style="transition-delay: 100ms;" onsubmit="sendToWhatsApp(event)">
+            <div>
+              <label for="nome" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-apple-muted dark:text-zinc-400">
+                Nome do responsável ou estudante
+              </label>
+              <input
+                type="text"
+                id="nome"
+                placeholder="Ex.: Mariana Silva"
+                required
+                class="w-full rounded-xl border border-black/10 bg-apple-bg/80 px-4 py-3 text-sm text-apple-ink outline-none transition focus:border-apple-blue focus:bg-white focus:ring-4 focus:ring-apple-blue/15 dark:border-white/15 dark:bg-zinc-950/75 dark:text-white dark:placeholder-zinc-500 dark:focus:border-apple-darkBlue dark:focus:bg-zinc-950 dark:focus:ring-apple-darkBlue/20"
+              />
+            </div>
+
+            <div>
+              <label for="etapa" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-apple-muted dark:text-zinc-400">
+                Etapa Escolar
+              </label>
+              <select
+                id="etapa"
+                required
+                class="w-full rounded-xl border border-black/10 bg-apple-bg/80 px-4 py-3 text-sm text-apple-ink outline-none transition focus:border-apple-blue focus:bg-white focus:ring-4 focus:ring-apple-blue/15 dark:border-white/15 dark:bg-zinc-950/75 dark:text-white dark:focus:border-apple-darkBlue dark:focus:bg-zinc-950 dark:focus:ring-apple-darkBlue/20"
+              >
+                <option value="Ensino Fundamental II (6º ao 9º ano)">Ensino Fundamental II (6º ao 9º ano)</option>
+                <option value="Ensino Médio (1ª à 3ª série)">Ensino Médio (1ª à 3ª série)</option>
+                <option value="Cursinho / Pré-Vestibular">Cursinho / Pré-Vestibular</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="modalidade" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-apple-muted dark:text-zinc-400">
+                Modalidade Preferida para as Aulas
+              </label>
+              <select
+                id="modalidade"
+                required
+                class="w-full rounded-xl border border-black/10 bg-apple-bg/80 px-4 py-3 text-sm text-apple-ink outline-none transition focus:border-apple-blue focus:bg-white focus:ring-4 focus:ring-apple-blue/15 dark:border-white/15 dark:bg-zinc-950/75 dark:text-white dark:focus:border-apple-darkBlue dark:focus:bg-zinc-950 dark:focus:ring-apple-darkBlue/20"
+              >
+                <option value="Online (Ao vivo)">Online (Ao vivo)</option>
+                <option value="Presencial">Presencial</option>
+                <option value="A definir na conversa">A definir na conversa</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="desafio" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-apple-muted dark:text-zinc-400">
+                Objetivo da Conversa
+              </label>
+              <select
+                id="desafio"
+                required
+                class="w-full rounded-xl border border-black/10 bg-apple-bg/80 px-4 py-3 text-sm text-apple-ink outline-none transition focus:border-apple-blue focus:bg-white focus:ring-4 focus:ring-apple-blue/15 dark:border-white/15 dark:bg-zinc-950/75 dark:text-white dark:focus:border-apple-darkBlue dark:focus:bg-zinc-950 dark:focus:ring-apple-darkBlue/20"
+              >
+                <option value="Conversa gratuita de 30 min para entender as necessidades">Conversa gratuita de 30 min para entender as necessidades</option>
+                <option value="Recuperação de notas e reconstrução de base">Recuperação de notas e reconstrução de base</option>
+                <option value="Acompanhamento semanal contínuo">Acompanhamento semanal contínuo</option>
+                <option value="Preparação para Vestibulares / ENEM">Preparação para Vestibulares / ENEM</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              class="cta-shimmer mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-apple-blue px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-apple-blue/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-apple-blueHover hover:shadow-xl dark:bg-apple-darkBlue dark:text-zinc-950 dark:hover:bg-sky-400"
+            >
+              <span>Agendar Conversa Gratuita pelo WhatsApp</span>
+              <span>→</span>
+            </button>
+          </form>
         </div>
+      </div>
+    </section>
+
+    <!-- FAQ Geral -->
+    <section id="duvidas" class="scroll-mt-24 mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:py-24">
+      <div class="reveal mx-auto mb-10 max-w-2xl text-center">
+        <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Esclarecimentos</span>
+        <h2 class="mt-2.5 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+          Perguntas Frequentes
+        </h2>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Como é a interação nas aulas online?
-          <span>+</span>
-        </button>
-        <div class="faq-answer">
-          O formato não é passivo: professor e estudante interagem em tempo real na lousa digital compartilhada, com correção imediata e envio de todo o conteúdo em PDF ao final.
+      <div class="reveal space-y-3" data-accordion-group="duvidas">
+        <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+          <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+          <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+            <span>Como funciona a conversa gratuita de 30 minutos?</span>
+            <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                É um bate-papo de 30 minutos totalmente gratuito, realizado prioritariamente por chamada de vídeo, pensado para que você e o estudante possam tirar dúvidas, me contar sobre os desafios atuais nas matérias e analisar juntos o melhor plano de ação, sem obrigatoriedade de contratação.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+          <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+          <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+            <span>Quais são as formas de pagamento disponíveis?</span>
+            <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                Aceitamos pagamento à vista via <strong class="font-semibold text-apple-ink dark:text-zinc-100">PIX</strong> ou parcelamento no <strong class="font-semibold text-apple-ink dark:text-zinc-100">Cartão de Crédito</strong>. No cartão, os encargos e taxas de processamento da operadora são arcados pelo contratante no ato do pagamento.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+          <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+          <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+            <span>Qual é a vantagem dos pacotes em relação à aula avulsa?</span>
+            <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                Os pacotes garantem horário fixo reservado na agenda, suporte contínuo para dúvidas e economia progressiva (de 13% até 53% de desconto por hora em relação ao valor da aula avulsa de R$ 149,90).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item glass-card relative overflow-hidden rounded-2xl transition-all duration-300 hover:border-apple-blue/25 hover:shadow-md dark:hover:border-apple-darkBlue/35" data-open="false">
+          <span class="accordion-bar absolute bottom-4 left-0 top-4 w-[3px] rounded-r-full bg-apple-blue opacity-0 transition-opacity duration-300 dark:bg-apple-darkBlue"></span>
+          <button type="button" aria-expanded="false" class="accordion-trigger flex w-full items-center justify-between gap-4 px-5 py-5 text-left text-sm font-semibold text-apple-ink dark:text-zinc-100 sm:px-7 sm:text-base">
+            <span>Como é a interação nas aulas online?</span>
+            <span class="accordion-icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-lg font-normal text-apple-blue transition-all duration-300 dark:bg-zinc-800 dark:text-apple-darkBlue">+</span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <p class="px-5 pb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:px-7 sm:text-[0.97rem]">
+                O formato não é passivo: professor e estudante interagem em tempo real na lousa digital compartilhada, com correção imediata e envio de todo o conteúdo em PDF ao final.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Rodapé -->
-  <footer>
-    <div class="footer-links">
-      <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener noreferrer">Currículo Acadêmico</a>
-      <a href="https://www.instagram.com/prof.raitorres/" target="_blank" rel="noopener noreferrer">Instagram (@prof.raitorres)</a>
-      <a href="https://www.linkedin.com/in/raigarciatorres/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  <footer class="border-t border-black/[0.06] bg-white/80 backdrop-blur-xl transition-colors dark:border-white/[0.08] dark:bg-zinc-950/80">
+    <div class="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6">
+      <div class="flex flex-wrap items-center justify-center gap-6 text-sm font-medium text-apple-ink dark:text-zinc-200">
+        <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-apple-blue dark:hover:text-apple-darkBlue">Currículo Acadêmico</a>
+        <a href="https://www.instagram.com/prof.raitorres/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-apple-blue dark:hover:text-apple-darkBlue">Instagram (@prof.raitorres)</a>
+        <a href="https://www.linkedin.com/in/raigarciatorres/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-apple-blue dark:hover:text-apple-darkBlue">LinkedIn</a>
+      </div>
+      <p class="mt-5 text-xs text-apple-muted dark:text-zinc-500">
+        © 2026 Prof. Rai Garcia Torres • Acompanhamento Especializado em Exatas
+      </p>
     </div>
-    <p>© 2026 Prof. Rai Garcia Torres • Acompanhamento Especializado em Exatas</p>
   </footer>
 
+  <!-- Botão Flutuante Discreto (aparece após rolar e guia ao CTA) -->
+  <div id="floating-cta" class="pointer-events-none fixed bottom-5 right-5 z-40 translate-y-4 opacity-0 transition-all duration-300">
+    <a href="#agendar" class="cta-shimmer inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-apple-ink/90 px-4 py-3 text-xs font-semibold text-white shadow-xl backdrop-blur-xl transition-all hover:scale-105 hover:bg-apple-blue dark:border-apple-darkBlue/40 dark:bg-apple-darkBlue dark:text-zinc-950 dark:hover:bg-sky-400 sm:px-5 sm:text-sm">
+      <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse dark:bg-zinc-950"></span>
+      <span>Agendar 30 min grátis</span>
+    </a>
+  </div>
+
+  <!-- Toast de Feedback -->
+  <div
+    id="toast"
+    role="status"
+    aria-live="polite"
+    class="pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 translate-y-4 rounded-full border border-white/15 bg-apple-ink/95 px-5 py-3 text-sm font-medium text-white opacity-0 shadow-2xl backdrop-blur-xl transition-all duration-300 dark:bg-zinc-100 dark:text-zinc-950"
+  >
+    Abrindo o WhatsApp com sua mensagem pronta...
+  </div>
+
+  <!-- JavaScript Dinâmico e Modularizado -->
   <script>
     const WHATSAPP_NUMBER = "5515997693102";
+    const prefersReducedMotion = () =>
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const segmentsData = {
       fund2: {
+        badge: "Base Sólida",
         title: "Ensino Fundamental II (6º ao 9º ano)",
-        description: "Fase de transição crítica com a introdução do pensamento abstrato e das equações. Lacunas em frações ou operações travam anos inteiros à frente.",
+        description:
+          "Fase de transição crítica com a introdução do pensamento abstrato e das equações. Lacunas em frações ou operações travam anos inteiros à frente.",
         pains: [
           "Insegurança ou sofrimento na hora de fazer os deveres de casa",
           "Notas baixas inesperadas nas primeiras avaliações de álgebra",
           "Dificuldade em organizar cadernos e rotinas de revisão"
         ],
-        solutionTitle: "Abordagem Pedagógica:",
-        solutionText: "Reconstrução paciente de pré-requisitos sem pressão ou julgamentos. O objetivo central é devolver a autoconfiança e a clareza do aluno."
+        solutionTitle: "Abordagem Pedagógica",
+        solutionText:
+          "Reconstrução paciente de pré-requisitos sem pressão ou julgamentos. O objetivo central é devolver a autoconfiança e a clareza do aluno."
       },
       medio: {
+        badge: "Consolidação e Modelagem",
         title: "Ensino Médio (1ª à 3ª série)",
-        description: "Exigência de alto volume de conteúdo de Física e Matemática, cobrando interpretação de texto e modelagem de problemas reais.",
+        description:
+          "Exigência de alto volume de conteúdo de Física e Matemática, cobrando interpretação de texto e modelagem de problemas reais.",
         pains: [
           "Sensação de compreender a matéria em sala, mas travar nos exercícios",
           "Ansiedade em véspera de provas bimestrais ou simulados",
           "Sobrecarga de matérias sem um método claro de priorização"
         ],
-        solutionTitle: "Abordagem Pedagógica:",
-        solutionText: "Desenvolvimento de técnicas de interpretação de enunciado e resolução guiada para evitar a dependência de fórmulas decoradas."
+        solutionTitle: "Abordagem Pedagógica",
+        solutionText:
+          "Desenvolvimento de técnicas de interpretação de enunciado e resolução guiada para evitar a dependência de fórmulas decoradas."
       },
       cursinho: {
+        badge: "Alta Performance",
         title: "Cursinho e Pré-Vestibular",
-        description: "Foco total em alta performance nos vestibulares concorridos (Fuvest, Unicamp, Unesp, ENEM e bancas de Medicina).",
+        description:
+          "Foco total em alta performance nos vestibulares concorridos (Fuvest, Unicamp, Unesp, ENEM e bancas de Medicina).",
         pains: [
           "Platô de acertos nos simulados de Física e Matemática",
           "Falta de velocidade de resolução para a primeira fase",
           "Insegurança na fundamentação e clareza discursiva para as segundas fases"
         ],
-        solutionTitle: "Abordagem Pedagógica:",
-        solutionText: "Análise estratégica de questões recorrentes das bancas, correção da redação matemática de segunda fase e ganho de velocidade."
+        solutionTitle: "Abordagem Pedagógica",
+        solutionText:
+          "Análise estratégica de questões recorrentes das bancas, correção da redação matemática de segunda fase e ganho de velocidade."
       }
     };
 
-    function changeSegment(key, btnElement) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      if (btnElement) btnElement.classList.add('active');
+    /* ----------------------------------------------------
+     * 1. Modo Noturno (Persistente + Sistema)
+     * ---------------------------------------------------- */
+    function initThemeToggle() {
+      const btn = document.getElementById("theme-toggle");
+      const label = document.getElementById("theme-toggle-label");
+      if (!btn) return;
 
-      const data = segmentsData[key];
-      const container = document.getElementById('segment-content');
+      const updateUI = () => {
+        const isDark = document.documentElement.classList.contains("dark");
+        if (label) label.textContent = isDark ? "Claro" : "Escuro";
+        btn.setAttribute(
+          "aria-label",
+          isDark ? "Ativar modo claro" : "Ativar modo noturno"
+        );
+      };
 
-      const painsList = data.pains
-        .map(item => `<li><span class="check-bullet">•</span><div>${item}</div></li>`)
-        .join('');
+      btn.addEventListener("click", () => {
+        const isNowDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("theme", isNowDark ? "dark" : "light");
+        updateUI();
+      });
 
-      container.innerHTML = `
-        <div class="segment-info">
-          <h3>${data.title}</h3>
-          <p>${data.description}</p>
-          <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem; font-weight: 600;">Sinais frequentes nesta fase:</h4>
-          <ul class="check-list">
-            ${painsList}
-          </ul>
-        </div>
-        <div class="segment-box">
-          <h4>${data.solutionTitle}</h4>
-          <p style="color: var(--apple-text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">${data.solutionText}</p>
-          <a href="#agendar" class="btn">Agendar Conversa Gratuita (30 min)</a>
-        </div>
-      `;
+      updateUI();
     }
 
-    function toggleFaq(button) {
-      const item = button.parentElement;
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
-      if (!isOpen) {
-        item.classList.add('open');
+    /* ----------------------------------------------------
+     * 2. Toast de feedback elegante
+     * ---------------------------------------------------- */
+    let toastTimer = null;
+    function showToast(text) {
+      const toast = document.getElementById("toast");
+      if (!toast) return;
+      toast.textContent = text;
+      toast.classList.remove("opacity-0", "translate-y-4");
+      toast.classList.add("opacity-100", "translate-y-0");
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("opacity-100", "translate-y-0");
+        toast.classList.add("opacity-0", "translate-y-4");
+      }, 3200);
+    }
+
+    /* ----------------------------------------------------
+     * 3. Navegação Suave Guiada até o CTA
+     * ---------------------------------------------------- */
+    function initGuidedAnchors() {
+      const header = document.getElementById("site-header");
+
+      document.addEventListener("click", (e) => {
+        const link = e.target.closest('a[href^="#"]');
+        if (!link) return;
+
+        const targetId = link.getAttribute("href");
+        if (!targetId || targetId === "#") return;
+
+        const targetEl = document.querySelector(targetId);
+        if (!targetEl) return;
+
+        e.preventDefault();
+        const headerOffset = header ? header.offsetHeight + 16 : 84;
+        const targetTop =
+          targetId === "#topo"
+            ? 0
+            : targetEl.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: prefersReducedMotion() ? "auto" : "smooth"
+        });
+
+        // Destaque sutil ao chegar na chamada para ação (#agendar)
+        if (targetId === "#agendar") {
+          const form = document.getElementById("booking-form");
+          const nameInput = document.getElementById("nome");
+          setTimeout(() => {
+            if (form) {
+              form.classList.remove("cta-arrived");
+              void form.offsetWidth; // reinicia animação se clicado novamente
+              form.classList.add("cta-arrived");
+            }
+            if (nameInput) {
+              nameInput.focus({ preventScroll: true });
+            }
+          }, prefersReducedMotion() ? 50 : 620);
+        }
+      });
+    }
+
+    /* ----------------------------------------------------
+     * 4. Segmentos (Abas com pílula deslizante e fade)
+     * ---------------------------------------------------- */
+    let activeSegmentKey = "fund2";
+
+    function moveTabIndicator(activeBtn) {
+      const indicator = document.getElementById("tab-indicator");
+      if (!indicator || !activeBtn) return;
+      indicator.style.width = `${activeBtn.offsetWidth}px`;
+      indicator.style.height = `${activeBtn.offsetHeight}px`;
+      indicator.style.transform = `translate3d(${activeBtn.offsetLeft}px, ${activeBtn.offsetTop}px, 0)`;
+    }
+
+    function renderSegment(key, animate = true) {
+      const data = segmentsData[key];
+      const container = document.getElementById("segment-content");
+      if (!data || !container) return;
+
+      const buildMarkup = () => {
+        const painsList = data.pains
+          .map(
+            (item) => `
+            <li class="flex items-start gap-3 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">
+              <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-apple-blue dark:bg-apple-darkBlue"></span>
+              <span>${item}</span>
+            </li>
+          `
+          )
+          .join("");
+
+        return `
+          <div class="lg:col-span-7">
+            <span class="inline-block rounded-full bg-apple-blue/10 px-3 py-1 text-xs font-semibold text-apple-blue dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue">${data.badge}</span>
+            <h3 class="mt-3 text-2xl font-semibold tracking-tight text-apple-ink dark:text-white sm:text-3xl">${data.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-apple-muted dark:text-zinc-400 sm:text-base">${data.description}</p>
+            <h4 class="mt-6 mb-3 text-xs font-semibold uppercase tracking-wider text-apple-ink dark:text-zinc-200">Sinais frequentes nesta fase:</h4>
+            <ul class="space-y-2.5">${painsList}</ul>
+          </div>
+          <div class="rounded-2xl border border-black/[0.06] bg-apple-bg/85 p-6 dark:border-white/[0.08] dark:bg-zinc-900/75 sm:p-8 lg:col-span-5">
+            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white text-apple-blue shadow-sm dark:bg-zinc-800 dark:text-apple-darkBlue">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <h4 class="text-lg font-semibold text-apple-ink dark:text-white">${data.solutionTitle}</h4>
+            <p class="mt-2.5 mb-6 text-sm leading-relaxed text-apple-muted dark:text-zinc-400">${data.solutionText}</p>
+            <a href="#agendar" class="cta-shimmer inline-flex w-full items-center justify-center rounded-full bg-apple-blue px-5 py-3 text-sm font-semibold text-white shadow-md shadow-apple-blue/20 transition-all hover:-translate-y-0.5 hover:bg-apple-blueHover dark:bg-apple-darkBlue dark:text-zinc-950 dark:hover:bg-sky-400">
+              Agendar Conversa Gratuita (30 min)
+            </a>
+          </div>
+        `;
+      };
+
+      if (!animate || prefersReducedMotion()) {
+        container.innerHTML = buildMarkup();
+        return;
+      }
+
+      container.classList.add("is-switching");
+      setTimeout(() => {
+        container.innerHTML = buildMarkup();
+        container.classList.remove("is-switching");
+      }, 180);
+    }
+
+    function initSegmentTabs() {
+      const buttons = document.querySelectorAll(".segment-tab");
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.segment;
+          if (key === activeSegmentKey) return;
+          activeSegmentKey = key;
+
+          buttons.forEach((b) => {
+            const isActive = b === btn;
+            b.classList.toggle("text-apple-ink", isActive);
+            b.classList.toggle("dark:text-white", isActive);
+            b.classList.toggle("text-apple-muted", !isActive);
+            b.classList.toggle("dark:text-zinc-400", !isActive);
+          });
+
+          moveTabIndicator(btn);
+          renderSegment(key, true);
+        });
+      });
+
+      const initialBtn = document.querySelector(`.segment-tab[data-segment="${activeSegmentKey}"]`);
+      renderSegment(activeSegmentKey, false);
+      requestAnimationFrame(() => moveTabIndicator(initialBtn));
+
+      window.addEventListener("resize", () => {
+        const currentBtn = document.querySelector(`.segment-tab[data-segment="${activeSegmentKey}"]`);
+        moveTabIndicator(currentBtn);
+      });
+    }
+
+    /* ----------------------------------------------------
+     * 5. Acordeões Suaves (Metodologia e FAQ Geral)
+     * ---------------------------------------------------- */
+    function syncAccordionVisuals(item) {
+      const isOpen = item.getAttribute("data-open") === "true";
+      const trigger = item.querySelector(".accordion-trigger");
+      const bar = item.querySelector(".accordion-bar");
+      if (trigger) trigger.setAttribute("aria-expanded", String(isOpen));
+      if (bar) bar.style.opacity = isOpen ? "1" : "0";
+    }
+
+    function initAccordions() {
+      const groups = document.querySelectorAll("[data-accordion-group]");
+      groups.forEach((group) => {
+        const items = group.querySelectorAll(".accordion-item");
+        items.forEach((item) => {
+          syncAccordionVisuals(item);
+          const trigger = item.querySelector(".accordion-trigger");
+          if (!trigger) return;
+
+          trigger.addEventListener("click", () => {
+            const currentlyOpen = item.getAttribute("data-open") === "true";
+            items.forEach((other) => {
+              other.setAttribute("data-open", "false");
+              syncAccordionVisuals(other);
+            });
+            if (!currentlyOpen) {
+              item.setAttribute("data-open", "true");
+              syncAccordionVisuals(item);
+            }
+          });
+        });
+      });
+    }
+
+    /* ----------------------------------------------------
+     * 6. Scroll Reveal Direcional (Leve e GPU-accelerated)
+     * ---------------------------------------------------- */
+    function initScrollReveal() {
+      const elements = document.querySelectorAll(".reveal");
+      if (!("IntersectionObserver" in window) || prefersReducedMotion()) {
+        elements.forEach((el) => {
+          el.classList.add("is-visible");
+          el.style.willChange = "auto";
+        });
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const target = entry.target;
+              target.classList.add("is-visible");
+              // Libera camada de composição GPU após o fim da transição
+              setTimeout(() => {
+                target.style.willChange = "auto";
+              }, 850);
+              obs.unobserve(target);
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -30px 0px" }
+      );
+
+      elements.forEach((el) => observer.observe(el));
+    }
+
+    /* ----------------------------------------------------
+     * 7. Efeito Spotlight nos Cards (Desktop)
+     * ---------------------------------------------------- */
+    function initSpotlightCards() {
+      if (window.matchMedia("(pointer: coarse)").matches) return;
+
+      const cards = document.querySelectorAll(".spotlight-card");
+      cards.forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+          card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+        });
+      });
+    }
+
+    /* ----------------------------------------------------
+     * 8. Header, Progresso, ScrollSpy, CTA Flutuante & Parallax
+     * ---------------------------------------------------- */
+    function initScrollEffects() {
+      const header = document.getElementById("site-header");
+      const progressBar = document.getElementById("scroll-progress");
+      const floatingCta = document.getElementById("floating-cta");
+      const navLinks = document.querySelectorAll("[data-nav-link]");
+      const parallaxLayers = document.querySelectorAll("[data-parallax]");
+      const sections = Array.from(navLinks)
+        .map((link) => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+      let ticking = false;
+
+      const updateOnScroll = () => {
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? Math.min((scrollY / docHeight) * 100, 100) : 0;
+
+        if (progressBar) {
+          progressBar.style.width = `${progress}%`;
+        }
+
+        if (header) {
+          header.classList.toggle("shadow-sm", scrollY > 16);
+        }
+
+        if (floatingCta) {
+          const bookingSection = document.getElementById("agendar");
+          const bookingTop = bookingSection
+            ? bookingSection.offsetTop - window.innerHeight + 120
+            : Infinity;
+          const shouldShow = scrollY > 520 && scrollY < bookingTop;
+
+          floatingCta.classList.toggle("opacity-100", shouldShow);
+          floatingCta.classList.toggle("translate-y-0", shouldShow);
+          floatingCta.classList.toggle("pointer-events-auto", shouldShow);
+          floatingCta.classList.toggle("opacity-0", !shouldShow);
+          floatingCta.classList.toggle("translate-y-4", !shouldShow);
+          floatingCta.classList.toggle("pointer-events-none", !shouldShow);
+        }
+
+        // ScrollSpy
+        let currentId = "";
+        sections.forEach((sec) => {
+          if (scrollY >= sec.offsetTop - 180) {
+            currentId = `#${sec.id}`;
+          }
+        });
+
+        navLinks.forEach((link) => {
+          const isMatch = link.getAttribute("href") === currentId;
+          link.classList.toggle("nav-link-active", isMatch);
+        });
+
+        // Parallax leve nas luzes ambientes (sem afetar layout)
+        if (!prefersReducedMotion()) {
+          parallaxLayers.forEach((layer) => {
+            const speed = parseFloat(layer.dataset.parallax || "0");
+            layer.style.transform = `translate3d(0, ${Math.round(scrollY * speed)}px, 0)`;
+          });
+        }
+
+        ticking = false;
+      };
+
+      const onScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(updateOnScroll);
+          ticking = true;
+        }
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      updateOnScroll();
+    }
+
+    /* ----------------------------------------------------
+     * 9. Menu Mobile com Gaveta Suave
+     * ---------------------------------------------------- */
+    function initMobileMenu() {
+      const btn = document.getElementById("mobile-menu-btn");
+      const menu = document.getElementById("mobile-menu");
+      const openIcon = document.getElementById("menu-icon-open");
+      const closeIcon = document.getElementById("menu-icon-close");
+      if (!btn || !menu) return;
+
+      const toggleMenu = (forceState) => {
+        const isCurrentlyOpen = menu.getAttribute("data-open") === "true";
+        const willOpen = typeof forceState === "boolean" ? forceState : !isCurrentlyOpen;
+        menu.setAttribute("data-open", String(willOpen));
+        openIcon.classList.toggle("hidden", willOpen);
+        closeIcon.classList.toggle("hidden", !willOpen);
+        btn.setAttribute("aria-expanded", String(willOpen));
+      };
+
+      btn.addEventListener("click", () => toggleMenu());
+      menu.querySelectorAll(".mobile-nav-link").forEach((link) => {
+        link.addEventListener("click", () => toggleMenu(false));
+      });
+    }
+
+    /* ----------------------------------------------------
+     * 10. Fallback Elegante para Foto do Professor
+     * ---------------------------------------------------- */
+    function initProfessorPhotoFallback() {
+      const img = document.getElementById("professor-photo");
+      const fallback = document.getElementById("professor-photo-fallback");
+      const gradient = document.getElementById("professor-photo-gradient");
+      if (!img || !fallback) return;
+
+      const showFallback = () => {
+        img.classList.add("hidden");
+        fallback.classList.remove("hidden");
+        fallback.classList.add("flex");
+        if (gradient) gradient.classList.add("hidden");
+      };
+
+      img.addEventListener("error", showFallback);
+
+      if (img.complete && img.naturalWidth === 0) {
+        showFallback();
       }
     }
 
-    // Redirecionamento informando também as opções de pagamento
+    /* ----------------------------------------------------
+     * 11. Integração WhatsApp (Planos e Formulário)
+     * ---------------------------------------------------- */
     function hirePackage(nomePlano, valorHora, valorTotal, desconto) {
-      const infoDesconto = desconto !== '0%' ? `\n• *Economia:* ${desconto} em relação à aula avulsa` : '';
+      const infoDesconto =
+        desconto !== "0%" ? `\n• *Economia:* ${desconto} em relação à aula avulsa` : "";
       const mensagem = `Olá, Prof. Rai! Estive no seu site e tenho interesse no plano:\n\n• *Pacote:* ${nomePlano}\n• *Valor Hora-Aula:* ${valorHora}${infoDesconto}\n• *Total Calculado:* ${valorTotal}\n• *Opções de Pagamento:* PIX ou Cartão de Crédito parcelado (taxa pelo contratante)\n\nGostaria de verificar a disponibilidade de horários na sua agenda para iniciarmos.`;
+
+      showToast(`Abrindo WhatsApp para o plano ${nomePlano}...`);
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
-      window.open(url, '_blank');
+      window.open(url, "_blank", "noopener,noreferrer");
     }
 
     function sendToWhatsApp(event) {
       event.preventDefault();
-      const nome = document.getElementById('nome').value.trim();
-      const etapa = document.getElementById('etapa').value;
-      const modalidade = document.getElementById('modalidade').value;
-      const desafio = document.getElementById('desafio').value;
+      const nome = document.getElementById("nome").value.trim();
+      const etapa = document.getElementById("etapa").value;
+      const modalidade = document.getElementById("modalidade").value;
+      const desafio = document.getElementById("desafio").value;
 
       const mensagem = `Olá, Prof. Rai! Meu nome é *${nome}*.\n\nGostaria de agendar a *conversa gratuita de 30 minutos* para entender as necessidades e alinhar os próximos passos:\n• *Etapa:* ${etapa}\n• *Modalidade de interesse:* ${modalidade}\n• *Foco inicial:* ${desafio}\n\nQual é o seu melhor dia e horário disponível?`;
 
+      showToast("Redirecionando para o WhatsApp...");
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
-      window.open(url, '_blank');
+      window.open(url, "_blank", "noopener,noreferrer");
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      changeSegment('fund2', document.querySelector('.tab-btn'));
+    /* Inicialização */
+    document.addEventListener("DOMContentLoaded", () => {
+      initThemeToggle();
+      initGuidedAnchors();
+      initSegmentTabs();
+      initAccordions();
+      initScrollReveal();
+      initSpotlightCards();
+      initScrollEffects();
+      initMobileMenu();
+      initProfessorPhotoFallback();
     });
   </script>
 </body>
