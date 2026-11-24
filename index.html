@@ -347,7 +347,7 @@
   <!-- Cabeçalho Fixo com Glassmorphism, Modo Noturno e Barra de Progresso -->
   <header id="site-header" class="sticky top-0 z-50 border-b border-black/[0.06] bg-white/65 backdrop-blur-xl transition-all duration-300 dark:border-white/[0.08] dark:bg-zinc-950/70">
     <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
-      <a href="#topo" class="group flex items-center gap-2 text-lg font-semibold tracking-tight text-apple-ink dark:text-white">
+      <a href="#topo" class="group flex shrink-0 items-center gap-2 text-lg font-semibold tracking-tight text-apple-ink dark:text-white">
         <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-apple-ink to-apple-blue text-xs font-bold text-white shadow-sm transition-transform duration-300 group-hover:scale-105 dark:from-apple-darkBlue dark:to-sky-400 dark:text-zinc-950">
           RT
         </span>
@@ -355,17 +355,18 @@
       </a>
 
       <!-- Links Desktop -->
-      <ul class="hidden items-center gap-6 lg:flex">
+      <ul class="hidden items-center gap-5 lg:flex xl:gap-6">
         <li><a href="#perfis" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Público</a></li>
         <li><a href="#metodo" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Metodologia</a></li>
         <li><a href="#modalidades" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Modalidades</a></li>
         <li><a href="#planos" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Planos</a></li>
         <li><a href="#sobre" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Sobre</a></li>
+        <li><a href="#agenda" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Horários</a></li>
         <li><a href="#duvidas" data-nav-link class="nav-link text-sm font-medium text-apple-muted transition-colors hover:text-apple-blue dark:text-zinc-400 dark:hover:text-apple-darkBlue">Dúvidas</a></li>
       </ul>
 
       <!-- Ações do Topo (Modo Noturno + CTA Desktop + Menu Mobile) -->
-      <div class="flex items-center gap-2.5">
+      <div class="flex shrink-0 items-center gap-2.5">
         <!-- Botão de Modo Noturno -->
         <button
           id="theme-toggle"
@@ -392,7 +393,7 @@
           href="#agendar"
           class="cta-shimmer hidden items-center gap-2 rounded-full bg-apple-blue px-4 py-2 text-sm font-medium text-white shadow-sm shadow-apple-blue/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-apple-blueHover hover:shadow-md hover:shadow-apple-blue/30 dark:bg-apple-darkBlue dark:text-zinc-950 dark:font-semibold dark:hover:bg-sky-400 lg:inline-flex"
         >
-          Agendar 30 Minutos Grátis
+          Agendar 30 Min Grátis
         </a>
 
         <!-- Botão Menu Mobile -->
@@ -422,6 +423,7 @@
           <a href="#modalidades" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Modalidades</a>
           <a href="#planos" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Planos</a>
           <a href="#sobre" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Sobre</a>
+          <a href="#agenda" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Horários Disponíveis</a>
           <a href="#duvidas" class="mobile-nav-link rounded-xl px-4 py-2.5 text-sm font-medium text-apple-ink transition hover:bg-apple-blue/10 hover:text-apple-blue dark:text-zinc-200 dark:hover:bg-apple-darkBlue/15 dark:hover:text-apple-darkBlue">Dúvidas</a>
           <a href="#agendar" class="mobile-nav-link cta-shimmer mt-2 inline-flex items-center justify-center rounded-full bg-apple-blue px-5 py-3 text-sm font-semibold text-white shadow-sm dark:bg-apple-darkBlue dark:text-zinc-950">
             Agendar 30 Minutos Grátis →
@@ -465,8 +467,11 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </a>
-            <a href="#planos" class="inline-flex items-center justify-center rounded-full border border-black/10 bg-white/75 px-6 py-3.5 text-sm font-semibold text-apple-ink backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-900/75 dark:text-zinc-100 dark:hover:bg-zinc-800">
-              Ver Planos e Valores
+            <a href="#agenda" class="inline-flex items-center justify-center gap-2 rounded-full border border-black/10 bg-white/75 px-6 py-3.5 text-sm font-semibold text-apple-ink backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-md dark:border-white/15 dark:bg-zinc-900/75 dark:text-zinc-100 dark:hover:bg-zinc-800">
+              <svg class="h-4 w-4 text-apple-blue dark:text-apple-darkBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>Ver Horários Livres</span>
             </a>
           </div>
         </div>
@@ -1056,7 +1061,7 @@
             <!-- Substitua o caminho em src pela foto real do professor -->
             <img
               id="professor-photo"
-              src="img/rai.png"
+              src="img/rai.jpg"
               alt="Foto do Prof. Rai Garcia Torres"
               class="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
@@ -1168,6 +1173,104 @@
       </div>
     </section>
 
+    <!-- Agenda de Horários Disponíveis (Sincronizada em Tempo Real) -->
+    <section id="agenda" class="scroll-mt-24 mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+      <div class="reveal mx-auto mb-10 max-w-2xl text-center">
+        <span class="text-xs font-semibold uppercase tracking-[0.12em] text-apple-blue dark:text-apple-darkBlue">Disponibilidade em Tempo Real</span>
+        <h2 class="mt-2.5 text-3xl font-bold tracking-[-0.03em] text-apple-ink dark:text-white sm:text-4xl">
+          Horários Disponíveis na Agenda
+        </h2>
+        <p class="mt-3 text-base text-apple-muted dark:text-zinc-400 sm:text-lg">
+          Consulte os dias e janelas livres atualizados diretamente na minha agenda antes de solicitar o agendamento.
+        </p>
+      </div>
+
+      <div class="reveal reveal-scale glass-card overflow-hidden rounded-[2rem]">
+        <!-- Barra Superior da Janela da Agenda -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] bg-white/60 px-5 py-3.5 backdrop-blur-md dark:border-white/[0.08] dark:bg-zinc-900/70 sm:px-7">
+          <div class="flex items-center gap-2.5">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+            </span>
+            <span class="text-xs font-semibold text-apple-ink dark:text-zinc-100 sm:text-sm">
+              Agenda Online Atualizada
+            </span>
+            <span class="hidden rounded-full bg-black/[0.05] px-2.5 py-0.5 text-[11px] font-medium text-apple-muted dark:bg-white/[0.08] dark:text-zinc-400 md:inline-block">
+              agenda-professor-rai.lovable.app
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button
+              id="agenda-reload-btn"
+              type="button"
+              title="Atualizar horários"
+              class="inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] bg-white/80 px-3 py-1.5 text-xs font-medium text-apple-ink transition hover:border-apple-blue/30 hover:text-apple-blue dark:border-white/[0.12] dark:bg-zinc-800/80 dark:text-zinc-200 dark:hover:border-apple-darkBlue/40 dark:hover:text-apple-darkBlue"
+            >
+              <svg id="agenda-reload-icon" class="h-3.5 w-3.5 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span class="hidden sm:inline">Atualizar</span>
+            </button>
+
+            <a
+              href="https://agenda-professor-rai.lovable.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 rounded-full bg-apple-blue/10 px-3.5 py-1.5 text-xs font-semibold text-apple-blue transition hover:bg-apple-blue hover:text-white dark:bg-apple-darkBlue/15 dark:text-apple-darkBlue dark:hover:bg-apple-darkBlue dark:hover:text-zinc-950"
+            >
+              <span>Abrir em nova aba</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Área Embutida da Agenda (Lazy-loaded para manter alta velocidade) -->
+        <div class="relative bg-white/50 dark:bg-zinc-950/60">
+          <!-- Indicador de Carregamento -->
+          <div
+            id="agenda-loader"
+            class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/90 backdrop-blur-sm transition-opacity duration-500 dark:bg-zinc-950/90"
+          >
+            <div class="h-9 w-9 animate-spin rounded-full border-2 border-apple-blue/20 border-t-apple-blue dark:border-apple-darkBlue/25 dark:border-t-apple-darkBlue"></div>
+            <p class="text-sm font-medium text-apple-muted dark:text-zinc-400">
+              Carregando horários disponíveis...
+            </p>
+          </div>
+
+          <iframe
+            id="agenda-iframe"
+            src="https://agenda-professor-rai.lovable.app"
+            title="Lista de horários disponíveis da agenda do Prof. Rai Torres"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="block h-[580px] w-full border-0 bg-white dark:bg-zinc-950 sm:h-[650px]"
+          ></iframe>
+        </div>
+
+        <!-- Rodapé de Conversão da Agenda -->
+        <div class="flex flex-col items-start justify-between gap-4 border-t border-black/[0.06] bg-white/60 px-5 py-4 backdrop-blur-md dark:border-white/[0.08] dark:bg-zinc-900/70 sm:flex-row sm:items-center sm:px-7">
+          <div>
+            <p class="text-sm font-medium text-apple-ink dark:text-zinc-100">
+              Encontrou um horário compatível com a rotina?
+            </p>
+            <p class="text-xs text-apple-muted dark:text-zinc-400">
+              Informe o dia e horário logo abaixo para agilizar a reserva ou <a href="https://agenda-professor-rai.lovable.app" target="_blank" rel="noopener noreferrer" class="font-medium text-apple-blue underline underline-offset-2 hover:text-apple-blueHover dark:text-apple-darkBlue">acesse a agenda diretamente aqui</a>.
+            </p>
+          </div>
+
+          <a
+            href="#agendar"
+            class="cta-shimmer inline-flex shrink-0 items-center gap-2 rounded-full bg-apple-blue px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-apple-blue/20 transition-all hover:-translate-y-0.5 hover:bg-apple-blueHover dark:bg-apple-darkBlue dark:text-zinc-950 dark:hover:bg-sky-400 sm:text-sm"
+          >
+            <span>Solicitar este horário</span>
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- Agendamento Diagnóstico (Destino Principal de Conversão) -->
     <section id="agendar" class="scroll-mt-24 mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-20">
       <div class="reveal reveal-scale glass-card relative overflow-hidden rounded-[2rem] p-7 sm:p-12">
@@ -1263,6 +1366,23 @@
               </select>
             </div>
 
+            <div>
+              <div class="mb-1.5 flex items-center justify-between gap-2">
+                <label for="horario" class="block text-xs font-semibold uppercase tracking-wider text-apple-muted dark:text-zinc-400">
+                  Horário de preferência <span class="font-normal normal-case">(opcional)</span>
+                </label>
+                <a href="#agenda" class="text-[11px] font-semibold text-apple-blue hover:underline dark:text-apple-darkBlue">
+                  Ver agenda ↑
+                </a>
+              </div>
+              <input
+                type="text"
+                id="horario"
+                placeholder="Ex.: Terça e Quinta às 16h (visto na agenda)"
+                class="w-full rounded-xl border border-black/10 bg-apple-bg/80 px-4 py-3 text-sm text-apple-ink outline-none transition focus:border-apple-blue focus:bg-white focus:ring-4 focus:ring-apple-blue/15 dark:border-white/15 dark:bg-zinc-950/75 dark:text-white dark:placeholder-zinc-500 dark:focus:border-apple-darkBlue dark:focus:bg-zinc-950 dark:focus:ring-apple-darkBlue/20"
+              />
+            </div>
+
             <button
               type="submit"
               class="cta-shimmer mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-apple-blue px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-apple-blue/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-apple-blueHover hover:shadow-xl dark:bg-apple-darkBlue dark:text-zinc-950 dark:hover:bg-sky-400"
@@ -1352,6 +1472,7 @@
   <footer class="border-t border-black/[0.06] bg-white/80 backdrop-blur-xl transition-colors dark:border-white/[0.08] dark:bg-zinc-950/80">
     <div class="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6">
       <div class="flex flex-wrap items-center justify-center gap-6 text-sm font-medium text-apple-ink dark:text-zinc-200">
+        <a href="https://agenda-professor-rai.lovable.app" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-apple-blue dark:hover:text-apple-darkBlue">Agenda de Horários</a>
         <a href="https://raigarciatorres.github.io/curriculo/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-apple-blue dark:hover:text-apple-darkBlue">Currículo Acadêmico</a>
         <a href="https://www.instagram.com/prof.raitorres/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-apple-blue dark:hover:text-apple-darkBlue">Instagram (@prof.raitorres)</a>
         <a href="https://www.linkedin.com/in/raigarciatorres/" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-apple-blue dark:hover:text-apple-darkBlue">LinkedIn</a>
@@ -1383,6 +1504,7 @@
   <!-- JavaScript Dinâmico e Modularizado -->
   <script>
     const WHATSAPP_NUMBER = "5515997693102";
+    const AGENDA_URL = "https://agenda-professor-rai.lovable.app";
     const prefersReducedMotion = () =>
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -1510,7 +1632,7 @@
           setTimeout(() => {
             if (form) {
               form.classList.remove("cta-arrived");
-              void form.offsetWidth; // reinicia animação se clicado novamente
+              void form.offsetWidth;
               form.classList.add("cta-arrived");
             }
             if (nameInput) {
@@ -1671,7 +1793,6 @@
             if (entry.isIntersecting) {
               const target = entry.target;
               target.classList.add("is-visible");
-              // Libera camada de composição GPU após o fim da transição
               setTimeout(() => {
                 target.style.willChange = "auto";
               }, 850);
@@ -1757,7 +1878,7 @@
           link.classList.toggle("nav-link-active", isMatch);
         });
 
-        // Parallax leve nas luzes ambientes (sem afetar layout)
+        // Parallax leve nas luzes ambientes
         if (!prefersReducedMotion()) {
           parallaxLayers.forEach((layer) => {
             const speed = parseFloat(layer.dataset.parallax || "0");
@@ -1828,7 +1949,43 @@
     }
 
     /* ----------------------------------------------------
-     * 11. Integração WhatsApp (Planos e Formulário)
+     * 11. Controle da Agenda Embutida (Loader e Recarga)
+     * ---------------------------------------------------- */
+    function initAgendaEmbed() {
+      const iframe = document.getElementById("agenda-iframe");
+      const loader = document.getElementById("agenda-loader");
+      const reloadBtn = document.getElementById("agenda-reload-btn");
+      const reloadIcon = document.getElementById("agenda-reload-icon");
+      if (!iframe || !loader) return;
+
+      const hideLoader = () => {
+        loader.classList.add("opacity-0", "pointer-events-none");
+      };
+
+      const showLoader = () => {
+        loader.classList.remove("opacity-0", "pointer-events-none");
+      };
+
+      iframe.addEventListener("load", hideLoader);
+
+      // Fallback de segurança caso o evento load demore
+      setTimeout(hideLoader, 5000);
+
+      if (reloadBtn) {
+        reloadBtn.addEventListener("click", () => {
+          showLoader();
+          if (reloadIcon) {
+            reloadIcon.classList.add("rotate-180");
+            setTimeout(() => reloadIcon.classList.remove("rotate-180"), 500);
+          }
+          iframe.src = AGENDA_URL;
+          showToast("Atualizando agenda de horários...");
+        });
+      }
+    }
+
+    /* ----------------------------------------------------
+     * 12. Integração WhatsApp (Planos e Formulário)
      * ---------------------------------------------------- */
     function hirePackage(nomePlano, valorHora, valorTotal, desconto) {
       const infoDesconto =
@@ -1846,8 +2003,11 @@
       const etapa = document.getElementById("etapa").value;
       const modalidade = document.getElementById("modalidade").value;
       const desafio = document.getElementById("desafio").value;
+      const horario = document.getElementById("horario").value.trim();
 
-      const mensagem = `Olá, Prof. Rai! Meu nome é *${nome}*.\n\nGostaria de agendar a *conversa gratuita de 30 minutos* para entender as necessidades e alinhar os próximos passos:\n• *Etapa:* ${etapa}\n• *Modalidade de interesse:* ${modalidade}\n• *Foco inicial:* ${desafio}\n\nQual é o seu melhor dia e horário disponível?`;
+      const blocoHorario = horario ? `\n• *Horário de preferência:* ${horario}` : "";
+
+      const mensagem = `Olá, Prof. Rai! Meu nome é *${nome}*.\n\nGostaria de agendar a *conversa gratuita de 30 minutos* para entender as necessidades e alinhar os próximos passos:\n• *Etapa:* ${etapa}\n• *Modalidade de interesse:* ${modalidade}\n• *Foco inicial:* ${desafio}${blocoHorario}\n\nQual é o seu melhor dia e horário disponível?`;
 
       showToast("Redirecionando para o WhatsApp...");
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
@@ -1865,6 +2025,7 @@
       initScrollEffects();
       initMobileMenu();
       initProfessorPhotoFallback();
+      initAgendaEmbed();
     });
   </script>
 </body>
